@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { ChevronRight, Timer } from "lucide-react";
 import React from "react";
 
@@ -8,7 +9,7 @@ const ServiceCard = ({ service }) => {
       key={service.id}
       className="group relative bg-[#303030] rounded-xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)]"
     >
-      <div className="relative h-80 overflow-hidden">
+      <div className="relative h-60 overflow-hidden">
         <img
           src={service.image}
           alt={service.title}
@@ -22,7 +23,7 @@ const ServiceCard = ({ service }) => {
         </div>
       </div>
 
-      <div className="px-6 pb-8 -mt-16 relative z-10">
+      <div className="md:px-6 px-4 pb-4 md:pb-8 -mt-16 relative z-10">
         <div className="flex items-center gap-2 mb-10">
           <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-2 rounded-md inline-flex text-primary ">
             {service.icon}
@@ -37,11 +38,11 @@ const ServiceCard = ({ service }) => {
         <h3 className="text-2xl font-serif text-white mb-3 tracking-tight">
           {service.title}
         </h3>
-        <p className="text-stone-400 text-sm leading-relaxed mb-8 font-light">
+        <p className="text-stone-400 text-sm leading-relaxed mb-6 font-light">
           {service.description}
         </p>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-stone-500 text-xs font-medium bg-stone-900/50 px-3 py-1.5 rounded-full border border-white/5">
+          <div className="flex items-center gap-2 text-stone-300 text-xs font-medium bg-stone-900/50 px-3 py-1.5 rounded-full border border-white/5">
             <Timer className="w-3 h-3 text-primary" />
             {service.duration}
           </div>
@@ -51,10 +52,8 @@ const ServiceCard = ({ service }) => {
           </div>
         </div>
         {/* Action Button */}
-        <button className="w-full mt-6 flex items-center justify-center gap-2 bg-primary/60 text-white   py-3 rounded-2xl font-medium transition-all duration-300 hover:gap-4 active:scale-95  shadow-stone-200">
-          Secure Your Session
-          <ChevronRight className="w-4 h-4" />
-        </button>
+        
+        <Button variant="secondary" className={"rounded-full hover:gap-4 active:scale-95 mt-4 py-6 w-full"}>Secure Your Session <ChevronRight className="w-4 h-4" /></Button> 
       </div>
     </div>
   );

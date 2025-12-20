@@ -6,22 +6,21 @@ import { Button } from "@/components/ui/button";
 const FeaturedSection = () => {
   return (
     <section className=" text-white">
-      <Container className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <Container className="flex flex-col-reverse md:flex-row gap-12 items-center">
         {/* Left Side: Image with Decorative Frame */}
-        <div className="relative group">
-          <div className="absolute overflow-hidden border border-zinc-800 rounded-sm "></div>
+        <div className="flex-1 group">
           <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
             <Image
               src={featured}
               alt="Luxury Spa Treatment"
-              fill
-              className="object-cover rounded-md w-full  "
+              className="object-cover h-full w-full rounded-md"
+              priority
             />
           </div>
         </div>
 
         {/* Right Side: Content */}
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1">
           <div className="space-y-3 ">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-3 md:mb-6 ">
               <div className="h-[1px] w-8  bg-primary"></div>
@@ -32,10 +31,10 @@ const FeaturedSection = () => {
             </div>
 
             <h2 className="md:text-4xl text-center md:text-left mb-2 sm:text-3xl text-2xl   font-serif text-gray-300  italic">
-              Rejuvenate Your  
+              Rejuvenate Your
             </h2>
             <h2 className="md:text-4xl text-center md:text-left mb-2 sm:text-3xl text-2xl   font-serif text-gray-300  italic">
-     Mind, Body & Soul
+              Mind, Body & Soul
             </h2>
           </div>
 
@@ -57,7 +56,15 @@ const FeaturedSection = () => {
           </ul>
 
           <div className="flex md:block justify-center items-center">
-            <Button variant="outline" className={"bg-transparent text-stone-200 hover:text-white hover:bg-primary"} size="lg">Explore More</Button>
+            <Button
+              variant="outline"
+              className={
+                "bg-transparent text-stone-200 hover:text-white hover:bg-primary"
+              }
+              size="lg"
+            >
+              Explore More
+            </Button>
           </div>
         </div>
       </Container>

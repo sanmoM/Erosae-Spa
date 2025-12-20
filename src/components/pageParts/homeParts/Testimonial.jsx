@@ -64,14 +64,14 @@ const Testimonial = () => {
           <div className="hidden md:flex items-center gap-4 mt-6">
             <button
               onClick={() => swiperRef.current?.slidePrev()}
-              className="w-14 h-14 rounded-full border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center"
+              className="w-14 h-14 cursor-pointer rounded-full border-2 border-primary bg-transparent  hover:bg-primary text-white transition-all duration-300 flex items-center justify-center"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className="w-14 h-14 rounded-full border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center"
+              className="w-14 h-14 rounded-full cursor-pointer border-2 border-primary bg-transparent  hover:bg-primary text-white transition-all duration-300 flex items-center justify-center"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-6 h-6" />
@@ -158,14 +158,14 @@ const Testimonial = () => {
         <div className="flex md:hidden items-center justify-center gap-4 mt-8">
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="w-14 h-14 rounded-full border-2 border-[#e89f8f] bg-transparent text-[#e89f8f] hover:bg-[#e89f8f] hover:text-[#1a1a1a] transition-all duration-300 flex items-center justify-center"
+            className="w-14 h-14 rounded-full border-2 border-primary bg-transparent text-white hover:bg-primary transition-all duration-300 flex items-center justify-center"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="w-14 h-14 rounded-full border-2 border-[#e89f8f] bg-transparent text-[#e89f8f] hover:bg-[#e89f8f] hover:text-[#1a1a1a] transition-all duration-300 flex items-center justify-center"
+            className="w-14 h-14 rounded-full border-2 border-primary bg-transparent text-white hover:bg-primary transition-all duration-300 flex items-center justify-center"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5" />

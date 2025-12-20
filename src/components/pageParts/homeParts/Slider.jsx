@@ -47,7 +47,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative w-full h-[90vh] md:h-[90vh]">
+    <div className="relative w-full  h-[90vh] md:h-[90vh]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -69,7 +69,7 @@ const Slider = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative h-full w-full">
+            <div className="relative  h-full w-full">
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -103,15 +103,16 @@ const Slider = () => {
                     <Button
                       size="lg"
                       variant="outline"
-                      className="w-full sm:w-auto rounded-full text-base sm:text-lg px-8 py-6 hover:text-white border-white text-white hover:bg-primary bg-transparent"
+                      className="w-full sm:w-auto rounded-full text-base sm:text-lg px-8 py-6  text-white hover:bg-primary bg-transparent"
                     >
                       Browse Model
                     </Button>
+                    
                   </div>
 
                   {/* CountUp Stats */}
                   <div className="flex mt-12 justify-center md:justify-start items-center text-primary lg:gap-10 gap-6 max-w-4xl ">
-                    <div className="text-center">
+                    <div className="">
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={300} duration={2.5} />+
                       </h3>
@@ -119,7 +120,7 @@ const Slider = () => {
                          Models
                       </p>
                     </div>
-                    <div className="text-center">
+                    <div className="">
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={1200} duration={2.5} />+
                       </h3>
@@ -135,11 +136,11 @@ const Slider = () => {
                           end={27}
                           duration={2.5}
                           separator=","
-                          prefix="AED "
+                          
                         /> K+
                       </h3>
                       <p className="mt-1 text-sm  text-white/80">
-                        Wallet Volume
+                        Wallet Volume (AED)
                       </p>
                     </div>
                   </div>

@@ -26,11 +26,11 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#050505] text-white pt-20 pb-10 border-t border-primary font-sans">
+    <footer className="bg-[#050505] text-white mt-12 pt-20 pb-10 border-t border-primary font-sans">
       <Container>
         
         {/* Top Section: Branding & Newsletter */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-8 md:mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-8 ">
           
           {/* Brand & Socials */}
           <div className="lg:col-span-4 space-y-8">
@@ -49,7 +49,7 @@ const Footer = () => {
                 <a 
                   key={index} 
                   href="#" 
-                  className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center transition-all duration-300 hover:bg-primary hover:border-[#c19a6b] group"
+                  className="w-10 h-10 rounded-full border border-primary flex items-center justify-center transition-all duration-300 hover:bg-primary  group"
                 >
                   <Icon size={18} className="text-white transition-colors" />
                 </a>
@@ -101,41 +101,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Middle Section: Contact Info Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-8 py-10 border-y border-white/5 mb-10">
-          <div className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center group-hover:bg-primary/40 transition-colors">
-              <MapPin size={20} className="text-primary" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-stone-400 mb-1">Location</p>
-              <p className="text-sm text-white">123 Wellness Way, Sanctuary City</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 group border-x border-white/0 md:border-white/5 ">
-            <div className="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center group-hover:bg-primary/40 transition-colors">
-              <Phone size={20} className="text-primary" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-stone-400 mb-1">Call Us</p>
-              <p className="text-sm text-white">+1 (555) 000-1234</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded-full bg-[#111] flex items-center justify-center group-hover:bg-primary/40 transition-colors">
-              <Clock size={20} className="text-primary" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-stone-400 mb-1">Working Hours</p>
-              <p className="text-sm text-white">Mon - Sun: 9:00 AM - 10:00 PM</p>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Section: Copyright */}
-        <div className="flex flex-col  md:flex-row justify-between items-center gap-6">
+        <div className="flex flex-col pt-6  md:flex-row justify-between border-t border-gray-400 items-center gap-6">
           <p className="text-stone-400 text-[10px] uppercase tracking-[0.2em]">
             © {currentYear} EROSAE . ALL RIGHTS RESERVED.
           </p>
