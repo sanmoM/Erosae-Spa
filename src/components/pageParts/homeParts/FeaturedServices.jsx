@@ -3,6 +3,7 @@ import ServiceCard from "@/components/shared/card/serviceCard/ServiceCard";
 import { Flower2, Sparkles, Waves } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Featured = () => {
   const featuredServices = [
@@ -74,7 +75,7 @@ const Featured = () => {
         {/* View All Bottom Section */}
         <div className="mt-4 md:mt-8 flex flex-col  items-center">
           
-          <Button size="lg" variant="outline" className={"bg-transparent text-stone-200 hover:text-white hover:bg-primary"}>Explore Full Menu</Button>
+         <Link href={"/service"}><Button size="lg" variant="outline" className={"bg-transparent text-stone-200 hover:text-white hover:bg-primary"}>Explore Full Menu</Button></Link> 
         </div>
       </Container>
     </div>

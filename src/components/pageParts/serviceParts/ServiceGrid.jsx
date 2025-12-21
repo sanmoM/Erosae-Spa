@@ -98,25 +98,11 @@ const ServiceGrid = () => {
 
   return (
     <Container>
-      <div className="border-b flex justify-between border-primary/80 pb-2 items-center mb-10">
-        <p className=" md:text-base text-sm text-stone-300">
+      <div className="border-b  border-primary/80 pb-2  mb-10">
+        <p className=" md:text-sm text-xs text-stone-300">
           show 6 services of 27
         </p>
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue  placeholder="sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>select service</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {featuredServices.map((service) => (
