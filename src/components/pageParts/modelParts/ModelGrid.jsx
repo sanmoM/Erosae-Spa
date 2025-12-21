@@ -1,7 +1,12 @@
+"use client";
+
 import ModelCard from "@/components/shared/card/modelCard/ModelCard";
 import Container from "@/components/shared/other/Container";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
-    Pagination,
+  Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
@@ -9,123 +14,200 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import React from "react";
-
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { spaCategories, spaModels, uaeCities } from "@/utilities/data";
+import { Filter, X } from "lucide-react";
+import React, { useState } from "react";
 
 const ModelGrid = () => {
-  const spaModels = [
-    {
-      id: 1,
-      name: "Elena Rodriguez",
-      city: "Dubai",
-      rating: 4.9,
-      reviews: 128,
-      price: "500",
-      currency: "AED",
-      tags: ["Deep Tissue", "Holistic"],
-      image:
-        "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      verified: true,
-    },
-    {
-      id: 2,
-      name: "Aisha Khan",
-      city: "Abu Dhabi",
-      rating: 4.8,
-      reviews: 94,
-      price: "450",
-      currency: "AED",
-      tags: ["Relaxation", "Swedish"],
-      image:
-        "https://plus.unsplash.com/premium_photo-1670282393309-70fd7f8eb1ef?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      verified: true,
-    },
-    {
-      id: 3,
-      name: "Sophia Al-Maktoum",
-      city: "Dubai",
-      rating: 5.0,
-      reviews: 215,
-      price: "650",
-      currency: "AED",
-      tags: ["Aromatherapy", "Zen"],
-      image:
-        "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?auto=format&fit=crop&q=80&w=400",
-      verified: true,
-    },
-    {
-      id: 4,
-      name: "Natalie Brooks",
-      city: "Sharjah",
-      rating: 4.7,
-      reviews: 88,
-      price: "420",
-      currency: "AED",
-      tags: ["Hot Stone", "Balance"],
-      image:
-        "https://images.unsplash.com/photo-1621784563330-caee0b138a00?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      verified: true,
-    },
-    {
-      id: 5,
-      name: "Layla Hassan",
-      city: "Dubai",
-      rating: 4.9,
-      reviews: 176,
-      price: "580",
-      currency: "AED",
-      tags: ["Thai Massage", "Flexibility"],
-      image:
-        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&q=80&w=400",
-      verified: true,
-    },
-    {
-      id: 6,
-      name: "Isabella Moore",
-      city: "Ajman",
-      rating: 4.8,
-      reviews: 132,
-      price: "480",
-      currency: "AED",
-      tags: ["Reflexology", "Wellness"],
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400",
-      verified: true,
-    },
-  ];
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
   return (
-    <Container>
-    
-        <div className="border-b  border-primary/80 pb-2  mb-10">
-          <p className=" md:text-sm text-xs text-stone-300">
-            show 6 models of 27
-          </p>
+    <>
+      <Container>
+        {/* header */}
+        <div className="border-b border-primary/80 pb-2 mb-10">
+          <div className="flex items-end justify-between">
+            <div
+              onClick={() => setMobileFilterOpen(true)}
+              className="lg:hidden cursor-pointer flex gap-1"
+            >
+              <Filter className="text-primary" />
+              <span className="text-stone-300">Filter</span>
+            </div>
+            <p className="hidden lg:flex text-xs text-stone-300">
+              show 6 models of 27
+            </p>
+            <Select>
+            <SelectTrigger className="w-[150px] md:w-[200px] text-xs md:text-sm border-primary">
+              <SelectValue className={"text-stone-300"} placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="experience">Years of Experience</SelectItem>
+                <SelectItem value="rating">Rating</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          </div>
+
+          
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {spaModels.map((model, indx) => {
-            return <ModelCard key={indx} model={model} />;
-          })}
+
+        <div className="grid lg:grid-cols-7 gap-6 items-start">
+          {/* DESKTOP FILTER */}
+          <div className="col-span-2 h-[85vh] hidden lg:flex sticky top-24 bg-[#303030] rounded-md">
+            <div className="flex p-5 flex-col w-full justify-between">
+              <div className="space-y-6">
+                {/* Services */}
+                <div>
+                  <h4 className="text-stone-200 pb-1 border-b border-gray-500 text-lg">
+                    Services
+                  </h4>
+                  <div className="mt-4 space-y-2">
+                    {spaCategories.map((cat, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <Checkbox id={cat.value} />
+                        <Label
+                          htmlFor={cat.value}
+                          className="text-stone-400 text-[13px]"
+                        >
+                          {cat.name}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Location (ONLY SCROLL AREA) */}
+                <div>
+                  <h4 className="text-stone-200 pb-1 border-b border-gray-500 text-lg">
+                    Location
+                  </h4>
+
+                  <div className="mt-4 space-y-2 location-scroll pr-1">
+                    {uaeCities.map((city, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <Checkbox id={city.value} />
+                        <Label
+                          htmlFor={city.value}
+                          className="text-stone-400 text-[13px]"
+                        >
+                          {city.name}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <Button className="w-full mt-6" variant="secondary">
+                Apply
+              </Button>
+            </div>
+          </div>
+
+          {/* MODELS */}
+          <div className="col-span-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {spaModels.map((model, i) => (
+                <ModelCard key={i} model={model} />
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <Pagination className="md:justify-end">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
         </div>
-  
-      <div className="mt-8 ">
-        <Pagination className={"md:justify-end"}>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      </Container>
+
+      {/* MOBILE OVERLAY */}
+      <div
+        className={`fixed inset-0 bg-black/50  h-full z-70 transition-opacity lg:hidden ${
+          mobileFilterOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        onClick={() => setMobileFilterOpen(false)}
+      />
+
+      {/* MOBILE SIDEBAR */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-[#303030] z-80 transform transition-transform duration-300 lg:hidden ${
+          mobileFilterOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-5 flex flex-col h-full justify-between">
+          <div className="space-y-6">
+            <div className="flex justify-between items-center border-b border-gray-500 pb-3">
+              <h2 className="text-lg text-stone-300">Filter</h2>
+              <X
+                className="text-primary cursor-pointer"
+                onClick={() => setMobileFilterOpen(false)}
+              />
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className="text-stone-100 pb-1 border-b border-gray-500">
+                Services
+              </h4>
+              <div className="mt-4 space-y-2">
+                {spaCategories.map((cat, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Checkbox id={cat.value} />
+                    <Label
+                      htmlFor={cat.value}
+                      className="text-stone-400 text-xs"
+                    >
+                      {cat.name}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Location (scroll on hover) */}
+            <div>
+              <h4 className="text-stone-100 pb-1 border-b border-gray-500">
+                Location
+              </h4>
+              <div className="mt-4 space-y-2 location-scroll pr-1">
+                {uaeCities.map((city, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Checkbox id={city.value} />
+                    <Label
+                      htmlFor={city.value}
+                      className="text-stone-400 text-xs"
+                    >
+                      {city.name}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Button className="w-full mt-6" variant="secondary">
+            Apply
+          </Button>
+        </div>
       </div>
-    </Container>
+    </>
   );
 };
 

@@ -47,7 +47,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative w-full   h-[105vh] md:h-[80vh] lg:h-[100vh]">
+    <div className="relative w-full  h-[100vh] md:h-[80vh] lg:h-[100vh]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -111,7 +111,7 @@ const Slider = () => {
                   </div>
 
                   {/* CountUp Stats */}
-                  <div className="flex mt-12 justify-center md:justify-start items-center text-primary lg:gap-10 gap-6 max-w-4xl ">
+                  <div className="flex mt-12 justify-center md:justify-start  text-primary lg:gap-10 gap-6 max-w-4xl ">
                     <div className="">
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={300} duration={2.5} />+

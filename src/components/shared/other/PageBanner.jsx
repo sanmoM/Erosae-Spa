@@ -9,7 +9,7 @@ const PageBanner = ({
 
 }) => {
   return (
-    <div className={`relative h-[20vh] md:h-[30vh] flex items-center justify-center`}>
+    <div className={`relative border-t mt-20 border-white h-[20vh] md:h-[30vh] flex items-center justify-center`}>
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"

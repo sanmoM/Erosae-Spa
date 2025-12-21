@@ -37,7 +37,7 @@ const Header = () => {
   const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const showBg = scrolled || !isHome;
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,23 +52,16 @@ const Header = () => {
       {/* HEADER */}
       <header
         className={clsx(
-          "z-[100] w-full transition-all duration-300 ease-in-out",
-
-          // POSITION
-          isHome
-            ? scrolled
-              ? "fixed top-0"
-              : "absolute top-0"
-            : scrolled
-            ? "fixed top-0"
-            : "relative",
-
-          // BACKGROUND (smooth)
-          showBg
-            ? "bg-[#050718]/80 backdrop-blur-md border-b border-gray-700"
+          // Always fixed position
+          "fixed top-0 left-0 right-0 z-[70] w-full transition-all duration-300",
+          
+          // Background based on conditions
+          scrolled || !isHome
+            ? "bg-[#050718]/80 backdrop-blur-md "
             : "bg-transparent"
         )}
       >
+
         <Container className="flex items-center justify-between py-6">
           {/* LEFT */}
           <div className="flex items-center gap-3">
@@ -86,14 +79,14 @@ const Header = () => {
           </div>
 
           {/* DESKTOP NAV */}
-          <ul className="hidden lg:flex items-center gap-6 text-sm text-gray-200">
+          <ul className="hidden lg:flex  items-center gap-6 text-base text-gray-200">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   className={clsx(
                     "px-3 py-1  transition",
-                    pathname === link.href ? "text-primary" : "hover:text-white"
+                    pathname === link.href ? "text-primary font-semibold" : "hover:text-white"
                   )}
                 >
                   {link.name}
@@ -103,16 +96,16 @@ const Header = () => {
           </ul>
 
           {/* RIGHT */}
-          <Button className={"rounded-full"} variant="secondary">
+          <Link href={"/model-register"}><Button className={"rounded-full md:text-base text-sm"} variant="secondary">
             Be a Model
-          </Button>
+          </Button></Link>
         </Container>
       </header>
 
       {/* SIDEBAR (md & below) */}
       <div
         className={clsx(
-          "fixed inset-0 z-50 bg-gray-900/50 transition-opacity backdrop-blur-[1px] lg:hidden",
+          "fixed inset-0 z-70 bg-gray-900/50 transition-opacity backdrop-blur-[1px] lg:hidden",
           open ? "opacity-100 visible" : "opacity-0 invisible"
         )}
         onClick={() => setOpen(false)}
@@ -120,12 +113,12 @@ const Header = () => {
 
       <aside
         className={clsx(
-          "fixed top-0 left-0 z-50 flex h-full w-72 flex-col bg-black p-3 transition-transform lg:hidden",
+          "fixed top-0 left-0 z-80 flex h-full w-80 flex-col bg-[#303030] p-3 transition-transform lg:hidden",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Sidebar Header */}
-        <div className="mb-6 flex items-center justify-between border-b border-gray-600 pb-6">
+        <div className="mb-4 flex items-center justify-between border-b border-gray-500 pb-6">
           <h2 className="text-lg font-semibold text-primary">EROSAE</h2>
           <button onClick={() => setOpen(false)}>
             <X className="cursor-pointer text-white" />
@@ -148,7 +141,7 @@ const Header = () => {
                       : "hover:bg-gray-700"
                   )}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex text-sm items-center gap-2">
                     {link.icon} {link.name}
                   </div>
                 </Link>
@@ -158,6 +151,7 @@ const Header = () => {
 
           {/* BOTTOM BUTTON */}
           <div className="py-6">
+           <Link href={"/model-register"}>
             <Button
               size="lg"
               variant="secondary"
@@ -165,6 +159,7 @@ const Header = () => {
             >
               Be a Model
             </Button>
+           </Link>
           </div>
         </div>
       </aside>

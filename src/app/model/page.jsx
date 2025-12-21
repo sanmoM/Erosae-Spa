@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="space-y-12 space-y-20">
+    <div className="space-y-12 md:space-y-20">
       <PageBanner
         title="Explore Our Model"
         image="https://fimgs.net/himg/o.HeXRUjt0Boe.jpg"
