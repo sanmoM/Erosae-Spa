@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../other/Container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -14,22 +14,61 @@ import { GrRestroomWomen } from "react-icons/gr";
 import { LuLayoutTemplate } from "react-icons/lu";
 
 const navLinks = [
-  { name: "Home", href: "/", icon:<IoHomeOutline className="text-xl" />  },
-  { name: "Service", href: "/service", icon:<FaHandHoldingHeart className="text-xl"/> },
-  { name: "Model", href: "/model", icon:<GrRestroomWomen className="text-xl" />
- },
-  { name: "Blog", href: "/blog", icon:<LuLayoutTemplate className="text-xl" />
- },
+  { name: "Home", href: "/", icon: <IoHomeOutline className="text-xl" /> },
+  {
+    name: "Service",
+    href: "/service",
+    icon: <FaHandHoldingHeart className="text-xl" />,
+  },
+  {
+    name: "Model",
+    href: "/model",
+    icon: <GrRestroomWomen className="text-xl" />,
+  },
+  {
+    name: "Blog",
+    href: "/blog",
+    icon: <LuLayoutTemplate className="text-xl" />,
+  },
 ];
 
 const Header = () => {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const showBg = scrolled || !isHome;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
       {/* HEADER */}
-      <header className="border-b border-gray-600 bg-[050718]">
+      <header
+        className={clsx(
+          "z-[100] w-full transition-all duration-300 ease-in-out",
+
+          // POSITION
+          isHome
+            ? scrolled
+              ? "fixed top-0"
+              : "absolute top-0"
+            : scrolled
+            ? "fixed top-0"
+            : "relative",
+
+          // BACKGROUND (smooth)
+          showBg
+            ? "bg-[#050718]/80 backdrop-blur-md border-b border-gray-700"
+            : "bg-transparent"
+        )}
+      >
         <Container className="flex items-center justify-between py-6">
           {/* LEFT */}
           <div className="flex items-center gap-3">
@@ -54,9 +93,7 @@ const Header = () => {
                   href={link.href}
                   className={clsx(
                     "px-3 py-1  transition",
-                    pathname === link.href
-                      ? "text-primary"
-                      : "hover:text-white"
+                    pathname === link.href ? "text-primary" : "hover:text-white"
                   )}
                 >
                   {link.name}
@@ -66,7 +103,9 @@ const Header = () => {
           </ul>
 
           {/* RIGHT */}
-          <Button className={"rounded-full"} variant="secondary">Be a Model</Button>
+          <Button className={"rounded-full"} variant="secondary">
+            Be a Model
+          </Button>
         </Container>
       </header>
 
@@ -109,9 +148,9 @@ const Header = () => {
                       : "hover:bg-gray-700"
                   )}
                 >
-                 <div className="flex items-center gap-2">
-                  {link.icon} {link.name}
-                 </div>
+                  <div className="flex items-center gap-2">
+                    {link.icon} {link.name}
+                  </div>
                 </Link>
               </li>
             ))}
@@ -119,7 +158,11 @@ const Header = () => {
 
           {/* BOTTOM BUTTON */}
           <div className="py-6">
-            <Button size="lg" variant="secondary" className="w-full rounded-full">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="w-full rounded-full"
+            >
               Be a Model
             </Button>
           </div>

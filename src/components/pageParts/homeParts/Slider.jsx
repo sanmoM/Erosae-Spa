@@ -47,7 +47,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative w-full  h-[90vh] md:h-[90vh]">
+    <div className="relative w-full   h-[105vh] md:h-[80vh] lg:h-[100vh]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -69,10 +69,10 @@ const Slider = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative  h-full w-full">
+            <div className="relative   h-full w-full">
               {/* Background Image */}
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                className="absolute  inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url(${slide.image.src})` }}
               >
                 <div className="absolute inset-0 bg-black/60" />
