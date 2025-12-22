@@ -127,7 +127,7 @@
 }
 
 .heading-primary {
-  @apply md:text-4xl text-center md:text-left sm:text-3xl text-2xl font-serif text-gray-300 italic;
+  @apply md:text-4xl sm:text-3xl text-xl font-serif text-gray-300  italic; 
 }
 
 /* Location scroll only */

@@ -12,6 +12,7 @@ import slider2 from "@/images/banner/slider2.png";
 import slider3 from "@/images/banner/slider3.png";
 import CountUp from "react-countup";
 import React from "react";
+import Link from "next/link";
 
 const Slider = () => {
   const [swiperInstance, setSwiperInstance] = React.useState(null);
@@ -100,14 +101,15 @@ const Slider = () => {
                     >
                       Start Booking Now
                     </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="w-full sm:w-auto rounded-full text-base sm:text-lg px-8 py-6  text-white hover:bg-primary bg-transparent"
-                    >
-                      Browse Model
-                    </Button>
-                    
+                    <Link href={"/model"}>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full sm:w-auto rounded-full text-base sm:text-lg px-8 py-6  text-white hover:bg-primary bg-transparent"
+                      >
+                        Browse Model
+                      </Button>
+                    </Link>
                   </div>
 
                   {/* CountUp Stats */}
@@ -116,19 +118,15 @@ const Slider = () => {
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={300} duration={2.5} />+
                       </h3>
-                      <p className="mt-1 text-sm  text-white/80">
-                         Models
-                      </p>
+                      <p className="mt-1 text-sm  text-white/80">Models</p>
                     </div>
                     <div className="">
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={1200} duration={2.5} />+
                       </h3>
-                      <p className="mt-1 text-sm  text-white/80">
-                         Reviews
-                      </p>
+                      <p className="mt-1 text-sm  text-white/80">Reviews</p>
                     </div>
-                    
+
                     <div>
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp
@@ -136,8 +134,8 @@ const Slider = () => {
                           end={27}
                           duration={2.5}
                           separator=","
-                          
-                        /> K+
+                        />{" "}
+                        K+
                       </h3>
                       <p className="mt-1 text-sm  text-white/80">
                         Wallet Volume (AED)
@@ -150,8 +148,14 @@ const Slider = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce hidden sm:block"> <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2"> <div className="w-1 h-2 bg-white/70 rounded-full" /> </div> </div> </div>
-    
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce hidden sm:block">
+        {" "}
+        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
+          {" "}
+          <div className="w-1 h-2 bg-white/70 rounded-full" />{" "}
+        </div>{" "}
+      </div>{" "}
+    </div>
   );
 };
 

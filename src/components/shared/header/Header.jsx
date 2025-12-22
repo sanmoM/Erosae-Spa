@@ -5,7 +5,7 @@ import Container from "../other/Container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
-import { X } from "lucide-react";
+import { CalendarCheck, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { IoHomeOutline } from "react-icons/io5";
@@ -24,6 +24,11 @@ const navLinks = [
     name: "Model",
     href: "/model",
     icon: <GrRestroomWomen className="text-xl" />,
+  },
+  {
+    name: "Booking",
+    href: "/booking",
+    icon: <CalendarCheck className="text-xl" />,
   },
   {
     name: "Blog",

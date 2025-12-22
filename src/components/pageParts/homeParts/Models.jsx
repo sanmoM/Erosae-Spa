@@ -19,7 +19,7 @@ const Models = () => {
             </span>
             <div className="h-[1px] w-8 bg-primary"></div>
           </div>
-          <h2 className="md:text-4xl mb-2 sm:text-3xl text-2xl  font-serif text-gray-300  italic">
+          <h2 className="mb-2 heading-primary">
             The Artisans
           </h2>
           <p className="text-stone-400 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">

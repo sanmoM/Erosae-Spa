@@ -24,7 +24,7 @@ const ModelCard = ({model}) => {
 
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-start">
-            <h3 className="text-lg font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
+            <h3 className="md:text-lg  font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
               {model.name}
             </h3>
             <div className="flex items-center gap-1 text-primary bg-primary/10 px-2 py-0.5 rounded-md text-[10px] font-black border border-primary/30">
