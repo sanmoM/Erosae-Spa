@@ -2,10 +2,30 @@
 
 import ModelCard from "@/components/shared/card/modelCard/ModelCard";
 import Container from "@/components/shared/other/Container";
+import DateTimePicker from "@/components/shared/other/DateTimePicker";
+import FileUpload from "@/components/shared/other/FileUpload";
 import PageBanner from "@/components/shared/other/PageBanner";
 import { Button } from "@/components/ui/button";
-import { services, spaModels, uaeCities } from "@/utilities/data";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PhoneInput } from "@/components/ui/phoneInput";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  services,
+  spaModels,
+  uaeCities,
+  userLocations,
+} from "@/utilities/data";
+import {
+  ArrowUpRight,
   Calendar,
   Check,
   CreditCard,
@@ -13,9 +33,11 @@ import {
   Layout,
   MapPin,
   Settings,
+  ShieldCheck,
+  Star,
   User,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -23,8 +45,19 @@ const Page = () => {
   const [serviceType, setServiceType] = useState("");
   const [service, setService] = useState("");
   const [model, setModel] = useState("");
-  const [data, setDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("");
+  const [period, setPeriod] = useState("");
+  const [userCity, setUserCity] = useState("");
+  const [userState, setUserState] = useState("");
   const [address, setAdress] = useState("");
+  const [buildingName, setBuildingName] = useState("");
+  const [residential, setResidential] = useState("");
+  const [whatsAppNumber, setwhatsAppNumber] = useState("");
+  const [buildingPhoto, setBuildingPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const selectedCity = userLocations.find((c) => c.city === userCity);
 
   const STEPS = [
     { id: 1, name: "City", icon: MapPin },
@@ -36,6 +69,20 @@ const Page = () => {
     { id: 7, name: "Review", icon: Eye },
     { id: 8, name: "Payment", icon: CreditCard },
   ];
+
+  useEffect(() => {
+    if (!buildingPhoto) {
+      setPhotoPreview(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(buildingPhoto);
+    setPhotoPreview(objectUrl);
+
+    // cleanup (important)
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [buildingPhoto]);
+
   return (
     <div className="space-y-12 md:space-y-20">
       <PageBanner
@@ -109,7 +156,11 @@ const Page = () => {
           </div>
           <div className="flex gap-6 flex-col md:flex-row">
             {/* steps  */}
-            <div className="flex-1 border  border-gray-700 bg-gray-900/30 md:p-6 p-4 rounded-md">
+            <div
+              className={`flex-1 border ${
+                currentStep > 6 && "hidden"
+              }  border-gray-700 bg-gray-900/30 md:p-6 p-4 rounded-md`}
+            >
               {currentStep === 1 && (
                 <div>
                   <div className="">
@@ -210,7 +261,7 @@ const Page = () => {
                       Choose model.
                     </p>
                   </div>
-                  <div className=" md:mt-6  space-y-4">
+                  <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
                     {spaModels.map((mod, indx) => {
                       return (
                         <div
@@ -218,13 +269,300 @@ const Page = () => {
                           className={`border-gray-600 ${
                             model === mod.name &&
                             "bg-primary text-white border-primary hover:bg-primary"
-                          } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
+                          } border hover:bg-gray-900 duration-400 p-5 cursor-pointer text-sm rounded-md text-stone-400`}
                           key={indx}
                         >
-                          {mod.name}
+                          <div className="flex items-center gap-5">
+                            <div className="relative flex-shrink-0">
+                              <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
+                                <img
+                                  src={mod.image}
+                                  alt={mod.name}
+                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                              </div>
+                              {mod.verified && (
+                                <div className="absolute -bottom-1 -right-1 bg-primary p-1 rounded-full border-4 border-[#141414] group-hover:border-[#1a1a1a] transition-colors shadow-lg">
+                                  <ShieldCheck className="w-3 h-3 text-white" />
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex justify-between items-start">
+                                <h3 className="md:text-lg  font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
+                                  {mod.name}
+                                </h3>
+                                <div
+                                  className={`flex items-center gap-1 text-primary bg-primary/10 px-2 py-0.5 rounded-md text-[10px] font-black border border-primary/30 ${
+                                    mod.name === model &&
+                                    "text-white border-white"
+                                  }`}
+                                >
+                                  <Star
+                                    className={`w-2.5 h-2.5 ${
+                                      mod.name === model && "fill-white"
+                                    } fill-primary`}
+                                  />
+                                  {mod.rating}
+                                </div>
+                              </div>
+
+                              <div
+                                className={`flex items-center gap-1 text-stone-400 text-[10px] mt-1 font-bold uppercase ${
+                                  mod.name === model && "text-white"
+                                } tracking-widest`}
+                              >
+                                <MapPin
+                                  className={`w-3 text-primary ${
+                                    mod.name === model && "text-white"
+                                  }  h-3`}
+                                />
+                                {mod.city}
+                              </div>
+
+                              <div className="flex justify-between">
+                                <div className="flex items-baseline gap-1 mt-2">
+                                  <span
+                                    className={`text-lg ${
+                                      mod.name === model && "text-white"
+                                    } text-primary font-medium `}
+                                  >
+                                    {mod.price}
+                                  </span>
+                                  <span
+                                    className={`text-[10px] text-stone-400 ${
+                                      mod.name === model && "text-white"
+                                    } font-bold`}
+                                  >
+                                    {mod.currency}
+                                  </span>
+                                </div>
+
+                                <Dialog >
+                                  
+                                    <DialogTrigger asChild>
+                                      <button
+                                      onClick={(e) => e.stopPropagation()}
+                                        className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border border-white/10 hover:border-primary group/btn shadow-xl ${
+                                          mod.name === model && "hidden"
+                                        }`}
+                                      >
+                                        Portfolio
+                                        <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
+                                      </button>
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-[800px] bg-[#050718] border-stone-500">
+                                      <DialogHeader>
+                                        <DialogTitle className={"text-stone-200 text-center"}>Profile</DialogTitle>
+                                        <DialogDescription>
+                                          Make changes to your profile here.
+                                          Click save when you&apos;re done.
+                                        </DialogDescription>
+                                      </DialogHeader>
+                                      <div className="grid gap-4">
+                                        <div className="grid gap-3">
+                                          <Label htmlFor="name-1">Name</Label>
+                                          <Input
+                                            id="name-1"
+                                            name="name"
+                                            defaultValue="Pedro Duarte"
+                                          />
+                                        </div>
+                                        <div className="grid gap-3">
+                                          <Label htmlFor="username-1">
+                                            Username
+                                          </Label>
+                                          <Input
+                                            id="username-1"
+                                            name="username"
+                                            defaultValue="@peduarte"
+                                          />
+                                        </div>
+                                      </div>
+                                      <DialogFooter>
+                                        <DialogClose asChild>
+                                          <Button variant="outline">
+                                            Close
+                                          </Button>
+                                        </DialogClose>
+                                        {/* <Button type="submit">
+                                          Save changes
+                                        </Button> */}
+                                      </DialogFooter>
+                                    </DialogContent>
+                                  
+                                </Dialog>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 5 && (
+                <div>
+                  <div className="">
+                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                      Select Date and Time
+                    </h2>
+                    <p className="text-xs sm:text-sm text-stone-400">
+                      Select your service time.
+                    </p>
+                  </div>
+                  <div className=" mt-4 md:mt-6  location-scroll space-y-4">
+                    <DateTimePicker
+                      date={selectedDate}
+                      setDate={setSelectedDate}
+                      time={selectedTime}
+                      setTime={setSelectedTime}
+                      period={period}
+                      setPeriod={setPeriod}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 6 && (
+                <div>
+                  <div className="">
+                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                      Enter Your Address Details
+                    </h2>
+                    <p className="text-xs sm:text-sm text-stone-400">
+                      Your city, state
+                    </p>
+                  </div>
+                  <div className="grid  mt-4 md:mt-6 md:grid-cols-2 gap-4">
+                    {/* CITY */}
+                    <div className="flex flex-col gap-2">
+                      <Label>Select City</Label>
+                      <Select
+                        value={userCity}
+                        onValueChange={(value) => {
+                          setUserCity(value);
+                          setUserState("");
+                        }}
+                      >
+                        <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
+                          <SelectValue
+                            className={"text-stone-300"}
+                            placeholder="City"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {userLocations.map((c) => (
+                              <SelectItem key={c.city} value={c.city}>
+                                {c.city}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* STATE */}
+                    <div className="flex flex-col gap-2">
+                      <Label>Select Area</Label>
+                      <Select
+                        value={userState}
+                        onValueChange={setUserState}
+                        disabled={!userCity}
+                      >
+                        <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
+                          <SelectValue
+                            className={"text-stone-400"}
+                            placeholder="Select city first"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {selectedCity?.states.map((s) => (
+                              <SelectItem key={s} value={s}>
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="grid w-full mt-4 md:mt-6  items-center gap-2">
+                    <Label htmlFor="address">Address Details</Label>
+                    <Input
+                      type="text"
+                      id="address"
+                      placeholder="Your Address Details Street"
+                      name="address"
+                      value={address}
+                      onChange={(e) => setAdress(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col lg:flex-row mt-4 lg:gap-4 lg:mt-6">
+                    <div className="grid w-full lg:w-1/2 items-center gap-2">
+                      <Label htmlFor="buldingName">Building Name</Label>
+                      <Input
+                        type="text"
+                        id="buldingName"
+                        placeholder="Your Address Details Street"
+                        name="building"
+                        value={buildingName}
+                        onChange={(e) => setBuildingName(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="flex md:mt-6 w-full lg:w-1/2 lg:mt-0 mt-4 flex-col gap-2">
+                      <Label>Residential Type</Label>
+                      <Select
+                        value={residential}
+                        onValueChange={setResidential}
+                      >
+                        <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
+                          <SelectValue
+                            className={"text-stone-400"}
+                            placeholder="Select Residential"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {["Hotel", "Appartment", "Villa", "Other"].map(
+                              (r, indx) => {
+                                return (
+                                  <SelectItem value={r} key={indx}>
+                                    {r}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="grid w-full mt-4 md:mt-6  items-center  gap-2">
+                    <Label>WhatsApp Number *</Label>
+                    <PhoneInput
+                      defaultCountry="AE"
+                      international
+                      countryCallingCodeEditable={false}
+                      value={whatsAppNumber}
+                      onChange={setwhatsAppNumber}
+                    />
+                  </div>
+
+                  <div className="grid mt-4 md:mt-6 w-full  items-center gap-2">
+                    <Label>Building Photo</Label>
+                    <FileUpload
+                      title="Building Photo"
+                      accept="image/*"
+                      file={buildingPhoto}
+                      onFileSelect={setBuildingPhoto}
+                    />
                   </div>
                 </div>
               )}
@@ -235,43 +573,109 @@ const Page = () => {
               <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
                 Review
               </h2>
-              <div className="space-y-2 mt-4 md:mt-6">
-                <h4 className="text-stone-400 text-sm">
-                  City :{" "}
-                  <span className="text-stone-300">{city ? city : "_"}</span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Service Type :{" "}
-                  <span className="text-stone-300">
-                    {serviceType ? serviceType : "_"}
-                  </span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Service :{" "}
-                  <span className="text-stone-300">
-                    {service ? service : "_"}
-                  </span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Model :{" "}
-                  <span className="text-stone-300">{model ? model : "_"}</span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Date :{" "}
-                  <span className="text-stone-300">{data ? data : "_"}</span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Address :{" "}
-                  <span className="text-stone-300">
-                    {address ? address : "_"}
-                  </span>
-                </h4>
-                <h4 className="text-stone-400 text-sm">
-                  Current Step :{" "}
-                  <span className="text-stone-300">{currentStep}/8</span>
-                </h4>
+
+              <div
+                className={`flex flex-col ${
+                  currentStep === 7 ? "lg:flex-row lg:gap-12" : ""
+                }`}
+              >
+                <div
+                  className={`space-y-2 mt-4 md:mt-6 ${
+                    currentStep === 7 && "lg:w-1/2"
+                  }`}
+                >
+                  <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
+                    Service Info
+                  </h2>
+                  <h4 className="text-stone-400 text-sm">
+                    Service Type :{" "}
+                    <span className="text-stone-300">
+                      {serviceType ? serviceType : "_"}
+                    </span>
+                  </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Service :{" "}
+                    <span className="text-stone-300">
+                      {service ? service : "_"}
+                    </span>
+                  </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Model :{" "}
+                    <span className="text-stone-300">
+                      {model ? model : "_"}
+                    </span>
+                  </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Date :{" "}
+                    <span className="text-stone-300">
+                      {selectedDate ? selectedDate.toLocaleDateString() : "_"}
+                    </span>
+                  </h4>
+
+                  <h4 className="text-stone-400 text-sm">
+                    Time :{" "}
+                    <span className="text-stone-300">
+                      {selectedTime || "_"}
+                    </span>
+                  </h4>
+                </div>
+
+                <div
+                  className={`space-y-2 mt-4 ${
+                    currentStep === 7 && "lg:w-1/2"
+                  } md:mt-6 
+                }`}
+                >
+                  <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
+                    Personal Info
+                  </h2>
+                  <h4 className="text-stone-400 text-sm">
+                    City :{" "}
+                    <span className="text-stone-300">{city ? city : "_"}</span>
+                  </h4>
+                  <h4 className="text-stone-400  text-sm">
+                    Address :{" "}
+                    <span className="text-stone-300 break-words whitespace-normal">
+                      {userCity ? `${userCity}, ${userState}, ${address}` : "_"}
+                    </span>
+                  </h4>
+
+                  <h4 className="text-stone-400 text-sm">
+                    Building Name :{" "}
+                    <span className="text-stone-300">
+                      {buildingName ? buildingName : "_"}
+                    </span>
+                  </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Residential Type :{" "}
+                    <span className="text-stone-300">
+                      {residential ? residential : "_"}
+                    </span>
+                  </h4>
+
+                  <h4 className="text-stone-400 text-sm">
+                    WhatsApp Number :{" "}
+                    <span className="text-stone-300">
+                      {whatsAppNumber ? whatsAppNumber : "_"}
+                    </span>
+                  </h4>
+
+                  <div className="flex items-center gap-3 text-sm text-stone-400">
+                    <span className="font-medium">Building Photo:</span>
+
+                    {photoPreview ? (
+                      <img
+                        src={photoPreview}
+                        className="h-14 w-14 rounded-md object-cover border border-primary/40"
+                      />
+                    ) : (
+                      <span className="text-stone-300">_</span>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div className="mt-4 md:mt-6 flex gap-4">
+
+              <div className="mt-6 md:mt-12 justify-between justify-between flex gap-4">
                 <Button
                   disabled={currentStep === 1}
                   onClick={() => setCurrentStep(currentStep - 1)}

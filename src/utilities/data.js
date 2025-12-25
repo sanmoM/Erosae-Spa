@@ -228,3 +228,55 @@ export const uaeCities = [
   }
 ];
 
+
+export const userLocations = [
+  {
+    city: "Dubai",
+    states: [
+      "Dubai Marina",
+      "Jumeirah",
+      "Deira",
+      "Bur Dubai",
+      "Palm Jumeirah",
+      "Downtown Dubai",
+      "Business Bay",
+    ],
+  },
+  {
+    city: "Abu Dhabi",
+    states: [
+      "Yas Island",
+      "Saadiyat Island",
+      "Al Reem Island",
+      "Al Khalidiyah",
+      "Al Mushrif",
+    ],
+  },
+  {
+    city: "Sharjah",
+    states: [
+      "Al Majaz",
+      "Al Nahda",
+      "Al Qasimia",
+      "Al Taawun",
+    ],
+  },
+  {
+    city: "Ajman",
+    states: [
+      "Al Nuaimiya",
+      "Al Rashidiya",
+      "Al Jurf",
+    ],
+  },
+  {
+    city: "Ras Al Khaimah",
+    states: [
+      "Al Nakheel",
+      "Al Hamra",
+      "Al Dhait",
+    ],
+  },
+];
+
+
