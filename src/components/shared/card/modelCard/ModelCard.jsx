@@ -50,8 +50,8 @@ const ModelCard = ({model}) => {
         </div>
       </div>
 
-      <div className="mt-6 pt-5 border-t border-primary/30 flex items-center justify-between">
-        <div>
+      <div className="mt-6 pt-5 border-t border-primary/30 flex items-center justify-end">
+        {/* <div>
           <span className="text-[9px] text-stone-500 uppercase font-black tracking-widest block mb-0.5">
             Session rate
           </span>
@@ -63,8 +63,8 @@ const ModelCard = ({model}) => {
               {model.currency}
             </span>
           </div>
-        </div>
-        <button className="flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border border-white/10 hover:border-primary group/btn shadow-xl">
+        </div> */}
+        <button className="flex items-center gap-2 border-primary/80 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border hover:border-primary group/btn shadow-xl">
           Portfolio
           <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
         </button>

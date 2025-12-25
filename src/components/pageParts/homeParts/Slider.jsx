@@ -48,7 +48,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative w-full  h-[100vh] md:h-[80vh] lg:h-[100vh]">
+    <div className="relative w-full h-[95vh]  md:h-[80vh] lg:h-[100vh]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -94,13 +94,15 @@ const Slider = () => {
 
                   {/* Buttons */}
                   <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-start gap-4 animate-fade-in-up animation-delay-400">
-                    <Button
-                      size="lg"
-                      variant="secondary"
-                      className="w-full rounded-full sm:w-auto text-base sm:text-lg px-8 py-6"
-                    >
-                      Start Booking Now
-                    </Button>
+                    <Link href={"/booking"}>
+                      <Button
+                        size="lg"
+                        variant="secondary"
+                        className="w-full rounded-full sm:w-auto text-base sm:text-lg px-8 py-6"
+                      >
+                        Start Booking Now
+                      </Button>
+                    </Link>
                     <Link href={"/model"}>
                       <Button
                         size="lg"

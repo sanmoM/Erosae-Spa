@@ -15,7 +15,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { spaCategories, spaModels, uaeCities } from "@/utilities/data";
+import { spaCategories, spaModels, location } from "@/utilities/data";
 import { Filter, X } from "lucide-react";
 import React, { useState } from "react";
 
@@ -86,14 +86,14 @@ const ModelGrid = () => {
                   </h4>
 
                   <div className="mt-4 space-y-2 location-scroll pr-1">
-                    {uaeCities.map((city, i) => (
+                    {location.map((city, i) => (
                       <div key={i} className="flex items-center gap-2">
-                        <Checkbox id={city.value} />
+                        <Checkbox id={city.city} />
                         <Label
-                          htmlFor={city.value}
+                          htmlFor={city.city}
                           className="text-stone-400 text-[13px]"
                         >
-                          {city.name}
+                          {city.city}
                         </Label>
                       </div>
                     ))}
@@ -187,14 +187,14 @@ const ModelGrid = () => {
                 Location
               </h4>
               <div className="mt-4 space-y-2 location-scroll pr-1">
-                {uaeCities.map((city, i) => (
+                {location.map((city, i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <Checkbox id={city.value} />
+                    <Checkbox id={city.city} />
                     <Label
-                      htmlFor={city.value}
+                      htmlFor={city.city}
                       className="text-stone-400 text-xs"
                     >
-                      {city.name}
+                      {city.city}
                     </Label>
                   </div>
                 ))}

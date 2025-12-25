@@ -26,7 +26,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#050505] text-white mt-12 pt-20 pb-10 border-t border-primary font-sans">
+    <footer className=" text-white mt-12 pt-20 pb-10 border-t border-primary font-sans">
       <Container>
         
         {/* Top Section: Branding & Newsletter */}

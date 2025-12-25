@@ -44,10 +44,10 @@ const ServiceCard = ({ service }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-stone-300 text-xs font-medium bg-stone-900/50 px-3 py-1.5 rounded-full border border-white/5">
             <Timer className="w-3 h-3 text-primary" />
-            {service.duration}
+            {service.durations[0].time}
           </div>
           <div className="flex gap-2 items-end">
-             <span className="text-xl font-medium text-primary tracking-tighter">{service.price}</span>
+             <span className="text-xl font-medium text-primary tracking-tighter">{service.durations[0].price}</span>
              <span className="text-base font-medium text-stone-300">AED</span>
           </div>
         </div>

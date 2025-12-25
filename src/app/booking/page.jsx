@@ -6,7 +6,16 @@ import DateTimePicker from "@/components/shared/other/DateTimePicker";
 import FileUpload from "@/components/shared/other/FileUpload";
 import PageBanner from "@/components/shared/other/PageBanner";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/ui/phoneInput";
@@ -18,12 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  services,
-  spaModels,
-  uaeCities,
-  userLocations,
-} from "@/utilities/data";
+import { services, spaModels, location } from "@/utilities/data";
 import {
   ArrowUpRight,
   Calendar,
@@ -48,7 +52,6 @@ const Page = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
   const [period, setPeriod] = useState("");
-  const [userCity, setUserCity] = useState("");
   const [userState, setUserState] = useState("");
   const [address, setAdress] = useState("");
   const [buildingName, setBuildingName] = useState("");
@@ -56,8 +59,12 @@ const Page = () => {
   const [whatsAppNumber, setwhatsAppNumber] = useState("");
   const [buildingPhoto, setBuildingPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [shopLoaction, setShopLocation] = useState("");
+  const [duration, setDuration] = useState("");
+  const [amount,setAmount] = useState("");
 
-  const selectedCity = userLocations.find((c) => c.city === userCity);
+  const selectedCity = location.find((c) => c.city === city);
+  const selectedService = services.find((s) => s.category === service);
 
   const STEPS = [
     { id: 1, name: "City", icon: MapPin },
@@ -172,17 +179,21 @@ const Page = () => {
                     </p>
                   </div>
                   <div className="flex flex-wrap mt-4 md:mt-6 gap-x-2 gap-y-3">
-                    {uaeCities.map((c, indx) => {
+                    {location.map((c, indx) => {
                       return (
                         <div
-                          onClick={() => setCity(c.name)}
+                          onClick={() => {
+                            setCity(c.city);
+                            setShopLocation("");
+                            setUserState("");
+                          }}
                           className={`border-gray-600 ${
-                            city === c.name &&
+                            city === c.city &&
                             "bg-primary text-white border-primary hover:bg-primary"
                           } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
                           key={indx}
                         >
-                          {c.name}
+                          {c.city}
                         </div>
                       );
                     })}
@@ -220,6 +231,12 @@ const Page = () => {
                       In Shop
                     </div>
                   </div>
+                  {serviceType === "In House" && (
+                    <div className="mt-4 md:mt-6 rounded-md border md:text-sm border-primary/40 bg-primary/10 p-3 text-xs text-stone-300">
+                      <span className="font-bold">Note:</span> Transportation
+                      charge for the model has been included (In-House service).
+                    </div>
+                  )}
                 </div>
               )}
               {currentStep === 3 && (
@@ -236,7 +253,12 @@ const Page = () => {
                     {services.map((s, indx) => {
                       return (
                         <div
-                          onClick={() => setService(s.category)}
+                          onClick={() => {
+                            setService(s.category)
+                            setDuration("");
+                            setAmount("")
+                          
+                          }}
                           className={`border-gray-600 ${
                             service === s.category &&
                             "bg-primary text-white border-primary hover:bg-primary"
@@ -248,6 +270,40 @@ const Page = () => {
                       );
                     })}
                   </div>
+
+                  {service && (
+                    <>
+                      <h2 className="text-sm  font-semibold mt-4 md:mt-6 text-stone-400">
+                        Select Duration
+                      </h2>
+
+                      <div className="flex flex-wrap mt-4  gap-x-2 gap-y-3">
+                        {selectedService.durations.map((d, indx) => (
+                          <>
+                            <div
+                              onClick={() => {
+                                setDuration(d.time)
+                                setAmount(d.price)
+                              }}
+                              className={`border-gray-600 ${
+                                duration === d.time &&
+                                "bg-primary text-white border-primary hover:bg-primary"
+                              } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
+                              key={indx}
+                            >
+                              {d.time}
+                            </div>
+                          </>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  {
+                    amount && <p className="text-xs sm:text-sm mt-6 text-stone-400">
+                        Amount (AED) : {amount} {" "} {serviceType === "In House"&&"without transportation charge"}
+                      </p>
+                  }
                 </div>
               )}
 
@@ -321,8 +377,8 @@ const Page = () => {
                                 {mod.city}
                               </div>
 
-                              <div className="flex justify-between">
-                                <div className="flex items-baseline gap-1 mt-2">
+                              <div className="flex justify-end">
+                                {/* <div className="flex items-baseline gap-1 mt-2">
                                   <span
                                     className={`text-lg ${
                                       mod.name === model && "text-white"
@@ -337,61 +393,61 @@ const Page = () => {
                                   >
                                     {mod.currency}
                                   </span>
-                                </div>
+                                </div> */}
 
-                                <Dialog >
-                                  
-                                    <DialogTrigger asChild>
-                                      <button
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <button
                                       onClick={(e) => e.stopPropagation()}
-                                        className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border border-white/10 hover:border-primary group/btn shadow-xl ${
-                                          mod.name === model && "hidden"
-                                        }`}
+                                      className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border border-white/10 hover:border-primary group/btn shadow-xl ${
+                                        mod.name === model && "hidden"
+                                      }`}
+                                    >
+                                      Portfolio
+                                      <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
+                                    </button>
+                                  </DialogTrigger>
+                                  <DialogContent className="sm:max-w-[800px] bg-[#050718] border-stone-500">
+                                    <DialogHeader>
+                                      <DialogTitle
+                                        className={"text-stone-200 text-center"}
                                       >
-                                        Portfolio
-                                        <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
-                                      </button>
-                                    </DialogTrigger>
-                                    <DialogContent className="sm:max-w-[800px] bg-[#050718] border-stone-500">
-                                      <DialogHeader>
-                                        <DialogTitle className={"text-stone-200 text-center"}>Profile</DialogTitle>
-                                        <DialogDescription>
-                                          Make changes to your profile here.
-                                          Click save when you&apos;re done.
-                                        </DialogDescription>
-                                      </DialogHeader>
-                                      <div className="grid gap-4">
-                                        <div className="grid gap-3">
-                                          <Label htmlFor="name-1">Name</Label>
-                                          <Input
-                                            id="name-1"
-                                            name="name"
-                                            defaultValue="Pedro Duarte"
-                                          />
-                                        </div>
-                                        <div className="grid gap-3">
-                                          <Label htmlFor="username-1">
-                                            Username
-                                          </Label>
-                                          <Input
-                                            id="username-1"
-                                            name="username"
-                                            defaultValue="@peduarte"
-                                          />
-                                        </div>
+                                        Profile
+                                      </DialogTitle>
+                                      <DialogDescription>
+                                        Make changes to your profile here. Click
+                                        save when you&apos;re done.
+                                      </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4">
+                                      <div className="grid gap-3">
+                                        <Label htmlFor="name-1">Name</Label>
+                                        <Input
+                                          id="name-1"
+                                          name="name"
+                                          defaultValue="Pedro Duarte"
+                                        />
                                       </div>
-                                      <DialogFooter>
-                                        <DialogClose asChild>
-                                          <Button variant="outline">
-                                            Close
-                                          </Button>
-                                        </DialogClose>
-                                        {/* <Button type="submit">
+                                      <div className="grid gap-3">
+                                        <Label htmlFor="username-1">
+                                          Username
+                                        </Label>
+                                        <Input
+                                          id="username-1"
+                                          name="username"
+                                          defaultValue="@peduarte"
+                                        />
+                                      </div>
+                                    </div>
+                                    <DialogFooter>
+                                      <DialogClose asChild>
+                                        <Button variant="outline">Close</Button>
+                                      </DialogClose>
+                                      {/* <Button type="submit">
                                           Save changes
                                         </Button> */}
-                                      </DialogFooter>
-                                    </DialogContent>
-                                  
+                                    </DialogFooter>
+                                  </DialogContent>
                                 </Dialog>
                               </div>
                             </div>
@@ -428,142 +484,204 @@ const Page = () => {
 
               {currentStep === 6 && (
                 <div>
-                  <div className="">
-                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                      Enter Your Address Details
-                    </h2>
-                    <p className="text-xs sm:text-sm text-stone-400">
-                      Your city, state
-                    </p>
-                  </div>
-                  <div className="grid  mt-4 md:mt-6 md:grid-cols-2 gap-4">
-                    {/* CITY */}
-                    <div className="flex flex-col gap-2">
-                      <Label>Select City</Label>
-                      <Select
-                        value={userCity}
-                        onValueChange={(value) => {
-                          setUserCity(value);
-                          setUserState("");
-                        }}
-                      >
-                        <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
-                          <SelectValue
-                            className={"text-stone-300"}
-                            placeholder="City"
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {userLocations.map((c) => (
-                              <SelectItem key={c.city} value={c.city}>
-                                {c.city}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* STATE */}
-                    <div className="flex flex-col gap-2">
-                      <Label>Select Area</Label>
-                      <Select
-                        value={userState}
-                        onValueChange={setUserState}
-                        disabled={!userCity}
-                      >
-                        <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
-                          <SelectValue
-                            className={"text-stone-400"}
-                            placeholder="Select city first"
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {selectedCity?.states.map((s) => (
-                              <SelectItem key={s} value={s}>
-                                {s}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  <div className="grid w-full mt-4 md:mt-6  items-center gap-2">
-                    <Label htmlFor="address">Address Details</Label>
-                    <Input
-                      type="text"
-                      id="address"
-                      placeholder="Your Address Details Street"
-                      name="address"
-                      value={address}
-                      onChange={(e) => setAdress(e.target.value)}
-                    />
-                  </div>
-                  <div className="flex flex-col lg:flex-row mt-4 lg:gap-4 lg:mt-6">
-                    <div className="grid w-full lg:w-1/2 items-center gap-2">
-                      <Label htmlFor="buldingName">Building Name</Label>
-                      <Input
-                        type="text"
-                        id="buldingName"
-                        placeholder="Your Address Details Street"
-                        name="building"
-                        value={buildingName}
-                        onChange={(e) => setBuildingName(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="flex md:mt-6 w-full lg:w-1/2 lg:mt-0 mt-4 flex-col gap-2">
-                      <Label>Residential Type</Label>
-                      <Select
-                        value={residential}
-                        onValueChange={setResidential}
-                      >
-                        <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
-                          <SelectValue
-                            className={"text-stone-400"}
-                            placeholder="Select Residential"
-                          />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {["Hotel", "Appartment", "Villa", "Other"].map(
-                              (r, indx) => {
-                                return (
-                                  <SelectItem value={r} key={indx}>
-                                    {r}
+                  {serviceType === "In House" ? (
+                    <>
+                      <div className="">
+                        <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                          Enter Your Address Details
+                        </h2>
+                        <p className="text-xs sm:text-sm text-stone-400">
+                          Your city, state
+                        </p>
+                      </div>
+                      <div className="grid  mt-4 md:mt-6 md:grid-cols-2 gap-4">
+                        {/* CITY */}
+                        <div className="flex flex-col gap-2">
+                          <Label>Select City</Label>
+                          <Select
+                            value={city}
+                            onValueChange={(value) => {
+                              setCity(value);
+                              setUserState("");
+                            }}
+                          >
+                            <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
+                              <SelectValue
+                                className={"text-stone-300"}
+                                placeholder="City"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                {location.map((c) => (
+                                  <SelectItem key={c.city} value={c.city}>
+                                    {c.city}
                                   </SelectItem>
-                                );
-                              }
-                            )}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                  <div className="grid w-full mt-4 md:mt-6  items-center  gap-2">
-                    <Label>WhatsApp Number *</Label>
-                    <PhoneInput
-                      defaultCountry="AE"
-                      international
-                      countryCallingCodeEditable={false}
-                      value={whatsAppNumber}
-                      onChange={setwhatsAppNumber}
-                    />
-                  </div>
+                        {/* STATE */}
+                        <div className="flex flex-col gap-2">
+                          <Label>Select Area</Label>
+                          <Select
+                            value={userState}
+                            onValueChange={setUserState}
+                            disabled={!city}
+                          >
+                            <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
+                              <SelectValue
+                                className={"text-stone-400"}
+                                placeholder="Select city first"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                {selectedCity?.states.map((s) => (
+                                  <SelectItem key={s} value={s}>
+                                    {s}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="grid w-full mt-4 md:mt-6  items-center gap-2">
+                        <Label htmlFor="address">Address Details</Label>
+                        <Input
+                          type="text"
+                          id="address"
+                          placeholder="Your Address Details Street"
+                          name="address"
+                          value={address}
+                          onChange={(e) => setAdress(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-col lg:flex-row mt-4 lg:gap-4 lg:mt-6">
+                        <div className="grid w-full lg:w-1/2 items-center gap-2">
+                          <Label htmlFor="buldingName">Building Name</Label>
+                          <Input
+                            type="text"
+                            id="buldingName"
+                            placeholder="Your Address Details Street"
+                            name="building"
+                            value={buildingName}
+                            onChange={(e) => setBuildingName(e.target.value)}
+                          />
+                        </div>
 
-                  <div className="grid mt-4 md:mt-6 w-full  items-center gap-2">
-                    <Label>Building Photo</Label>
-                    <FileUpload
-                      title="Building Photo"
-                      accept="image/*"
-                      file={buildingPhoto}
-                      onFileSelect={setBuildingPhoto}
-                    />
-                  </div>
+                        <div className="flex md:mt-6 w-full lg:w-1/2 lg:mt-0 mt-4 flex-col gap-2">
+                          <Label>Residential Type</Label>
+                          <Select
+                            value={residential}
+                            onValueChange={setResidential}
+                          >
+                            <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
+                              <SelectValue
+                                className={"text-stone-400"}
+                                placeholder="Select Residential"
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                {["Hotel", "Appartment", "Villa", "Other"].map(
+                                  (r, indx) => {
+                                    return (
+                                      <SelectItem value={r} key={indx}>
+                                        {r}
+                                      </SelectItem>
+                                    );
+                                  }
+                                )}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="grid w-full mt-4 md:mt-6  items-center  gap-2">
+                        <Label>WhatsApp Number *</Label>
+                        <PhoneInput
+                          defaultCountry="AE"
+                          international
+                          countryCallingCodeEditable={false}
+                          value={whatsAppNumber}
+                          onChange={setwhatsAppNumber}
+                        />
+                      </div>
+
+                      <div className="grid mt-4 md:mt-6 w-full  items-center gap-2">
+                        <Label>Building Photo</Label>
+                        <FileUpload
+                          title="Building Photo"
+                          accept="image/*"
+                          file={buildingPhoto}
+                          onFileSelect={setBuildingPhoto}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="">
+                        <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                          Our Shop Address
+                        </h2>
+                        <p className="text-xs sm:text-sm text-stone-400">
+                          Choose your city and get our shop location.
+                        </p>
+                      </div>
+                      {/* CITY */}
+                      <div className="mt-4 md:mt-6 md:w-1/2 ">
+                        <Label className={"mb-2"}>Select City</Label>
+                        <Select
+                          value={city}
+                          onValueChange={(value) => {
+                            setCity(value);
+                            setUserState("");
+                            setShopLocation("");
+                          }}
+                        >
+                          <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
+                            <SelectValue
+                              className={"text-stone-300"}
+                              placeholder="City"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {location.map((c) => (
+                                <SelectItem key={c.city} value={c.city}>
+                                  {c.city}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {selectedCity && (
+                        <div className="mt-4 md:mt-6 space-y-3 flex flex-wrap gap-2 text-sm text-stone-300">
+                          {selectedCity.shopLocation.map((s, indx) => (
+                            <div
+                              key={indx}
+                              onClick={() => setShopLocation(s)}
+                              className={`border-gray-600 ${
+                                shopLoaction === s &&
+                                "bg-primary text-white border-primary hover:bg-primary"
+                              } border hover:bg-gray-900 duration-300 py-2 px-4 cursor-pointer 
+      inline-flex items-center gap-1 text-sm rounded-full text-stone-400 w-fit`}
+                            >
+                              <MapPin className="w-4 h-4" />
+                              <span>{s}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -618,61 +736,90 @@ const Page = () => {
                       {selectedTime || "_"}
                     </span>
                   </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Duration :{" "}
+                    <span className="text-stone-300">{duration || "_"}</span>
+                  </h4>
+                  <h4 className="text-stone-400 text-sm">
+                    Amount (AED) :{" "}
+                    <span className="text-stone-300">{amount || "_"}</span>
+                  </h4>
+
+                  {serviceType === "In Shop" && (
+                    <>
+                      <h4 className="text-stone-400 text-sm">
+                        City :{" "}
+                        <span className="text-stone-300">{city || "_"}</span>
+                      </h4>
+                      <h4 className="text-stone-400 text-sm">
+                        Shop Location :{" "}
+                        <span className="text-stone-300">
+                          {city ? `${city}, ${shopLoaction}` : "_"}
+                        </span>
+                      </h4>
+                    </>
+                  )}
                 </div>
 
-                <div
-                  className={`space-y-2 mt-4 ${
-                    currentStep === 7 && "lg:w-1/2"
-                  } md:mt-6 
+                {serviceType === "In House" && (
+                  <>
+                    <div
+                      className={`space-y-2 mt-4 ${
+                        currentStep === 7 && "lg:w-1/2"
+                      } md:mt-6 
                 }`}
-                >
-                  <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
-                    Personal Info
-                  </h2>
-                  <h4 className="text-stone-400 text-sm">
-                    City :{" "}
-                    <span className="text-stone-300">{city ? city : "_"}</span>
-                  </h4>
-                  <h4 className="text-stone-400  text-sm">
-                    Address :{" "}
-                    <span className="text-stone-300 break-words whitespace-normal">
-                      {userCity ? `${userCity}, ${userState}, ${address}` : "_"}
-                    </span>
-                  </h4>
+                    >
+                      <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
+                        Personal Info
+                      </h2>
+                      <h4 className="text-stone-400 text-sm">
+                        City :{" "}
+                        <span className="text-stone-300">
+                          {city ? city : "_"}
+                        </span>
+                      </h4>
+                      <h4 className="text-stone-400  text-sm">
+                        Address :{" "}
+                        <span className="text-stone-300 break-words whitespace-normal">
+                          {city ? `${city}, ${userState}, ${address}` : "_"}
+                        </span>
+                      </h4>
 
-                  <h4 className="text-stone-400 text-sm">
-                    Building Name :{" "}
-                    <span className="text-stone-300">
-                      {buildingName ? buildingName : "_"}
-                    </span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Residential Type :{" "}
-                    <span className="text-stone-300">
-                      {residential ? residential : "_"}
-                    </span>
-                  </h4>
+                      <h4 className="text-stone-400 text-sm">
+                        Building Name :{" "}
+                        <span className="text-stone-300">
+                          {buildingName ? buildingName : "_"}
+                        </span>
+                      </h4>
+                      <h4 className="text-stone-400 text-sm">
+                        Residential Type :{" "}
+                        <span className="text-stone-300">
+                          {residential ? residential : "_"}
+                        </span>
+                      </h4>
 
-                  <h4 className="text-stone-400 text-sm">
-                    WhatsApp Number :{" "}
-                    <span className="text-stone-300">
-                      {whatsAppNumber ? whatsAppNumber : "_"}
-                    </span>
-                  </h4>
+                      <h4 className="text-stone-400 text-sm">
+                        WhatsApp Number :{" "}
+                        <span className="text-stone-300">
+                          {whatsAppNumber ? whatsAppNumber : "_"}
+                        </span>
+                      </h4>
 
-                  <div className="flex items-center gap-3 text-sm text-stone-400">
-                    <span className="font-medium">Building Photo:</span>
+                      <div className="flex items-center gap-3 text-sm text-stone-400">
+                        <span className="font-medium">Building Photo:</span>
 
-                    {photoPreview ? (
-                      <img
-                        src={photoPreview}
-                        className="h-14 w-14 rounded-md object-cover border border-primary/40"
-                      />
-                    ) : (
-                      <span className="text-stone-300">_</span>
-                    )}
-                  </div>
-                </div>
+                        {photoPreview ? (
+                          <img
+                            src={photoPreview}
+                            className="h-14 w-14 rounded-md object-cover border border-primary/40"
+                          />
+                        ) : (
+                          <span className="text-stone-300">_</span>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="mt-6 md:mt-12 justify-between justify-between flex gap-4">
