@@ -301,7 +301,7 @@ const Page = () => {
 
                   {
                     amount && <p className="text-xs sm:text-sm mt-6 text-stone-400">
-                        Amount (AED) : {amount} {" "} {serviceType === "In House"&&"without transportation charge"}
+                        Amount (AED) : {amount} {" "} {serviceType === "In House"&&"(without transportation charge)"}
                       </p>
                   }
                 </div>
