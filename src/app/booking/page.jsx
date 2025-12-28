@@ -61,7 +61,7 @@ const Page = () => {
   const [photoPreview, setPhotoPreview] = useState(null);
   const [shopLoaction, setShopLocation] = useState("");
   const [duration, setDuration] = useState("");
-  const [amount,setAmount] = useState("");
+  const [amount, setAmount] = useState("");
 
   const selectedCity = location.find((c) => c.city === city);
   const selectedService = services.find((s) => s.category === service);
@@ -70,8 +70,8 @@ const Page = () => {
     { id: 1, name: "City", icon: MapPin },
     { id: 2, name: "Service Type", icon: Settings },
     { id: 3, name: "Service", icon: Layout },
-    { id: 4, name: "Model(s)", icon: User },
-    { id: 5, name: "Date", icon: Calendar },
+    { id: 4, name: "Date", icon: Calendar },
+    { id: 5, name: "Model(s)", icon: User },
     { id: 6, name: "Address", icon: MapPin },
     { id: 7, name: "Review", icon: Eye },
     { id: 8, name: "Payment", icon: CreditCard },
@@ -161,13 +161,19 @@ const Page = () => {
               })}
             </div>
           </div>
-          <div className="flex gap-6 flex-col md:flex-row">
+
+          <div
+            className={`flex gap-6 flex-col md:flex-row ${
+              currentStep > 7 && "hidden"
+            }`}
+          >
             {/* steps  */}
             <div
               className={`flex-1 border ${
                 currentStep > 6 && "hidden"
               }  border-gray-700 bg-gray-900/30 md:p-6 p-4 rounded-md`}
             >
+              {/* city */}
               {currentStep === 1 && (
                 <div>
                   <div className="">
@@ -201,6 +207,7 @@ const Page = () => {
                 </div>
               )}
 
+              {/* service type  */}
               {currentStep === 2 && (
                 <div>
                   <div className="">
@@ -239,6 +246,8 @@ const Page = () => {
                   )}
                 </div>
               )}
+
+              {/* service  */}
               {currentStep === 3 && (
                 <div>
                   <div className="">
@@ -254,10 +263,9 @@ const Page = () => {
                       return (
                         <div
                           onClick={() => {
-                            setService(s.category)
+                            setService(s.category);
                             setDuration("");
-                            setAmount("")
-                          
+                            setAmount("");
                           }}
                           className={`border-gray-600 ${
                             service === s.category &&
@@ -282,8 +290,8 @@ const Page = () => {
                           <>
                             <div
                               onClick={() => {
-                                setDuration(d.time)
-                                setAmount(d.price)
+                                setDuration(d.time);
+                                setAmount(d.price);
                               }}
                               className={`border-gray-600 ${
                                 duration === d.time &&
@@ -299,23 +307,70 @@ const Page = () => {
                     </>
                   )}
 
-                  {
-                    amount && <p className="text-xs sm:text-sm mt-6 text-stone-400">
-                        Amount (AED) : {amount} {" "} {serviceType === "In House"&&"(without transportation charge)"}
-                      </p>
-                  }
+                  {amount && (
+                    <p className="text-xs sm:text-sm mt-6 text-stone-400">
+                      Amount (AED) : {amount}{" "}
+                      {serviceType === "In House" &&
+                        "(without transportation charge)"}
+                    </p>
+                  )}
                 </div>
               )}
 
+              {/* date */}
               {currentStep === 4 && (
                 <div>
                   <div className="">
                     <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                      Select Model
+                      Select Date and Time
                     </h2>
                     <p className="text-xs sm:text-sm text-stone-400">
-                      Choose model.
+                      Select your service time.
                     </p>
+                  </div>
+                  <div className=" mt-4 md:mt-6  location-scroll space-y-4">
+                    <DateTimePicker
+                      date={selectedDate}
+                      setDate={setSelectedDate}
+                      time={selectedTime}
+                      setTime={setSelectedTime}
+                      period={period}
+                      setPeriod={setPeriod}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* model  */}
+              {currentStep === 5 && (
+                <div>
+                  <div className=" flex items-center justify-between">
+                    <div>
+                      <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                        Select Model
+                      </h2>
+                      <p className="text-xs sm:text-sm text-stone-400">
+                        Choose model.
+                      </p>
+                    </div>
+                    <div>
+                      <Select>
+                        <SelectTrigger className="max-w-[150px]  text-xs md:text-sm border-primary">
+                          <SelectValue
+                            className={"text-stone-300"}
+                            placeholder="Sort by"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="age">Age</SelectItem>
+                            <SelectItem value="experience">
+                              Experience
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                   <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
                     {spaModels.map((mod, indx) => {
@@ -324,13 +379,13 @@ const Page = () => {
                           onClick={() => setModel(mod.name)}
                           className={`border-gray-600 ${
                             model === mod.name &&
-                            "bg-primary text-white border-primary hover:bg-primary"
-                          } border hover:bg-gray-900 duration-400 p-5 cursor-pointer text-sm rounded-md text-stone-400`}
+                            "bg-primary/30 text-white border-primary hover:bg-primary/20"
+                          } border hover:bg-gray-900 duration-400 p-4 cursor-pointer text-sm rounded-md text-stone-400`}
                           key={indx}
                         >
-                          <div className="flex items-center gap-5">
+                          <div className="flex  gap-5">
                             <div className="relative flex-shrink-0">
-                              <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
+                              <div className="w-18 h-18 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
                                 <img
                                   src={mod.image}
                                   alt={mod.name}
@@ -346,7 +401,7 @@ const Page = () => {
 
                             <div className="flex-1 min-w-0">
                               <div className="flex justify-between items-start">
-                                <h3 className="md:text-lg  font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
+                                <h3 className="md:text-base text-sm font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
                                   {mod.name}
                                 </h3>
                                 <div
@@ -377,30 +432,15 @@ const Page = () => {
                                 {mod.city}
                               </div>
 
-                              <div className="flex justify-end">
-                                {/* <div className="flex items-baseline gap-1 mt-2">
-                                  <span
-                                    className={`text-lg ${
-                                      mod.name === model && "text-white"
-                                    } text-primary font-medium `}
-                                  >
-                                    {mod.price}
-                                  </span>
-                                  <span
-                                    className={`text-[10px] text-stone-400 ${
-                                      mod.name === model && "text-white"
-                                    } font-bold`}
-                                  >
-                                    {mod.currency}
-                                  </span>
-                                </div> */}
-
+                              <div className="flex gap-2 justify-end">
                                 <Dialog>
                                   <DialogTrigger asChild>
                                     <button
                                       onClick={(e) => e.stopPropagation()}
-                                      className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border border-white/10 hover:border-primary group/btn shadow-xl ${
-                                        mod.name === model && "hidden"
+                                      className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold  hover:border-primary group/btn shadow-xl ${
+                                        mod.name === model
+                                          ? "border border-white"
+                                          : "border border-white/10"
                                       }`}
                                     >
                                       Portfolio
@@ -412,40 +452,32 @@ const Page = () => {
                                       <DialogTitle
                                         className={"text-stone-200 text-center"}
                                       >
-                                        Profile
+                                        {model} Profile
                                       </DialogTitle>
                                       <DialogDescription>
-                                        Make changes to your profile here. Click
-                                        save when you&apos;re done.
+                                        {/* Make changes to your profile here. Click
+                                        save when you&apos;re done. */}
                                       </DialogDescription>
                                     </DialogHeader>
-                                    <div className="grid gap-4">
-                                      <div className="grid gap-3">
-                                        <Label htmlFor="name-1">Name</Label>
-                                        <Input
-                                          id="name-1"
-                                          name="name"
-                                          defaultValue="Pedro Duarte"
-                                        />
-                                      </div>
-                                      <div className="grid gap-3">
-                                        <Label htmlFor="username-1">
-                                          Username
-                                        </Label>
-                                        <Input
-                                          id="username-1"
-                                          name="username"
-                                          defaultValue="@peduarte"
-                                        />
-                                      </div>
-                                    </div>
+
                                     <DialogFooter>
-                                      <DialogClose asChild>
-                                        <Button variant="outline">Close</Button>
+                                      <DialogClose>
+                                        <Button
+                                          variant="secondary"
+                                          type="submit"
+                                        >
+                                          Select
+                                        </Button>
                                       </DialogClose>
-                                      {/* <Button type="submit">
-                                          Save changes
-                                        </Button> */}
+
+                                      <DialogClose asChild>
+                                        <Button
+                                          onClick={(e) => e.stopPropagation()}
+                                          variant="outline"
+                                        >
+                                          Close
+                                        </Button>
+                                      </DialogClose>
                                     </DialogFooter>
                                   </DialogContent>
                                 </Dialog>
@@ -459,29 +491,7 @@ const Page = () => {
                 </div>
               )}
 
-              {currentStep === 5 && (
-                <div>
-                  <div className="">
-                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                      Select Date and Time
-                    </h2>
-                    <p className="text-xs sm:text-sm text-stone-400">
-                      Select your service time.
-                    </p>
-                  </div>
-                  <div className=" mt-4 md:mt-6  location-scroll space-y-4">
-                    <DateTimePicker
-                      date={selectedDate}
-                      setDate={setSelectedDate}
-                      time={selectedTime}
-                      setTime={setSelectedTime}
-                      period={period}
-                      setPeriod={setPeriod}
-                    />
-                  </div>
-                </div>
-              )}
-
+              {/* address  */}
               {currentStep === 6 && (
                 <div>
                   {serviceType === "In House" ? (
@@ -684,6 +694,8 @@ const Page = () => {
                   )}
                 </div>
               )}
+
+              {/* payment  */}
             </div>
 
             {/* review  */}
@@ -699,66 +711,74 @@ const Page = () => {
               >
                 <div
                   className={`space-y-2 mt-4 md:mt-6 ${
-                    currentStep === 7 && "lg:w-1/2"
+                    currentStep === 7 && serviceType === "In House"
+                      ? "lg:w-1/2"
+                      : "lg:w-full"
                   }`}
                 >
                   <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
                     Service Info
                   </h2>
-                  <h4 className="text-stone-400 text-sm">
-                    Service Type :{" "}
-                    <span className="text-stone-300">
-                      {serviceType ? serviceType : "_"}
-                    </span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Service :{" "}
-                    <span className="text-stone-300">
-                      {service ? service : "_"}
-                    </span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Model :{" "}
-                    <span className="text-stone-300">
-                      {model ? model : "_"}
-                    </span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Date :{" "}
-                    <span className="text-stone-300">
-                      {selectedDate ? selectedDate.toLocaleDateString() : "_"}
-                    </span>
-                  </h4>
-
-                  <h4 className="text-stone-400 text-sm">
-                    Time :{" "}
-                    <span className="text-stone-300">
-                      {selectedTime || "_"}
-                    </span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Duration :{" "}
-                    <span className="text-stone-300">{duration || "_"}</span>
-                  </h4>
-                  <h4 className="text-stone-400 text-sm">
-                    Amount (AED) :{" "}
-                    <span className="text-stone-300">{amount || "_"}</span>
-                  </h4>
-
-                  {serviceType === "In Shop" && (
-                    <>
-                      <h4 className="text-stone-400 text-sm">
-                        City :{" "}
-                        <span className="text-stone-300">{city || "_"}</span>
-                      </h4>
-                      <h4 className="text-stone-400 text-sm">
-                        Shop Location :{" "}
-                        <span className="text-stone-300">
-                          {city ? `${city}, ${shopLoaction}` : "_"}
-                        </span>
-                      </h4>
-                    </>
-                  )}
+                  <div
+                    className={`space-y-2 ${
+                      serviceType === "In Shop" &&
+                      currentStep === 7 &&
+                      "lg:grid lg:grid-cols-2"
+                    }`}
+                  >
+                    <h4 className="text-stone-400 text-sm">
+                      Service Type :{" "}
+                      <span className="text-stone-300">
+                        {serviceType ? serviceType : "_"}
+                      </span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Service :{" "}
+                      <span className="text-stone-300">
+                        {service ? service : "_"}
+                      </span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Model :{" "}
+                      <span className="text-stone-300">
+                        {model ? model : "_"}
+                      </span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Date :{" "}
+                      <span className="text-stone-300">
+                        {selectedDate ? selectedDate.toLocaleDateString() : "_"}
+                      </span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Time :{" "}
+                      <span className="text-stone-300">
+                        {selectedTime || "_"}
+                      </span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Duration :{" "}
+                      <span className="text-stone-300">{duration || "_"}</span>
+                    </h4>
+                    <h4 className="text-stone-400 text-sm">
+                      Amount (AED) :{" "}
+                      <span className="text-stone-300">{amount || "_"}</span>
+                    </h4>
+                    {serviceType === "In Shop" && (
+                      <>
+                        <h4 className="text-stone-400 text-sm">
+                          City :{" "}
+                          <span className="text-stone-300">{city || "_"}</span>
+                        </h4>
+                        <h4 className="text-stone-400 text-sm">
+                          Shop Location :{" "}
+                          <span className="text-stone-300">
+                            {city ? `${city}, ${shopLoaction}` : "_"}
+                          </span>
+                        </h4>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 {serviceType === "In House" && (
@@ -839,6 +859,10 @@ const Page = () => {
                 </Button>
               </div>
             </div>
+          </div>
+
+          <div className={`${currentStep === 8 ? "flex" : "hidden"}`}>
+            <h2 className="text-2xl text-stone-200">Payment </h2>
           </div>
         </div>
       </Container>

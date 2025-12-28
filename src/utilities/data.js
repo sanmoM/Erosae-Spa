@@ -1,5 +1,6 @@
 const { Leaf, Sun, Hand, Sparkles, Waves, Flower2 } = require("lucide-react");
 
+
 export const services = [
   {
     id: 1,
@@ -100,6 +101,19 @@ export const services = [
 ];
 
 export const spaModels = [
+  {
+    id: 1,
+    name: "Leon",
+    city: "Dhaka",
+    rating: 5,
+    reviews: 200,
+    price: "600",
+    currency: "BDT",
+    tags: ["Deep Tissue", "Holistic"],
+    image:
+      "https://i.ibb.co/MDYR9GTh/leon.png",
+    verified: true,
+  },
   {
     id: 1,
     name: "Elena Rodriguez",

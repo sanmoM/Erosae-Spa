@@ -10,10 +10,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const DateTimePicker = ({ date, setDate, time, setTime }) => {
   const [open, setOpen] = useState(false);
+  const timeRef = useRef(null);
 
   return (
     <div className="flex flex-col md:flex-row gap-4">
@@ -46,11 +47,16 @@ const DateTimePicker = ({ date, setDate, time, setTime }) => {
       </div>
 
       {/* TIME */}
+
       <div className="flex flex-col w-full gap-3">
         <Label>Time</Label>
+
         <Input
+          ref={timeRef}
           type="time"
           value={time}
+          onFocus={() => timeRef.current?.showPicker?.()}
+          onClick={() => timeRef.current?.showPicker?.()}
           onChange={(e) => setTime(e.target.value)}
         />
       </div>
