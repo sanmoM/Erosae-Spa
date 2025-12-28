@@ -32,10 +32,13 @@ import {
   ArrowUpRight,
   Calendar,
   Check,
+  ChevronLeft,
+  ChevronRight,
   CreditCard,
   Eye,
   Layout,
   MapPin,
+  Search,
   Settings,
   ShieldCheck,
   Star,
@@ -353,7 +356,20 @@ const Page = () => {
                         Choose model.
                       </p>
                     </div>
-                    <div>
+                    <div className="flex items-center gap-2">
+                      {/* <div className="lg:flex hidden items-center">
+                        <Input
+                          type={"text"}
+                          className={"rounded-l-full py-4.5 border-r-0"}
+                          placeholder={"model name"}
+                        />
+                        <Button
+                          className={"rounded-l-none rounded-r-full py-5"}
+                          variant="secondary"
+                        >
+                          <Search />
+                        </Button>
+                      </div> */}
                       <Select>
                         <SelectTrigger className="max-w-[150px]  text-xs md:text-sm border-primary">
                           <SelectValue
@@ -372,6 +388,21 @@ const Page = () => {
                       </Select>
                     </div>
                   </div>
+
+                  {/* <div className="flex mt-4 md:mt-6 lg:hidden items-center">
+                    <Input
+                      type={"text"}
+                      className={"rounded-l-full py-4.5 border-r-0"}
+                      placeholder={"model name"}
+                    />
+                    <Button
+                      className={"rounded-l-none rounded-r-full  py-5"}
+                      variant="secondary"
+                    >
+                      <Search />
+                    </Button>
+                  </div> */}
+
                   <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
                     {spaModels.map((mod, indx) => {
                       return (
@@ -459,6 +490,65 @@ const Page = () => {
                                         save when you&apos;re done. */}
                                       </DialogDescription>
                                     </DialogHeader>
+
+                                    <div className="space-y-4">
+                                      <div className="relative bg-zinc-800 rounded-xl overflow-hidden aspect-video">
+                                        {/* <img
+                                          src={
+                                            model.images[currentImageIndex] ||
+                                            "/placeholder.svg"
+                                          }
+                                          alt={`${model.name} - Image ${
+                                            currentImageIndex + 1
+                                          }`}
+                                          className="w-full h-full object-cover"
+                                        /> */}
+                                        {/* Navigation Buttons */}
+                                        <button
+                                          // onClick={prevImage}
+                                          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                                          aria-label="Previous image"
+                                        >
+                                          <ChevronLeft className="w-6 h-6 text-white" />
+                                        </button>
+                                        <button
+                                          // onClick={nextImage}
+                                          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                                          aria-label="Next image"
+                                        >
+                                          <ChevronRight className="w-6 h-6 text-white" />
+                                        </button>
+
+                                        {/* Image Counter */}
+                                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 rounded-full text-sm text-white">
+                                          {/* {currentImageIndex + 1} /{" "}
+                                          {model.images.length} */}
+                                        </div>
+                                      </div>
+
+                                      {/* Thumbnail Gallery */}
+                                      <div className="flex gap-2 overflow-x-auto pb-2">
+                                        {/* {model.images.map((img, idx) => (
+                                          <button
+                                            key={idx}
+                                            onClick={() =>
+                                              setCurrentImageIndex(idx)
+                                            }
+                                            className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                                              idx === currentImageIndex
+                                                ? "border-amber-500"
+                                                : "border-zinc-700"
+                                            }`}
+                                          >
+                                            <img
+                                              src={img || "/placeholder.svg"}
+                                              alt={`Thumbnail ${idx + 1}`}
+                                              className="w-full h-full object-cover"
+                                            />
+                                          </button>
+                                        ))} */}
+                                      </div>
+                                    </div>
 
                                     <DialogFooter>
                                       <DialogClose>
