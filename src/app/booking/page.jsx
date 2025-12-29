@@ -66,6 +66,8 @@ const Page = () => {
   const [duration, setDuration] = useState("");
   const [amount, setAmount] = useState("");
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const selectedCity = location.find((c) => c.city === city);
   const selectedService = services.find((s) => s.category === service);
 
@@ -405,6 +407,20 @@ const Page = () => {
 
                   <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
                     {spaModels.map((mod, indx) => {
+                      const nextImage = () => {
+                        setCurrentImageIndex(
+                          (prev) => (prev + 1) % mod.imageGallery.length
+                        );
+                      };
+
+                      const prevImage = () => {
+                        setCurrentImageIndex(
+                          (prev) =>
+                            (prev - 1 + mod.imageGallery.length) %
+                            mod.imageGallery.length
+                        );
+                      };
+
                       return (
                         <div
                           onClick={() => setModel(mod.name)}
@@ -478,12 +494,14 @@ const Page = () => {
                                       <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
                                     </button>
                                   </DialogTrigger>
-                                  <DialogContent className="sm:max-w-[800px] bg-[#050718] border-stone-500">
+                                  <DialogContent
+                                    className="sm:max-w-[800px] bg-[#050718] border-stone-500 max-h-[90dvh] overflow-hidden"
+                                  >
                                     <DialogHeader>
                                       <DialogTitle
-                                        className={"text-stone-200 text-center"}
+                                        className={"text-stone-400 text-center"}
                                       >
-                                        {model} Profile
+                                        {mod.name} Profile
                                       </DialogTitle>
                                       <DialogDescription>
                                         {/* Make changes to your profile here. Click
@@ -491,44 +509,47 @@ const Page = () => {
                                       </DialogDescription>
                                     </DialogHeader>
 
-                                    <div className="space-y-4">
-                                      <div className="relative bg-zinc-800 rounded-xl overflow-hidden aspect-video">
-                                        {/* <img
+                                    <div className="overflow-y-auto max-h-[60dvh] md:max-h-none">
+                                      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                                        {/* <div className="space-y-4 lg:col-span-2">
+                                      <div className="relative bg-zinc-800  rounded-xl overflow-hidden aspect-video">
+                                        <img
                                           src={
-                                            model.images[currentImageIndex] ||
-                                            "/placeholder.svg"
+                                            mod.imageGallery[
+                                              currentImageIndex
+                                            ] || "/placeholder.svg"
                                           }
-                                          alt={`${model.name} - Image ${
+                                          alt={`${mod.name} - Image ${
                                             currentImageIndex + 1
                                           }`}
                                           className="w-full h-full object-cover"
-                                        /> */}
-                                        {/* Navigation Buttons */}
+                                        />
+                                        
                                         <button
-                                          // onClick={prevImage}
-                                          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                                          onClick={prevImage}
+                                          className="absolute left-4 cursor-pointer top-1/2 -translate-y-1/2 p-2 bg-primary/80 hover:bg-primary/70 rounded-full transition-colors"
                                           aria-label="Previous image"
                                         >
                                           <ChevronLeft className="w-6 h-6 text-white" />
                                         </button>
                                         <button
-                                          // onClick={nextImage}
-                                          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                                          onClick={nextImage}
+                                          className="absolute right-4 cursor-pointer top-1/2 -translate-y-1/2 p-2 bg-primary/80 hover:bg-primary/70 rounded-full transition-colors"
                                           aria-label="Next image"
                                         >
                                           <ChevronRight className="w-6 h-6 text-white" />
                                         </button>
 
-                                        {/* Image Counter */}
+                                     
                                         <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 rounded-full text-sm text-white">
-                                          {/* {currentImageIndex + 1} /{" "}
-                                          {model.images.length} */}
+                                          {currentImageIndex + 1} /{" "}
+                                          {mod?.imageGallery.length}
                                         </div>
                                       </div>
 
-                                      {/* Thumbnail Gallery */}
+                                      
                                       <div className="flex gap-2 overflow-x-auto pb-2">
-                                        {/* {model.images.map((img, idx) => (
+                                        {mod.imageGallery.map((img, idx) => (
                                           <button
                                             key={idx}
                                             onClick={() =>
@@ -546,26 +567,106 @@ const Page = () => {
                                               className="w-full h-full object-cover"
                                             />
                                           </button>
-                                        ))} */}
+                                        ))}
+                                      </div>
+                                    </div> */}
+                                        <div className="md:col-span-1">
+                                          <div className="h-[180px]">
+                                            <img
+                                              src={
+                                                mod.image || "/placeholder.svg"
+                                              }
+                                              alt={`${mod.name}`}
+                                              className="w-full h-full rounded-xl object-cover"
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="col-span-2">
+                                          <h2 className="text-stone-300 text-lg md:text-2xl font-semibold">
+                                            {mod.name}
+                                          </h2>
+                                          <div
+                                            className={`flex items-center gap-1 text-stone-400 text-xs mt-1 font-bold uppercase tracking-widest`}
+                                          >
+                                            <MapPin
+                                              className={`w-3 text-primary ${
+                                                mod.name === model &&
+                                                "text-stone-400"
+                                              }  h-5 w-5`}
+                                            />
+                                            {mod.city}
+                                          </div>
+                                          <div className="mt-4 flex gap-4 flex-wrap">
+                                            {mod.tags.map((t, indx) => {
+                                              return (
+                                                <span
+                                                  className="text-stone-300 text-sm rounded-full px-3 py-2 border border-gray-600"
+                                                  key={indx}
+                                                >
+                                                  {t}
+                                                </span>
+                                              );
+                                            })}
+                                          </div>
+                                          <div className="text-stone-300 flex gap-8 mt-4 grid-cols-3 ">
+                                            <div className="">
+                                              <h2 className="font-semibold text-lg md:text-xl ">
+                                                {mod.age}
+                                              </h2>
+                                              <p className="md:text-sm text-xs text-stone-400 font-semibold">
+                                                Age
+                                              </p>
+                                            </div>
+                                            <div className="">
+                                              <div className="flex items-center gap-2">
+                                                <Star
+                                                  className={`w-5 h-5  fill-primary`}
+                                                />{" "}
+                                                <h2 className="font-semibold text-lg md:text-xl ">
+                                                  {mod.rating}
+                                                </h2>
+                                              </div>
+                                              <p className="md:text-sm text-xs text-stone-400 font-semibold">
+                                                Rating
+                                              </p>
+                                            </div>
+                                            <div className="">
+                                              <h2 className="font-semibold text-lg md:text-xl ">
+                                                {mod.yearsOfExperience} +
+                                              </h2>
+                                              <p className="md:text-sm text-xs text-stone-400 font-semibold">
+                                                Experience
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="mt-4 ">
+                                        <p className="text-stone-300 font-semibold text-sm  border-b pb-2 border-gray-600">
+                                          About
+                                        </p>
+                                        <p className="text-stone-400 mt-3 text-sm lg:text-base">
+                                          {mod.bio}
+                                        </p>
                                       </div>
                                     </div>
 
                                     <DialogFooter>
-                                      <DialogClose>
-                                        <Button
-                                          variant="secondary"
-                                          type="submit"
-                                        >
-                                          Select
-                                        </Button>
-                                      </DialogClose>
-
                                       <DialogClose asChild>
                                         <Button
                                           onClick={(e) => e.stopPropagation()}
                                           variant="outline"
                                         >
                                           Close
+                                        </Button>
+                                      </DialogClose>
+                                      <DialogClose asChild>
+                                        <Button
+                                          variant="secondary"
+                                          type="submit"
+                                        >
+                                          Select
                                         </Button>
                                       </DialogClose>
                                     </DialogFooter>
