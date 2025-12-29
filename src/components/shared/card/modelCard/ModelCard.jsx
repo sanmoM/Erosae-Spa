@@ -1,11 +1,10 @@
 import { ArrowUpRight, MapPin, ShieldCheck, Star } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
-const ModelCard = ({model}) => {
+const ModelCard = ({ model }) => {
   return (
-    <div
-      className="group relative bg-[#303030] rounded-lg border border-white/5 p-5 transition-all duration-500 hover:bg-[#1a1a1a] hover:border-primary/40"
-    >
+    <div className="group relative bg-gray-900 rounded-lg border border-gray-700 p-5 transition-all duration-500 hover:bg-gray-900/40 hover:border-primary/40">
       <div className="flex items-center gap-5">
         <div className="relative flex-shrink-0">
           <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
@@ -64,10 +63,12 @@ const ModelCard = ({model}) => {
             </span>
           </div>
         </div> */}
-        <button className="flex items-center gap-2 border-primary/80 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border hover:border-primary group/btn shadow-xl">
-          Portfolio
-          <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
-        </button>
+        <Link href={`/model/${model.slug}`}>
+          <button className="flex items-center gap-2 border-primary/80 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border hover:border-primary group/btn shadow-xl">
+            Portfolio
+            <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
+          </button>
+        </Link>
       </div>
     </div>
   );

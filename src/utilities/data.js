@@ -102,6 +102,7 @@ export const services = [
 export const spaModels = [
   {
     id: 1,
+    slug: "leon",
     name: "Leon",
     age: 29,
     city: "Dhaka",
@@ -122,6 +123,7 @@ export const spaModels = [
   },
   {
     id: 2,
+    slug: "elena-rodriguez",
     name: "Elena Rodriguez",
     age: 31,
     city: "Dubai",
@@ -143,6 +145,7 @@ export const spaModels = [
   },
   {
     id: 3,
+    slug: "aisha-khan",
     name: "Aisha Khan",
     age: 28,
     city: "Abu Dhabi",
@@ -164,6 +167,7 @@ export const spaModels = [
   },
   {
     id: 4,
+    slug: "sophia-al-maktoum",
     name: "Sophia Al-Maktoum",
     age: 34,
     city: "Dubai",
@@ -184,6 +188,7 @@ export const spaModels = [
   },
   {
     id: 5,
+    slug: "natalie-brooks",
     name: "Natalie Brooks",
     age: 30,
     city: "Sharjah",
@@ -205,6 +210,7 @@ export const spaModels = [
   },
   {
     id: 6,
+    slug: "layla-hassan",
     name: "Layla Hassan",
     age: 27,
     city: "Dubai",
@@ -225,6 +231,7 @@ export const spaModels = [
   },
   {
     id: 7,
+    slug: "isabella-moore",
     name: "Isabella Moore",
     age: 33,
     city: "Ajman",
@@ -332,3 +339,69 @@ export const location = [
     states: ["Al Nakheel", "Al Hamra", "Al Dhait"],
   },
 ];
+
+
+
+export const spaBlogs = [
+  {
+    id: 1,
+    title: "The Ultimate Guide to Relaxation Therapy",
+    slug: "ultimate-guide-to-relaxation-therapy",
+    date: "July 12, 2025",
+    description:
+      "Discover how relaxation therapy helps reduce stress, improve sleep, and restore balance to your mind and body.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+  {
+    id: 2,
+    title: "Benefits of Deep Tissue Massage",
+    slug: "benefits-of-deep-tissue-massage",
+    date: "July 10, 2025",
+    description:
+      "Deep tissue massage targets chronic pain and muscle tension, promoting long-term physical wellness.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+  {
+    id: 3,
+    title: "Why Aromatherapy Improves Mental Health",
+    slug: "aromatherapy-improves-mental-health",
+    date: "July 08, 2025",
+    description:
+      "Essential oils play a powerful role in calming the nervous system and uplifting emotional wellbeing.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+  {
+    id: 4,
+    title: "Hot Stone Massage: Healing from Within",
+    slug: "hot-stone-massage-healing",
+    date: "July 05, 2025",
+    description:
+      "Experience deep relaxation as heated stones relieve muscle stiffness and boost circulation.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+  {
+    id: 5,
+    title: "Top Spa Rituals for Total Body Detox",
+    slug: "spa-rituals-for-body-detox",
+    date: "July 03, 2025",
+    description:
+      "From steam therapy to herbal treatments, detox rituals cleanse your body and refresh your skin.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+  {
+    id: 6,
+    title: "How Regular Spa Visits Improve Lifestyle",
+    slug: "regular-spa-visits-improve-lifestyle",
+    date: "July 01, 2025",
+    description:
+      "Regular spa sessions reduce stress, enhance immunity, and support a healthier daily routine.",
+    image:
+      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+  },
+];
+

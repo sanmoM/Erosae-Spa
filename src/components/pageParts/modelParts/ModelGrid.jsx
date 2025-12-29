@@ -56,7 +56,7 @@ const ModelGrid = () => {
 
         <div className="grid lg:grid-cols-7 gap-6 items-start">
           {/* DESKTOP FILTER */}
-          <div className="col-span-2 h-[85vh] hidden lg:flex sticky top-24 bg-[#303030] rounded-md">
+          <div className="col-span-2 h-[85vh] hidden lg:flex sticky top-24 bg-gray-900 rounded-md">
             <div className="flex p-5 flex-col w-full justify-between">
               <div className="space-y-6">
                 {/* Services */}
@@ -147,7 +147,7 @@ const ModelGrid = () => {
 
       {/* MOBILE SIDEBAR */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-[#303030] z-80 transform transition-transform duration-300 lg:hidden ${
+        className={`fixed top-0 right-0 h-full w-80 bg-gray-900 z-80 transform transition-transform duration-300 lg:hidden ${
           mobileFilterOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

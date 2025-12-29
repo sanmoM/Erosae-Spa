@@ -2,12 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Timer } from "lucide-react";
 import React from "react";
 
+
 const ServiceCard = ({ service }) => {
   return (
    
     <div
       key={service.id}
-      className="group relative bg-[#303030] rounded-xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)]"
+      className="group relative bg-gray-900 rounded-xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)]"
     >
       <div className="relative h-60 overflow-hidden">
         <img

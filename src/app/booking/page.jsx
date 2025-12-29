@@ -176,7 +176,7 @@ const Page = () => {
             <div
               className={`flex-1 border ${
                 currentStep > 6 && "hidden"
-              }  border-gray-700 bg-gray-900/30 md:p-6 p-4 rounded-md`}
+              }  border-gray-700 bg-gray-900/50 md:p-6 p-4 rounded-md`}
             >
               {/* city */}
               {currentStep === 1 && (
@@ -582,9 +582,14 @@ const Page = () => {
                                           </div>
                                         </div>
                                         <div className="col-span-2">
-                                          <h2 className="text-stone-300 text-lg md:text-2xl font-semibold">
+                                          <div className="flex justify-between items-start">
+                                            <h2 className="text-stone-300 text-lg md:text-2xl font-semibold">
                                             {mod.name}
                                           </h2>
+                                          <div className="bg-emerald-500 text-xs md:text-sm rounded-full px-2 py-1 text-white">
+                                            Available
+                                          </div>
+                                          </div>
                                           <div
                                             className={`flex items-center gap-1 text-stone-400 text-xs mt-1 font-bold uppercase tracking-widest`}
                                           >
@@ -890,7 +895,7 @@ const Page = () => {
             </div>
 
             {/* review  */}
-            <div className="flex-1 border border-gray-700 bg-gray-900/30 p-4 md:p-6  rounded-md">
+            <div className="flex-1 border border-gray-700 bg-gray-900/50 p-4 md:p-6  rounded-md">
               <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
                 Review
               </h2>

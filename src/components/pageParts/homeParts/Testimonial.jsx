@@ -85,27 +85,30 @@ const Testimonial = () => {
           spaceBetween={30}
           slidesPerView={1}
           autoplay={{
-            delay: 3500, 
+            delay: 3500,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true, 
+            pauseOnMouseEnter: true,
           }}
           loop={true}
           speed={500}
           breakpoints={{
-            768: { slidesPerView: 2 },
+            768: { slidesPerView: 1 },
             1024: { slidesPerView: 2 },
           }}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
-              <div className="bg-[#252525] rounded-2xl p-6 md:p-8 relative h-full">
+              <div
+                key={testimonial.id}
+                className="bg-gray-800/50 rounded-2xl p-3 md:p-6 relative h-full"
+              >
                 {/* Stars */}
-                <div className="flex items-center gap-1 mb-6">
+                <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
+                      className={`w-3 h-3 ${
                         i < testimonial.rating
                           ? "fill-primary text-primary"
                           : "fill-primary/10 text-primary/50"
@@ -127,14 +130,14 @@ const Testimonial = () => {
 
                 {/* Testimonial Text */}
 
-                <p className="text-stone-400 text-sm md:text-base leading-relaxed  mb-8">
+                <p className="text-stone-400 text-sm leading-relaxed  mb-4">
                   {testimonial.text}
                 </p>
 
                 {/* Author Info */}
                 <div className="flex items-center gap-4">
                   <div className="relative">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary p-1">
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary p-1">
                       <img
                         src={testimonial.image || "/placeholder.svg"}
                         alt={testimonial.name}
@@ -143,10 +146,10 @@ const Testimonial = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-white font-serif md:text-xl text-lg mb-1">
+                    <h3 className="text-white font-serif md:text-base text-sm mb-1">
                       {testimonial.name}
                     </h3>
-                    <p className="text-gray-500 text-sm">{testimonial.role}</p>
+                    <p className="text-gray-500 text-xs">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
