@@ -35,6 +35,11 @@ const navLinks = [
     href: "/blog",
     icon: <LuLayoutTemplate className="text-xl" />,
   },
+  {
+    name: "Model Panel",
+    href: "/dashboard",
+    icon: <LuLayoutTemplate className="text-xl" />,
+  },
 ];
 
 const Header = () => {
@@ -101,9 +106,14 @@ const Header = () => {
           </ul>
 
           {/* RIGHT */}
-          <Link href={"/model-register"}><Button className={"rounded-full md:text-base text-sm"} variant="secondary">
-            Be a Model
+          <div className="flex gap-3 items-center">
+            <Link href={"/login"}><Button className={"rounded-full "} variant="secondary">
+           Login
           </Button></Link>
+          <Link href={"/sign-up"}><Button className={"rounded-full hidden lg:flex "} variant="outline">
+           Sign Up
+          </Button></Link>
+          </div>
         </Container>
       </header>
 
@@ -156,6 +166,15 @@ const Header = () => {
 
           {/* BOTTOM BUTTON */}
           <div className="py-6">
+           <Link href={"/sign-up"}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full mb-3 rounded-full"
+            >
+              Sign Up
+            </Button>
+           </Link>
            <Link href={"/model-register"}>
             <Button
               size="lg"

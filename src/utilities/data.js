@@ -1,4 +1,10 @@
 const { Leaf, Sun, Hand, Sparkles, Waves, Flower2 } = require("lucide-react");
+import blog1 from "@/images/blog/blog1.jpg";
+import blog2 from "@/images/blog/blog2.jpg";
+import blog3 from "@/images/blog/blog3.jpg";
+import blog4 from "@/images/blog/blog4.jpg";
+import blog5 from "@/images/blog/blog5.jpg";
+import blog6 from "@/images/blog/blog6.jpg";
 
 export const services = [
   {
@@ -340,8 +346,6 @@ export const location = [
   },
 ];
 
-
-
 export const spaBlogs = [
   {
     id: 1,
@@ -349,9 +353,8 @@ export const spaBlogs = [
     slug: "ultimate-guide-to-relaxation-therapy",
     date: "July 12, 2025",
     description:
-      "Discover how relaxation therapy helps reduce stress, improve sleep, and restore balance to your mind and body.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Relaxation therapy is a holistic approach designed to calm the mind, release physical tension, and restore emotional balance. Through guided breathing, gentle bodywork, soothing environments, and mindfulness techniques, this therapy helps reduce stress hormones, improve sleep quality, and enhance mental clarity. Ideal for individuals facing anxiety, fatigue, or burnout, relaxation therapy supports long-term wellness by encouraging deep rest and inner peace.",
+    image: blog1,
   },
   {
     id: 2,
@@ -359,9 +362,8 @@ export const spaBlogs = [
     slug: "benefits-of-deep-tissue-massage",
     date: "July 10, 2025",
     description:
-      "Deep tissue massage targets chronic pain and muscle tension, promoting long-term physical wellness.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Deep tissue massage focuses on the deeper layers of muscles and connective tissues to address chronic pain, stiffness, and tension caused by stress or physical activity. Using slow strokes and firm pressure, this therapy improves blood circulation, breaks down muscle knots, and accelerates recovery. It is especially beneficial for athletes, office workers, and individuals experiencing long-term muscular discomfort.",
+    image: blog2,
   },
   {
     id: 3,
@@ -369,9 +371,8 @@ export const spaBlogs = [
     slug: "aromatherapy-improves-mental-health",
     date: "July 08, 2025",
     description:
-      "Essential oils play a powerful role in calming the nervous system and uplifting emotional wellbeing.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Aromatherapy enhances mental and emotional wellbeing through the therapeutic use of natural essential oils extracted from plants and flowers. Scents such as lavender, peppermint, and sandalwood interact with the brain’s limbic system, helping to reduce anxiety, elevate mood, and improve focus. Regular aromatherapy sessions promote relaxation, emotional stability, and a sense of inner harmony.",
+    image: blog3,
   },
   {
     id: 4,
@@ -379,9 +380,8 @@ export const spaBlogs = [
     slug: "hot-stone-massage-healing",
     date: "July 05, 2025",
     description:
-      "Experience deep relaxation as heated stones relieve muscle stiffness and boost circulation.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Hot stone massage is a deeply relaxing therapy that uses smooth, heated stones placed on key points of the body. The warmth penetrates deep into the muscles, relieving tension, easing joint stiffness, and improving blood flow. Combined with massage techniques, this treatment promotes detoxification, reduces stress, and creates a profound sense of physical and emotional renewal.",
+    image: blog4,
   },
   {
     id: 5,
@@ -389,9 +389,8 @@ export const spaBlogs = [
     slug: "spa-rituals-for-body-detox",
     date: "July 03, 2025",
     description:
-      "From steam therapy to herbal treatments, detox rituals cleanse your body and refresh your skin.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Spa detox rituals are designed to cleanse the body, refresh the skin, and restore internal balance. Treatments such as steam therapy, exfoliating body scrubs, herbal wraps, and hydrotherapy help eliminate toxins, improve circulation, and boost metabolism. These rituals leave the body feeling lighter, the skin revitalized, and the mind deeply relaxed.",
+    image: blog5,
   },
   {
     id: 6,
@@ -399,9 +398,123 @@ export const spaBlogs = [
     slug: "regular-spa-visits-improve-lifestyle",
     date: "July 01, 2025",
     description:
-      "Regular spa sessions reduce stress, enhance immunity, and support a healthier daily routine.",
-    image:
-      "https://yandex-images.clstorage.net/example-spa-4.jpg",
+      "Incorporating regular spa visits into your lifestyle supports overall health, emotional balance, and stress management. Consistent treatments help regulate sleep patterns, strengthen the immune system, and promote mental relaxation. Over time, spa care becomes a powerful self-care practice that enhances productivity, emotional wellbeing, and long-term quality of life.",
+    image: blog6,
   },
 ];
 
+export const appointmentData = [
+  {
+    id: 1,
+    clientName: "Ayesha Khan",
+    serviceType: "In House",
+    service: "Deep Tissue Massage",
+    date: "24 Jan 2025",
+    time: "8:00 PM",
+    duration: "60 min",
+    location: "Dubai",
+    status: "Upcoming",
+  },
+  {
+    id: 2,
+    clientName: "Mohammed Ali",
+    serviceType: "In Shop",
+    service: "Aromatherapy Session",
+    date: "25 Jan 2025",
+    time: "10:00 AM",
+    duration: "90 min",
+    location: "Dubai",
+    status: "Completed",
+  },
+  {
+    id: 3,
+    clientName: "Sara Ahmed",
+    serviceType: "In House",
+    service: "Hot Stone Massage",
+    date: "26 Jan 2025",
+    time: "8:00 PM",
+    duration: "30 min",
+    location: "Dubai",
+    status: "Upcoming",
+  },
+  {
+    id: 4,
+    clientName: "Omar Farooq",
+    serviceType: "In Shop",
+    service: "Swedish Relaxation Massage",
+    date: "27 Jan 2025",
+    time: "10:00 AM",
+    duration: "60 min",
+    location: "Dubai",
+    status: "Completed",
+  },
+  {
+    id: 5,
+    clientName: "Fatima Noor",
+    serviceType: "In House",
+    service: "Full Body Spa Therapy",
+    date: "28 Jan 2025",
+    time: "8:00 PM",
+    duration: "90 min",
+    location: "Dubai",
+    status: "Upcoming",
+  },
+];
+
+export const statusColors = {
+  Upcoming: "bg-amber-300",
+  Completed: "bg-green-300",
+  Ongoing: "bg-blue-300",
+  Cancelled: "bg-red-300",
+  Active: "bg-blue-300",
+};
+
+
+
+  export const earnings = [
+    {
+      id: 1,
+      date: "Dec 28, 2024",
+      service: "Swedish Massage",
+      client: "Emma Johnson",
+      amount: 150,
+      commission: 15,
+      status: "completed",
+    },
+    {
+      id: 2,
+      date: "Dec 27, 2024",
+      service: "Facial Treatment",
+      client: "Michael Chen",
+      amount: 120,
+      commission: 12,
+      status: "completed",
+    },
+    {
+      id: 3,
+      date: "Dec 27, 2024",
+      service: "Deep Tissue Massage",
+      client: "Jessica Martinez",
+      amount: 200,
+      commission: 20,
+      status: "pending",
+    },
+    {
+      id: 4,
+      date: "Dec 26, 2024",
+      service: "Hot Stone Therapy",
+      client: "David Wilson",
+      amount: 180,
+      commission: 18,
+      status: "completed",
+    },
+    {
+      id: 5,
+      date: "Dec 26, 2024",
+      service: "Aromatherapy",
+      client: "Sarah Lee",
+      amount: 95,
+      commission: 9.5,
+      status: "frozen",
+    },
+  ]

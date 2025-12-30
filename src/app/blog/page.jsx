@@ -19,7 +19,7 @@ const page = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
             {
                 spaBlogs.map((blog,key) => <BlogCard key={key} blog={blog}></BlogCard>)
             }

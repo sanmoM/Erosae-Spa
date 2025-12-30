@@ -22,7 +22,7 @@ const page = () => {
           </h2>
         </div>
 
-        <div className="max-w-4xl mx-auto mt-12 w-full">
+        <div className="max-w-4xl mx-auto border border-gray-700 md:p-12 p-4 rounded-md bg-gray-900/50 mt-12 w-full">
           <form className=" flex flex-col space-y-8 md:space-y-12" action="">
             <div className="flex flex-col space-y-5">
               <div className="border-b mb-6 border-primary/60">

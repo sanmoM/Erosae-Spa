@@ -17,20 +17,12 @@ const ServiceCard = ({ service }) => {
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-90" />
-        <div className="absolute top-6 left-6 flex gap-2">
-          <div className="bg-primary text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-xl">
-            {service.tag}
-          </div>
-        </div>
       </div>
 
-      <div className="md:px-6 px-4 pb-4 md:pb-8 -mt-16 relative z-10">
+      <div className="md:px-6 px-4 pb-4 md:pb-8 -mt-12 relative z-10">
         <div className="flex items-center gap-2 mb-10">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/10 p-2 rounded-md inline-flex text-primary ">
-            {service.icon}
-          </div>
           <div>
-            <span className="text-stone-300 text-xs uppercase tracking-widest font-bold">
+            <span className="text-stone-300 bg-primary font-semibold px-2 py-1 rounded-full text-[10px] uppercase tracking-widest ">
                {service.category}
             </span>
           </div>
