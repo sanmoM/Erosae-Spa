@@ -459,6 +459,30 @@ export const appointmentData = [
     location: "Dubai",
     status: "Upcoming",
   },
+  {
+    id: 6,
+    clientName: "Ayesha Khan",
+    serviceType: "In House",
+    service: "Deep Tissue Massage",
+    date: "24 Jan 2025",
+    time: "8:00 PM",
+    duration: "60 min",
+    location: "Dubai",
+    status: "Upcoming",
+  },
+  {
+    id: 7,
+    clientName: "Mohammed Ali",
+    serviceType: "In Shop",
+    service: "Aromatherapy Session",
+    date: "25 Jan 2025",
+    time: "10:00 AM",
+    duration: "90 min",
+    location: "Dubai",
+    status: "Completed",
+  },
+  
+
 ];
 
 export const statusColors = {

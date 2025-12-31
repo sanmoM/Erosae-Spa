@@ -33,32 +33,22 @@ const DashboardLayout = ({ children }) => {
       icon: Wallet,
     },
     {
-      name: "My Appointments",
-      href: "/dashboard/my-appointment",
-      icon: Calendar,
+      name: "Appointments & Schedule",
+      href: "/dashboard/appointment-schedule",
+      icon: ClipboardClock,
     },
+
     {
-      name: "Clients",
-      href: "/dashboard/book-history",
-      icon: Users,
-    },
-    
-    {
-      name: "Schedule",
-      href: "/dashboard/payment-history",
-      icon: History,
-    },
-    {
-      name: "Message",
-      href: "/dashboard/payment-history",
-      icon: MessageSquare,
-    },
-    {
-      name: "Feedback",
-      href: "/dashboard/payment-history",
+      name: "Review",
+      href: "/dashboard/review",
       icon: Info,
     },
-    { name: "Profile", href: "/dashboard/user-profile", icon: User },
+    { name: "Profile", href: "/dashboard/profile", icon: User },
+    {
+      name: "Message",
+      href: "/dashboard/message",
+      icon: MessageSquare,
+    },
   ];
 
   // --- NavLink Component ---
@@ -72,8 +62,8 @@ const DashboardLayout = ({ children }) => {
         className={`flex items-center text-sm  p-3 mx-2 my-1 rounded-md transition
           ${
             isActive
-              ? "bg-white text-primary font-semibold shadow"
-              : "text-white hover:bg-white/20"
+              ? "bg-primary/30 text-white font-semibold shadow"
+              : "text-white hover:bg-white/10"
           }`}
       >
         <Icon className="w-5 h-5 mr-3" />

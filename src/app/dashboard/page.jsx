@@ -60,7 +60,7 @@ const page = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
-        {dashboardStats.map((stat) => {
+        {dashboardStats.slice(0,5).map((stat) => {
           const Icon = stat.icon;
 
           return (
@@ -135,7 +135,7 @@ const page = () => {
                     <td className="px-6 py-4 lg:py-6 whitespace-nowrap">
                       {indx + 1}
                     </td>
-                    <td className="px-6 py-4 lg:py-6 whitespace-nowrap">
+                    <td className="px-6 py-4  lg:py-6 whitespace-nowrap">
                       {row.clientName}
                     </td>
                     <td className="px-6 py-4 lg:py-6 whitespace-nowrap">
@@ -178,7 +178,7 @@ const page = () => {
             <h2 className="text-lg  md:text-xl lg:text-2xl font-medium">
             Availability
           </h2>
-          <div className="grid grid-cols-2  mt-4 gap-2">
+          {/* <div className="grid grid-cols-2  mt-4 gap-2">
             {availability.map((item, index) => (
               <div
                 key={index}
@@ -203,7 +203,62 @@ const page = () => {
                 </span>
               </div>
             ))}
-          </div>
+          </div> */}
+
+          <div className="grid grid-cols-1 mt-4 gap-4">
+          {[
+            {
+              day: "Monday",
+              status: "Available",
+            },
+            {
+              day: "Monday",
+              status: "Busy",
+            },
+            {
+              day: "Monday",
+              status: "Available",
+            },
+            {
+              day: "Monday",
+              status: "Available",
+            },
+            {
+              day: "Monday",
+              status: "Busy",
+            },
+            {
+              day: "Monday",
+              status: "Available",
+            },
+            {
+              day: "Monday",
+              status: "Available",
+            },
+          ].map((day) => (
+            <div
+              key={day.day}
+              className="bg- rounded-lg p-3 flex items-start justify-between bg-gray-800/50 border border-gray-700"
+            >
+              <div>
+                <p className="font-semibold text-sm  text-[#e0e6ed] mb-2">
+                  {day.day}
+                </p>
+                {day.status === "Available" && (
+                  <p className="text-xs text-[#9ca3af]">9:00 AM - 9:00 PM</p>
+                )}
+              </div>
+
+              <p
+                className={`text-xs px-2 py-1 rounded-full ${
+                  day.status === "Available" ? "bg-green-700" : "bg-red-700"
+                } `}
+              >
+                {day.status}
+              </p>
+            </div>
+          ))}
+        </div>
         </div>
       </div>
     </div>
