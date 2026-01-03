@@ -5,7 +5,7 @@ import Container from "../other/Container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CiMenuFries } from "react-icons/ci";
-import { CalendarCheck, X } from "lucide-react";
+import { CalendarCheck, CalendarClock, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { IoHomeOutline } from "react-icons/io5";
@@ -14,31 +14,36 @@ import { GrRestroomWomen } from "react-icons/gr";
 import { LuLayoutTemplate } from "react-icons/lu";
 
 const navLinks = [
-  { name: "Home", href: "/", icon: <IoHomeOutline className="text-xl" /> },
+  { name: "Home", href: "/", icon: <IoHomeOutline size={20} /> },
   {
     name: "Service",
     href: "/service",
-    icon: <FaHandHoldingHeart className="text-xl" />,
+    icon: <FaHandHoldingHeart size={20} />,
   },
   {
     name: "Model",
     href: "/model",
-    icon: <GrRestroomWomen className="text-xl" />,
+    icon: <GrRestroomWomen size={20} />,
   },
   {
     name: "Booking",
     href: "/booking",
-    icon: <CalendarCheck className="text-xl" />,
+    icon: <CalendarClock size={20} />,
   },
+  // {
+  //   name: "Booking",
+  //   href: "/booking",
+  //   icon: <CalendarCheck size={16} />,
+  // },
   {
     name: "Blog",
     href: "/blog",
-    icon: <LuLayoutTemplate className="text-xl" />,
+    icon: <LuLayoutTemplate size={20} />,
   },
   {
     name: "Model Panel",
     href: "/dashboard",
-    icon: <LuLayoutTemplate className="text-xl" />,
+    icon: <LuLayoutTemplate size={20} />,
   },
 ];
 
@@ -201,20 +206,28 @@ const Header = () => {
           </div>
         </div>
       </aside>
-      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-[#050718]/90 backdrop-blur-md border-t border-white/10 md:hidden">
-        <ul className="flex items-center justify-around py-2">
+      <nav
+        className="
+  fixed bottom-4 mx-1 rounded-full overflow-hidden left-0 right-0 z-[60]
+  bg-[#050718]/90 backdrop-blur-md
+  border border-gray-600
+  shadow-[0_10px_30px_rgba(0,0,0,0.6)]
+  md:hidden
+"
+      >
+        <ul className="grid grid-cols-5 p-1 ">
           {navLinks.slice(0, 5).map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
                 className={clsx(
-                  "flex flex-col items-center gap-1 text-xs transition",
+                  "flex flex-col flex-1 rounded-full text-[10px] items-center py-1 gap-1 transition",
                   pathname === link.href
-                    ? "text-primary"
-                    : "text-gray-400 hover:text-white"
+                    ? "bg-primary text-stone-200"
+                    : "text-stone-300 hover:text-white"
                 )}
               >
-                <span className="text-lg">{link.icon}</span>
+                <span className="text-3xl">{link.icon}</span>
                 <span>{link.name}</span>
               </Link>
             </li>

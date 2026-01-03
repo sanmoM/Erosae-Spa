@@ -14,7 +14,7 @@ const LayoutWrapper = ({children}) => {
   return (
     <>
       {!shouldHideLayout && <Header />}
-      <div className="min-h-[60vh]">{children}</div>
+      <div className="min-h-[60vh] ">{children}</div>
       {!shouldHideLayout && <Footer />}
     </>
   )

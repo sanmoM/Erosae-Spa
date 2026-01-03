@@ -40,7 +40,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className=" text-white mt-12 pt-20 pb-10 border-t border-primary font-sans">
+    <footer className=" text-white mt-12 pb-30 pt-20 md:pb-10 border-t border-primary font-sans">
       <Container>
         {/* Top Section: Branding & Newsletter */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-8 ">

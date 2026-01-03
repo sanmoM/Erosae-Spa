@@ -129,7 +129,7 @@ const DashboardLayout = ({ children }) => {
         </aside>
       </>
 
-      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-[#050718]/90 backdrop-blur-md border-t border-white/10 md:hidden">
+      {/* <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-[#050718]/90 backdrop-blur-md border-t border-white/10 md:hidden">
   <ul className="flex items-center justify-around py-2">
     {links.slice(0, 4).map((link) => {
       const Icons = link.icon
@@ -145,7 +145,41 @@ const DashboardLayout = ({ children }) => {
       </li>
     )})}
   </ul>
-</nav>
+
+
+</nav> */}
+
+
+<nav
+        className="
+  fixed bottom-4 mx-1 rounded-full overflow-hidden left-0 right-0 z-[60]
+  bg-[#050718]/90 backdrop-blur-md
+  border border-gray-600
+  shadow-[0_10px_30px_rgba(0,0,0,0.6)]
+  md:hidden
+"
+      >
+        <ul className="grid grid-cols-4 p-1 ">
+          {links.slice(0, 4).map((link) => {
+      const Icons = link.icon
+      return(
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={
+                  `flex flex-col flex-1 rounded-full text-[10px] items-center py-1 gap-1 transition"
+                  ${pathname === link.href
+                    ? "bg-primary text-stone-200"
+                    : "text-stone-300 hover:text-white"}`
+                }
+              >
+                <span ><Icons size={20}/></span>
+                <span>{link.name}</span>
+              </Link>
+            </li>
+          )})}
+        </ul>
+      </nav>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto bg-gray-900/50 transition-all duration-300">
@@ -174,7 +208,7 @@ const DashboardLayout = ({ children }) => {
           </Link>
         </div>
 
-        <div className="p-4 text-stone-200 lg:p-8">{children}</div>
+        <div className="p-4 pb-30 md:pb-4 text-stone-200 lg:p-8">{children}</div>
       </main>
     </div>
   );
