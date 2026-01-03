@@ -46,7 +46,7 @@ const DateTimePicker = ({ date, setDate, time, setTime }) => {
         </Popover>
       </div>
 
-      {/* TIME */}
+      {/* TIME Input */}
 
       <div className="flex flex-col w-full gap-3">
         <Label>Time</Label>
