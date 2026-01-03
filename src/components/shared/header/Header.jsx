@@ -48,7 +48,6 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -64,14 +63,13 @@ const Header = () => {
         className={clsx(
           // Always fixed position
           "fixed top-0 left-0 right-0 z-[70] w-full transition-all duration-300",
-          
+
           // Background based on conditions
           scrolled || !isHome
             ? "bg-[#050718]/80 backdrop-blur-md "
             : "bg-transparent"
         )}
       >
-
         <Container className="flex items-center justify-between py-6">
           {/* LEFT */}
           <div className="flex items-center gap-3">
@@ -82,6 +80,11 @@ const Header = () => {
             >
               <CiMenuFries />
             </button>
+            <Link className="flex gap-2 items-center" href={"/"}>
+              <h2 className="lg:hidden text-lg font-semibold text-primary">
+                EROSAE
+              </h2>
+            </Link>
 
             <h2 className="hidden lg:block text-lg font-semibold text-primary">
               EROSAE
@@ -96,7 +99,9 @@ const Header = () => {
                   href={link.href}
                   className={clsx(
                     "px-3 py-1  transition",
-                    pathname === link.href ? "text-primary font-semibold" : "hover:text-white"
+                    pathname === link.href
+                      ? "text-primary font-semibold"
+                      : "hover:text-white"
                   )}
                 >
                   {link.name}
@@ -106,13 +111,20 @@ const Header = () => {
           </ul>
 
           {/* RIGHT */}
-          <div className="flex gap-3 items-center">
-            <Link href={"/login"}><Button className={"rounded-full "} variant="secondary">
-           Login
-          </Button></Link>
-          <Link href={"/sign-up"}><Button className={"rounded-full hidden lg:flex "} variant="outline">
-           Sign Up
-          </Button></Link>
+          <div className="lg:flex gap-3 items-center">
+            <Link href={"/login"}>
+              <Button className={"rounded-full "} variant="secondary">
+                Login
+              </Button>
+            </Link>
+            <Link href={"/sign-up"}>
+              <Button
+                className={"rounded-full hidden lg:flex "}
+                variant="outline"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
         </Container>
       </header>
@@ -133,8 +145,10 @@ const Header = () => {
         )}
       >
         {/* Sidebar Header */}
-        <div className="mb-4 flex items-center justify-between border-b border-gray-500 pb-6">
-          <h2 className="text-lg font-semibold text-primary">EROSAE</h2>
+        <div className="mb-4 flex items-center justify-between border-b border-gray-500 py-4">
+          <Link className="flex gap-2 items-center" href={"/"}>
+            <h2 className=" text-lg font-semibold text-primary">EROSAE</h2>
+          </Link>
           <button onClick={() => setOpen(false)}>
             <X className="cursor-pointer text-white" />
           </button>
@@ -166,27 +180,47 @@ const Header = () => {
 
           {/* BOTTOM BUTTON */}
           <div className="py-6">
-           <Link href={"/sign-up"}>
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full mb-3 rounded-full"
-            >
-              Sign Up
-            </Button>
-           </Link>
-           <Link href={"/model-register"}>
-            <Button
-              size="lg"
-              variant="secondary"
-              className="w-full rounded-full"
-            >
-              Be a Model
-            </Button>
-           </Link>
+            <Link href={"/sign-up"}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full mb-3 rounded-full"
+              >
+                Sign Up
+              </Button>
+            </Link>
+            <Link href={"/model-register"}>
+              <Button
+                size="lg"
+                variant="secondary"
+                className="w-full rounded-full"
+              >
+                Be a Model
+              </Button>
+            </Link>
           </div>
         </div>
       </aside>
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-[#050718]/90 backdrop-blur-md border-t border-white/10 md:hidden">
+        <ul className="flex items-center justify-around py-2">
+          {navLinks.slice(0, 5).map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={clsx(
+                  "flex flex-col items-center gap-1 text-xs transition",
+                  pathname === link.href
+                    ? "text-primary"
+                    : "text-gray-400 hover:text-white"
+                )}
+              >
+                <span className="text-lg">{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </>
   );
 };

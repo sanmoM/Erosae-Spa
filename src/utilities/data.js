@@ -117,7 +117,8 @@ export const spaModels = [
     price: "600",
     currency: "BDT",
     yearsOfExperience: 6,
-    tags: ["Deep Tissue", "Holistic"],
+    tags: ["Deep Tissue", "Holistic","Deep Tissue", "Holistic"],
+    languages: ["English", "Bengali"],
     bio: "Leon is a highly skilled therapist specializing in deep tissue and holistic massage techniques.\nHe focuses on relieving muscle tension and restoring body balance.\nClients appreciate his calm approach and professional care.",
     image: "https://i.ibb.co/MDYR9GTh/leon.png",
     imageGallery: [
@@ -139,6 +140,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 7,
     tags: ["Deep Tissue", "Holistic"],
+    languages: ["English", "Spanish"],
     bio: "Elena combines modern massage therapy with holistic healing methods.\nShe is known for her precise techniques and soothing energy.\nHer sessions are designed to relax both body and mind.",
     image:
       "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=764&auto=format&fit=crop",
@@ -161,6 +163,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 5,
     tags: ["Relaxation", "Swedish"],
+    languages: ["English", "Arabic", "Urdu"],
     bio: "Aisha specializes in relaxation and Swedish massage therapies.\nShe believes in gentle techniques that calm the nervous system.\nPerfect for stress relief and full-body relaxation.",
     image:
       "https://plus.unsplash.com/premium_photo-1670282393309-70fd7f8eb1ef?q=80&w=687&auto=format&fit=crop",
@@ -183,6 +186,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 10,
     tags: ["Aromatherapy", "Zen"],
+    languages: ["English", "Arabic"],
     bio: "Sophia is a senior therapist with deep expertise in aromatherapy and Zen practices.\nHer treatments promote inner peace and deep relaxation.\nShe is trusted by high-profile clients across Dubai.",
     image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6",
     imageGallery: [
@@ -204,6 +208,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 6,
     tags: ["Hot Stone", "Balance"],
+    languages: ["English", "French"],
     bio: "Natalie focuses on hot stone therapy and body balance techniques.\nHer sessions help improve circulation and ease chronic pain.\nClients love her attentive and friendly approach.",
     image:
       "https://images.unsplash.com/photo-1621784563330-caee0b138a00?q=80&w=687&auto=format&fit=crop",
@@ -226,6 +231,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 5,
     tags: ["Thai Massage", "Flexibility"],
+    languages: ["English", "Arabic", "Thai"],
     bio: "Layla specializes in traditional Thai massage techniques.\nHer treatments improve flexibility and energy flow.\nIdeal for active clients and athletes.",
     image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
     imageGallery: [
@@ -247,6 +253,7 @@ export const spaModels = [
     currency: "AED",
     yearsOfExperience: 8,
     tags: ["Reflexology", "Wellness"],
+    languages: ["English", "Italian"],
     bio: "Isabella is an expert in reflexology and holistic wellness therapy.\nShe focuses on pressure-point healing techniques.\nHer sessions leave clients refreshed and re-energized.",
     image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
     imageGallery: [
@@ -257,6 +264,7 @@ export const spaModels = [
     verified: true,
   },
 ];
+
 
 export const spaCategories = [
   {

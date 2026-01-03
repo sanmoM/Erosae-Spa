@@ -8,9 +8,9 @@ const ServiceCard = ({ service }) => {
    
     <div
       key={service.id}
-      className="group relative bg-gray-900 rounded-xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)]"
+      className="group w-[300px] sm:w-auto mx-auto sm:mx-0 relative bg-gray-900 rounded-xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_50px_-12px_rgba(16,185,129,0.15)]"
     >
-      <div className="relative h-60 overflow-hidden">
+      <div className="relative h-40 overflow-hidden">
         <img
           src={service.image}
           alt={service.title}
@@ -19,7 +19,7 @@ const ServiceCard = ({ service }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-90" />
       </div>
 
-      <div className="md:px-6 px-4 pb-4 md:pb-8 -mt-12 relative z-10">
+      <div className="px-4 pb-4 -mt-12 relative z-10">
         <div className="flex items-center gap-2 mb-10">
           <div>
             <span className="text-stone-300 bg-primary font-semibold px-2 py-1 rounded-full text-[10px] uppercase tracking-widest ">
@@ -28,10 +28,10 @@ const ServiceCard = ({ service }) => {
           </div>
         </div>
 
-        <h3 className="md:text-2xl font-serif text-white mb-3 tracking-tight">
+        <h3 className="md:text-xl font-serif text-white mb-1 tracking-tight">
           {service.title}
         </h3>
-        <p className="text-stone-400 text-sm leading-relaxed mb-6 font-light">
+        <p className="text-stone-400 text-sm leading-relaxed sm:mb-6 mb-4 font-light">
           {service.description}
         </p>
         <div className="flex items-center justify-between">
@@ -46,7 +46,7 @@ const ServiceCard = ({ service }) => {
         </div>
         {/* Action Button */}
         
-        <Button variant="secondary" className={"rounded-full hover:gap-4 active:scale-95 mt-4 py-6 w-full"}>Secure Your Session <ChevronRight className="w-4 h-4" /></Button> 
+        <Button variant="secondary" className={"rounded-full hover:gap-4 active:scale-95 mt-4 py-5 w-full"}>Secure Your Session <ChevronRight className="w-4 h-4" /></Button> 
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ export default function Home() {
     <div className="space-y-12 md:space-y-20">
       <Slider />
       <Featured />
-      <FeaturedSection />
+      {/* <FeaturedSection /> */}
       <Models />
       <Testimonial />
     </div>

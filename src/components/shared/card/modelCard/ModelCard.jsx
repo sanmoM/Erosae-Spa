@@ -1,74 +1,99 @@
-import { ArrowUpRight, MapPin, ShieldCheck, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowUpRight,
+  Heart,
+  MapPin,
+  Star,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 const ModelCard = ({ model }) => {
   return (
-    <div className="group relative bg-gray-900 rounded-lg border border-gray-700 p-5 transition-all duration-500 hover:bg-gray-900/40 hover:border-primary/40">
-      <div className="flex items-center gap-5">
-        <div className="relative flex-shrink-0">
-          <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
-            <img
-              src={model.image}
-              alt={model.name}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          </div>
-          {model.verified && (
-            <div className="absolute -bottom-1 -right-1 bg-primary p-1 rounded-full border-4 border-[#141414] group-hover:border-[#1a1a1a] transition-colors shadow-lg">
-              <ShieldCheck className="w-3 h-3 text-white" />
-            </div>
-          )}
-        </div>
+    <div className="w-[300px] sm:w-auto mx-auto sm:mx-0">
+      {/* Card Container */}
+      <div className="relative rounded-xl overflow-hidden  shadow-xl">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center "
+          style={{ backgroundImage: `url(${model.image})` }}
+        />
 
-        <div className="flex-1 min-w-0">
-          <div className="flex justify-between items-start">
-            <h3 className="md:text-lg  font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
-              {model.name}
-            </h3>
-            <div className="flex items-center gap-1 text-primary bg-primary/10 px-2 py-0.5 rounded-md text-[10px] font-black border border-primary/30">
-              <Star className="w-2.5 h-2.5 fill-primary" />
-              {model.rating}
-            </div>
-          </div>
-          <div className="flex items-center gap-1 text-stone-400 text-[10px] mt-1 font-bold uppercase tracking-widest">
-            <MapPin className="w-3 text-primary h-3" />
-            {model.city}
-          </div>
+        {/* Gradient Overlay */}
+        <div
+          className="absolute  inset-0 
+            bg-gradient-to-t 
+            from-black/90 
+            via-black/60 
+            to-transparent
+          "
+        />
 
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {model.tags.slice(0, 2).map((tag, idx) => (
-              <span
-                key={idx}
-                className="text-[9px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded-md border border-white/5 whitespace-nowrap"
-              >
-                {tag}
+        {/* Content Container */}
+        <div className="relative z-10 p-6 pb-3 pl-3 flex flex-col h-full">
+          {/* Top Badges */}
+          <div className="flex justify-between items-start mb-32"></div>
+
+          {/* Profile Info */}
+          <div className="flex-1 flex flex-col justify-end">
+            {/* Name and Location */}
+            <div className="mb-2">
+              <h2 className="md:text-lg  font-serif text-white ">
+                {model.name}
+              </h2>
+
+              <p className="text-stone-300 text-xs flex items-center gap-1">
+                <MapPin size={14} /> {model.city}
+              </p>
+            </div>
+
+            {/* Rating */}
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[#a88c3d] flex gap-1 items-center font-semibold">
+                <Star fill="#a88c3d" size={16} /> {model.rating.toFixed(1)}
               </span>
-            ))}
+              <span className="text-stone-300 text-xs">
+                ({model.reviews}) Reviews
+              </span>
+            </div>
+
+            {/* Experience Details */}
+            <p className="text-gray-300 text-xs mb-2">
+              {model.yearsOfExperience}y Exp • {model.languages.length}{" "}
+              Languages
+            </p>
+
+            {/* Service Tags */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {model.tags.slice(0, 2).map((service, i) => (
+                <span
+                  key={i}
+                  className="bg-primary/40 text-amber-300 text-[10px] px-3 py-1 rounded-full"
+                >
+                  {service}
+                </span>
+              ))}
+              {model.tags.length > 2 && (
+                <span className="bg-primary/40 text-amber-300 text-[10px] px-3 py-1 rounded-full">
+                  +{model.tags.length}
+                </span>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <Link className="w-full" href={`/model/${model.slug}`}>
+                <Button className="flex-1 w-full rounded-lg " variant="outline">
+                  <span>Profile</span> <ArrowUpRight />
+                </Button>
+              </Link>
+
+              <Button className="rounded-lg py-4" variant="outline" size="sm">
+                <Heart />
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="mt-6 pt-5 border-t border-primary/30 flex items-center justify-end">
-        {/* <div>
-          <span className="text-[9px] text-stone-500 uppercase font-black tracking-widest block mb-0.5">
-            Session rate
-          </span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-lg text-primary font-medium ">
-              {model.price}
-            </span>
-            <span className="text-[10px] text-stone-400 font-bold">
-              {model.currency}
-            </span>
-          </div>
-        </div> */}
-        <Link href={`/model/${model.slug}`}>
-          <button className="flex items-center gap-2 border-primary/80 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold border hover:border-primary group/btn shadow-xl">
-            Portfolio
-            <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
-          </button>
-        </Link>
       </div>
     </div>
   );

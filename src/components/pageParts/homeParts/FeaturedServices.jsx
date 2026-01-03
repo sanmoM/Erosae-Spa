@@ -27,8 +27,8 @@ const Featured = () => {
             treatments, designed to restore your inner peace and natural glow.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.slice(0,3).map((service) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {services.slice(0,4).map((service) => (
             <ServiceCard service={service} key={service.id}></ServiceCard>
           ))}
         </div>

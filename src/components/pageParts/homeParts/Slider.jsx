@@ -48,7 +48,7 @@ const Slider = () => {
   ];
 
   return (
-    <div className="relative w-full h-[95vh]  md:h-[80vh] lg:h-[100vh]">
+    <div className="relative w-full h-[85vh]  md:h-[80vh] lg:h-[100vh]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -93,12 +93,12 @@ const Slider = () => {
                   </p>
 
                   {/* Buttons */}
-                  <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-start gap-4 animate-fade-in-up animation-delay-400">
+                  <div className="flex items-center md:justify-start justify-center gap-2 sm:gap-4 animate-fade-in-up animation-delay-400">
                     <Link href={"/booking"}>
                       <Button
                         size="lg"
                         variant="secondary"
-                        className="w-full rounded-full sm:w-auto text-base sm:text-lg px-8 py-6"
+                        className="w-full rounded-full sm:w-auto  sm:text-lg sm:px-8 sm:py-6"
                       >
                         Start Booking Now
                       </Button>
@@ -107,7 +107,7 @@ const Slider = () => {
                       <Button
                         size="lg"
                         variant="outline"
-                        className="w-full sm:w-auto rounded-full text-base sm:text-lg px-8 py-6  text-white hover:bg-primary bg-transparent"
+                        className="w-full sm:w-auto rounded-full sm:text-lg sm:px-8 sm:py-6  text-white hover:bg-primary bg-transparent"
                       >
                         Browse Model
                       </Button>
@@ -115,7 +115,7 @@ const Slider = () => {
                   </div>
 
                   {/* CountUp Stats */}
-                  <div className="flex mt-12 justify-center md:justify-start  text-primary lg:gap-10 gap-6 max-w-4xl ">
+                  <div className="flex mt-12 gap-6 justify-center md:justify-start  text-primary sm:gap-8 lg:gap-12 ">
                     <div className="">
                       <h3 className="sm:text-3xl text-xl font-semibold ">
                         <CountUp start={0} end={300} duration={2.5} />+
@@ -130,7 +130,7 @@ const Slider = () => {
                     </div>
 
                     <div>
-                      <h3 className="sm:text-3xl text-xl font-semibold ">
+                      <h3 className="sm:text-3xl  text-xl font-semibold ">
                         <CountUp
                           start={0}
                           end={27}

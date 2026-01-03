@@ -33,17 +33,18 @@ const DashboardLayout = ({ children }) => {
       icon: Wallet,
     },
     {
-      name: "Appointments & Schedule",
+      name: "Appointments",
       href: "/dashboard/appointment-schedule",
       icon: ClipboardClock,
     },
+    { name: "Profile", href: "/dashboard/profile", icon: User },
 
     {
       name: "Review",
       href: "/dashboard/review",
       icon: Info,
     },
-    { name: "Profile", href: "/dashboard/profile", icon: User },
+    
     {
       name: "Message",
       href: "/dashboard/message",
@@ -127,6 +128,24 @@ const DashboardLayout = ({ children }) => {
           )}
         </aside>
       </>
+
+      <nav className="fixed bottom-0 left-0 right-0 z-[60] bg-[#050718]/90 backdrop-blur-md border-t border-white/10 md:hidden">
+  <ul className="flex items-center justify-around py-2">
+    {links.slice(0, 4).map((link) => {
+      const Icons = link.icon
+      return(
+      <li key={link.href}>
+        <Link
+          href={link.href}
+          className={`flex flex-col items-center gap-1 text-xs transition ${pathname === link.href? "text-primary": "text-gray-400 hover:text-white"}`}
+        >
+          <span className="text-lg"><Icons/></span>
+          <span>{link.name}</span>
+        </Link>
+      </li>
+    )})}
+  </ul>
+</nav>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto bg-gray-900/50 transition-all duration-300">
