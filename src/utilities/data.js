@@ -1,10 +1,17 @@
-const { Leaf, Sun, Hand, Sparkles, Waves, Flower2 } = require("lucide-react");
+const { Leaf, Sun, Hand, Sparkles, Waves, Flower2, Home, Store } = require("lucide-react");
 import blog1 from "@/images/blog/blog1.jpg";
 import blog2 from "@/images/blog/blog2.jpg";
 import blog3 from "@/images/blog/blog3.jpg";
 import blog4 from "@/images/blog/blog4.jpg";
 import blog5 from "@/images/blog/blog5.jpg";
 import blog6 from "@/images/blog/blog6.jpg";
+
+import location1 from "@/images/location/location1.jpg"
+import location2 from "@/images/location/location2.jpg"
+import location3 from "@/images/location/location3.jpg"
+import location4 from "@/images/location/location4.jpg"
+import location5 from "@/images/location/location5.jpg"
+
 
 export const services = [
   {
@@ -296,6 +303,7 @@ export const spaCategories = [
 export const location = [
   {
     city: "Dubai",
+    image: location1,
     shopLocation: [
       "House 12, Road 7, Jumeirah, Dubai",
       "Building 21, Business Bay, Dubai",
@@ -314,6 +322,7 @@ export const location = [
   },
   {
     city: "Abu Dhabi",
+    image: location2,
     shopLocation: [
       "Building 45, Al Zahiyah Area, Abu Dhabi",
       "Villa 8, Khalifa City, Abu Dhabi",
@@ -329,6 +338,7 @@ export const location = [
   },
   {
     city: "Sharjah",
+    image: location3,
     shopLocation: [
       "Villa 9, Al Majaz 2, Sharjah",
       "Building 14, Al Nahda, Sharjah",
@@ -338,6 +348,7 @@ export const location = [
   },
   {
     city: "Ajman",
+    image: location4,
     shopLocation: [
       "Building 18, Al Nuaimiya 1, Ajman",
       "Shop 4, Ajman Corniche, Ajman",
@@ -346,6 +357,7 @@ export const location = [
   },
   {
     city: "Ras Al Khaimah",
+    image: location5,
     shopLocation: [
       "House 3, Al Nakheel Area, Ras Al Khaimah",
       "Villa 10, Al Hamra Village, Ras Al Khaimah",
@@ -353,6 +365,7 @@ export const location = [
     states: ["Al Nakheel", "Al Hamra", "Al Dhait"],
   },
 ];
+
 
 export const spaBlogs = [
   {
@@ -550,3 +563,36 @@ export const statusColors = {
       status: "frozen",
     },
   ]
+
+
+  export const serviceTypes = [
+  {
+    id: 1,
+    value: "In Shop",
+    title: "In-Shop Experience",
+    description:
+      "Visit one of our luxurious spa locations for a complete wellness immersion",
+    icon: Store, 
+    features: [
+      "Premium facilities",
+      "Refreshments included",
+      "Access to amenities",
+      "Relaxation lounges",
+    ],
+  },
+  {
+    id: 2,
+    value: "In House",
+    title: "Home Service",
+    description:
+      "Enjoy our premium treatments in the comfort of your own space",
+    icon: Home,
+    features: [
+      "Complete privacy",
+      "Flexible scheduling",
+      "Professional setup",
+      "Same luxury experience",
+    ],
+  },
+];
+

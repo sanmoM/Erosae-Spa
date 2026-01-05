@@ -2,6 +2,7 @@
 
 import ModelCard from "@/components/shared/card/modelCard/ModelCard";
 import Container from "@/components/shared/other/Container";
+import { DatePicker } from "@/components/shared/other/DatePicker";
 import DateTimePicker from "@/components/shared/other/DateTimePicker";
 import FileUpload from "@/components/shared/other/FileUpload";
 import PageBanner from "@/components/shared/other/PageBanner";
@@ -27,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { services, spaModels, location } from "@/utilities/data";
+import { services, spaModels, location, serviceTypes } from "@/utilities/data";
 import {
   ArrowUpRight,
   Calendar,
@@ -48,52 +49,39 @@ import React, { useEffect, useState } from "react";
 
 const Page = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [city, setCity] = useState("");
-  const [serviceType, setServiceType] = useState("");
-  const [service, setService] = useState("");
-  const [model, setModel] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("");
-  const [period, setPeriod] = useState("");
-  const [userState, setUserState] = useState("");
-  const [address, setAdress] = useState("");
-  const [buildingName, setBuildingName] = useState("");
-  const [residential, setResidential] = useState("");
-  const [whatsAppNumber, setwhatsAppNumber] = useState("");
-  const [buildingPhoto, setBuildingPhoto] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(null);
-  const [shopLoaction, setShopLocation] = useState("");
-  const [duration, setDuration] = useState("");
-  const [amount, setAmount] = useState("");
+
+  const defaultBookingData = {
+    city: "",
+    serviceType: "",
+    date:""
+  };
+
+  const [booking, setBooking] = useState(defaultBookingData);
+
+  console.log(booking.date);
+
+  const updateBooking = (key, value) => {
+    setBooking((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const selectedCity = location.find((c) => c.city === city);
-  const selectedService = services.find((s) => s.category === service);
+  // const selectedCity = location.find((c) => c.city === city);
+  // const selectedService = services.find((s) => s.category === service);
 
   const STEPS = [
     { id: 1, name: "City", icon: MapPin },
     { id: 2, name: "Service Type", icon: Settings },
-    { id: 3, name: "Service", icon: Layout },
-    { id: 4, name: "Date", icon: Calendar },
+    { id: 3, name: "Date", icon: Calendar },
+    { id: 4, name: "Service", icon: Layout },
     { id: 5, name: "Model(s)", icon: User },
     { id: 6, name: "Address", icon: MapPin },
     { id: 7, name: "Review", icon: Eye },
     { id: 8, name: "Payment", icon: CreditCard },
   ];
-
-  useEffect(() => {
-    if (!buildingPhoto) {
-      setPhotoPreview(null);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(buildingPhoto);
-    setPhotoPreview(objectUrl);
-
-    // cleanup (important)
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [buildingPhoto]);
 
   return (
     <div className="space-y-12 md:space-y-20">
@@ -168,13 +156,13 @@ const Page = () => {
           </div>
 
           <div
-            className={`flex gap-6 flex-col md:flex-row ${
+            className={`grid items-start lg:grid-cols-3 gap-6  ${
               currentStep > 7 && "hidden"
             }`}
           >
             {/* steps  */}
             <div
-              className={`flex-1 border ${
+              className={`lg:col-span-2 border ${
                 currentStep > 6 && "hidden"
               }  border-gray-700 bg-gray-900/50 md:p-6 p-4 rounded-md`}
             >
@@ -189,22 +177,45 @@ const Page = () => {
                       Select the city where you wants the service.
                     </p>
                   </div>
-                  <div className="flex flex-wrap mt-4 md:mt-6 gap-x-2 gap-y-3">
+                  <div className="grid grid-cols-2 md:grid-cols-3 mt-4 md:mt-6 gap-x-2 gap-y-3">
                     {location.map((c, indx) => {
                       return (
                         <div
                           onClick={() => {
-                            setCity(c.city);
-                            setShopLocation("");
-                            setUserState("");
+                            setBooking((prev) => ({
+                              ...prev,
+                              city: c.city,
+                            }));
+                            setCurrentStep(currentStep + 1);
                           }}
-                          className={`border-gray-600 ${
-                            city === c.city &&
-                            "bg-primary text-white border-primary hover:bg-primary"
-                          } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
+                          className={`relative overflow-hidden rounded-md cursor-pointer text-sm border border-gray-600/50 text-stone-400
+          ${
+            booking.city === c.city
+              ? "border-2 border-primary"
+              : "hover:border-primary duration-300"
+          }
+          group`}
                           key={indx}
                         >
-                          {c.city}
+                          <img
+                            src={c.image.src}
+                            alt={c.city}
+                            className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                          />
+
+                          {/* Selected check */}
+                          {booking.city === c.city && (
+                            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-1">
+                              <Check size={14} />
+                            </div>
+                          )}
+
+                          <div className="absolute bottom-0 text-stone-200 w-full h-full p-2 bg-gradient-to-t from-black/80 to-black/0 flex items-end rounded-b-md">
+                            <div className="flex items-center gap-1">
+                              <MapPin size={16} />
+                              <h3 className=" md:text-base">{c.city}</h3>
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
@@ -223,37 +234,76 @@ const Page = () => {
                       You can take service In House or In Shop.
                     </p>
                   </div>
-                  <div className="flex flex-wrap mt-4 md:mt-6 gap-x-2 gap-y-3">
-                    <div
-                      onClick={() => setServiceType("In House")}
-                      className={`border-gray-600 ${
-                        serviceType === "In House" &&
-                        "bg-primary text-white border-primary hover:bg-primary"
-                      } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
-                    >
-                      In House
-                    </div>
-                    <div
-                      onClick={() => setServiceType("In Shop")}
-                      className={`border-gray-600 ${
-                        serviceType === "In Shop" &&
-                        "bg-primary text-white border-primary hover:bg-primary"
-                      } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
-                    >
-                      In Shop
-                    </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 md:mt-6">
+                    {serviceTypes.map((type) => {
+                      const Icon = type.icon;
+                      return (
+                        <div
+                          key={type.id}
+                          onClick={() => {
+                            setBooking((prev) => ({
+                              ...prev,
+                              serviceType: type.title,
+                            }));
+                            setCurrentStep(currentStep + 1);
+                          }}
+                          className={`relative cursor-pointer rounded-xl p-5 transition-all 
+        ${
+          booking.serviceType === type.title
+            ? "border-2 border-primary bg-primary/10"
+            : "border border-white/10 bg-gray-900 hover:border-primary/40"
+        }`}
+                        >
+                          {/* Selected check */}
+                          {booking.serviceType === type.title && (
+                            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-1">
+                              <Check size={14} />
+                            </div>
+                          )}
+
+                          {/* Icon */}
+                          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/20 text-primary">
+                            <Icon size={26} />
+                          </div>
+
+                          {/* Title */}
+                          <h3 className="text-base md:text-lg font-semibold text-white mb-1">
+                            {type.title}
+                          </h3>
+
+                          {/* Description */}
+                          <p className="text-sm text-stone-400 mb-4 leading-relaxed">
+                            {type.description}
+                          </p>
+
+                          {/* Features */}
+                          <ul className="space-y-2">
+                            {type.features.map((feature, index) => (
+                              <li
+                                key={index}
+                                className="flex items-center gap-2 text-xs md:text-sm text-stone-300"
+                              >
+                                <Check className="w-4 h-4 text-primary" />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      );
+                    })}
                   </div>
-                  {serviceType === "In House" && (
+                  {booking.serviceType === "Home Service" && (
                     <div className="mt-4 md:mt-6 rounded-md border md:text-sm border-primary/40 bg-primary/10 p-3 text-xs text-stone-300">
                       <span className="font-bold">Note:</span> Transportation
-                      charge for the model has been included (In-House service).
+                      charge for the model has been included (Home service).
                     </div>
                   )}
                 </div>
               )}
 
               {/* service  */}
-              {currentStep === 3 && (
+              {currentStep === 4 && (
                 <div>
                   <div className="">
                     <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
@@ -323,7 +373,7 @@ const Page = () => {
               )}
 
               {/* date */}
-              {currentStep === 4 && (
+              {currentStep === 3 && (
                 <div>
                   <div className="">
                     <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
@@ -333,14 +383,15 @@ const Page = () => {
                       Select your service time.
                     </p>
                   </div>
-                  <div className=" mt-4 md:mt-6  location-scroll space-y-4">
-                    <DateTimePicker
-                      date={selectedDate}
-                      setDate={setSelectedDate}
-                      time={selectedTime}
-                      setTime={setSelectedTime}
-                      period={period}
-                      setPeriod={setPeriod}
+                  <div className=" mt-4 md:mt-6 ">
+                    <DatePicker
+                      onDateSelect={(date) => {
+                        setBooking((prev) => ({
+                              ...prev,
+                              date: date,
+                            }));
+                            
+                      }}
                     />
                   </div>
                 </div>
@@ -359,19 +410,6 @@ const Page = () => {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      {/* <div className="lg:flex hidden items-center">
-                        <Input
-                          type={"text"}
-                          className={"rounded-l-full py-4.5 border-r-0"}
-                          placeholder={"model name"}
-                        />
-                        <Button
-                          className={"rounded-l-none rounded-r-full py-5"}
-                          variant="secondary"
-                        >
-                          <Search />
-                        </Button>
-                      </div> */}
                       <Select>
                         <SelectTrigger className="max-w-[150px]  text-xs md:text-sm border-primary">
                           <SelectValue
@@ -390,20 +428,6 @@ const Page = () => {
                       </Select>
                     </div>
                   </div>
-
-                  {/* <div className="flex mt-4 md:mt-6 lg:hidden items-center">
-                    <Input
-                      type={"text"}
-                      className={"rounded-l-full py-4.5 border-r-0"}
-                      placeholder={"model name"}
-                    />
-                    <Button
-                      className={"rounded-l-none rounded-r-full  py-5"}
-                      variant="secondary"
-                    >
-                      <Search />
-                    </Button>
-                  </div> */}
 
                   <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
                     {spaModels.map((mod, indx) => {
@@ -494,82 +518,18 @@ const Page = () => {
                                       <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
                                     </button>
                                   </DialogTrigger>
-                                  <DialogContent
-                                    className="sm:max-w-[800px] bg-[#050718] border-stone-500 max-h-[90dvh] overflow-hidden"
-                                  >
+                                  <DialogContent className="sm:max-w-[800px] bg-[#050718] border-stone-500 max-h-[90dvh] overflow-hidden">
                                     <DialogHeader>
                                       <DialogTitle
                                         className={"text-stone-400 text-center"}
                                       >
                                         {mod.name} Profile
                                       </DialogTitle>
-                                      <DialogDescription>
-                                        {/* Make changes to your profile here. Click
-                                        save when you&apos;re done. */}
-                                      </DialogDescription>
+                                      <DialogDescription></DialogDescription>
                                     </DialogHeader>
 
                                     <div className="overflow-y-auto max-h-[60dvh] md:max-h-none">
                                       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                                        {/* <div className="space-y-4 lg:col-span-2">
-                                      <div className="relative bg-zinc-800  rounded-xl overflow-hidden aspect-video">
-                                        <img
-                                          src={
-                                            mod.imageGallery[
-                                              currentImageIndex
-                                            ] || "/placeholder.svg"
-                                          }
-                                          alt={`${mod.name} - Image ${
-                                            currentImageIndex + 1
-                                          }`}
-                                          className="w-full h-full object-cover"
-                                        />
-                                        
-                                        <button
-                                          onClick={prevImage}
-                                          className="absolute left-4 cursor-pointer top-1/2 -translate-y-1/2 p-2 bg-primary/80 hover:bg-primary/70 rounded-full transition-colors"
-                                          aria-label="Previous image"
-                                        >
-                                          <ChevronLeft className="w-6 h-6 text-white" />
-                                        </button>
-                                        <button
-                                          onClick={nextImage}
-                                          className="absolute right-4 cursor-pointer top-1/2 -translate-y-1/2 p-2 bg-primary/80 hover:bg-primary/70 rounded-full transition-colors"
-                                          aria-label="Next image"
-                                        >
-                                          <ChevronRight className="w-6 h-6 text-white" />
-                                        </button>
-
-                                     
-                                        <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 rounded-full text-sm text-white">
-                                          {currentImageIndex + 1} /{" "}
-                                          {mod?.imageGallery.length}
-                                        </div>
-                                      </div>
-
-                                      
-                                      <div className="flex gap-2 overflow-x-auto pb-2">
-                                        {mod.imageGallery.map((img, idx) => (
-                                          <button
-                                            key={idx}
-                                            onClick={() =>
-                                              setCurrentImageIndex(idx)
-                                            }
-                                            className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                                              idx === currentImageIndex
-                                                ? "border-amber-500"
-                                                : "border-zinc-700"
-                                            }`}
-                                          >
-                                            <img
-                                              src={img || "/placeholder.svg"}
-                                              alt={`Thumbnail ${idx + 1}`}
-                                              className="w-full h-full object-cover"
-                                            />
-                                          </button>
-                                        ))}
-                                      </div>
-                                    </div> */}
                                         <div className="md:col-span-1">
                                           <div className="h-[180px]">
                                             <img
@@ -584,11 +544,11 @@ const Page = () => {
                                         <div className="col-span-2">
                                           <div className="flex justify-between items-start">
                                             <h2 className="text-stone-300 text-lg md:text-2xl font-semibold">
-                                            {mod.name}
-                                          </h2>
-                                          <div className="bg-emerald-500 text-xs md:text-sm rounded-full px-2 py-1 text-white">
-                                            Available
-                                          </div>
+                                              {mod.name}
+                                            </h2>
+                                            <div className="bg-emerald-500 text-xs md:text-sm rounded-full px-2 py-1 text-white">
+                                              Available
+                                            </div>
                                           </div>
                                           <div
                                             className={`flex items-center gap-1 text-stone-400 text-xs mt-1 font-bold uppercase tracking-widest`}
@@ -892,15 +852,33 @@ const Page = () => {
               )}
 
               {/* payment  */}
+
+              <div className="mt-6 md:mt-12 justify-end flex gap-4">
+                <Button
+                  disabled={currentStep === 1}
+                  onClick={() => setCurrentStep(currentStep - 1)}
+                  variant="outline"
+                >
+                  Previous
+                </Button>
+                <Button
+                  disabled={currentStep === 8}
+                  onClick={() => setCurrentStep(currentStep + 1)}
+                  variant="secondary"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
 
             {/* review  */}
-            <div className="flex-1 border border-gray-700 bg-gray-900/50 p-4 md:p-6  rounded-md">
+            <div className="lg:col-span-1 border border-gray-700 bg-gray-900/50 p-4 md:p-6  rounded-md">
               <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                Review
+                Booking Summary
               </h2>
+              <div className="text-white">{booking.city}</div>
 
-              <div
+              {/* <div
                 className={`flex flex-col ${
                   currentStep === 7 ? "lg:flex-row lg:gap-12" : ""
                 }`}
@@ -1036,23 +1014,13 @@ const Page = () => {
                     </div>
                   </>
                 )}
-              </div>
+              </div> */}
 
-              <div className="mt-6 md:mt-12 justify-between justify-between flex gap-4">
-                <Button
-                  disabled={currentStep === 1}
-                  onClick={() => setCurrentStep(currentStep - 1)}
-                  variant="outline"
-                >
-                  Previous
-                </Button>
-                <Button
-                  disabled={currentStep === 8}
-                  onClick={() => setCurrentStep(currentStep + 1)}
-                  variant="secondary"
-                >
-                  Next
-                </Button>
+              <div className="my-6 border-t flex items-center justify-between border-gray-600">
+                <h2 className="text-sm   font-semibold text-stone-300">
+                  Estimated Total (AED)
+                </h2>
+                <span className="text-primary text-lg font-semibold">0</span>
               </div>
             </div>
           </div>
