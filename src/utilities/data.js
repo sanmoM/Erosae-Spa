@@ -124,7 +124,7 @@ export const spaModels = [
     price: "600",
     currency: "BDT",
     yearsOfExperience: 6,
-    tags: ["Deep Tissue", "Holistic","Deep Tissue", "Holistic"],
+    tags: ["Massage", "Therapy", "Body"],
     languages: ["English", "Bengali"],
     bio: "Leon is a highly skilled therapist specializing in deep tissue and holistic massage techniques.\nHe focuses on relieving muscle tension and restoring body balance.\nClients appreciate his calm approach and professional care.",
     image: "https://i.ibb.co/MDYR9GTh/leon.png",
@@ -146,7 +146,7 @@ export const spaModels = [
     price: "500",
     currency: "AED",
     yearsOfExperience: 7,
-    tags: ["Deep Tissue", "Holistic"],
+    tags: ["Luxury", "Facial", "Massage"],
     languages: ["English", "Spanish"],
     bio: "Elena combines modern massage therapy with holistic healing methods.\nShe is known for her precise techniques and soothing energy.\nHer sessions are designed to relax both body and mind.",
     image:
@@ -169,7 +169,7 @@ export const spaModels = [
     price: "450",
     currency: "AED",
     yearsOfExperience: 5,
-    tags: ["Relaxation", "Swedish"],
+    tags: ["Wellness", "Facial", "Massage"],
     languages: ["English", "Arabic", "Urdu"],
     bio: "Aisha specializes in relaxation and Swedish massage therapies.\nShe believes in gentle techniques that calm the nervous system.\nPerfect for stress relief and full-body relaxation.",
     image:
@@ -192,7 +192,7 @@ export const spaModels = [
     price: "650",
     currency: "AED",
     yearsOfExperience: 10,
-    tags: ["Aromatherapy", "Zen"],
+    tags: ["Luxury", "Wellness", "Therapy", "Massage"],
     languages: ["English", "Arabic"],
     bio: "Sophia is a senior therapist with deep expertise in aromatherapy and Zen practices.\nHer treatments promote inner peace and deep relaxation.\nShe is trusted by high-profile clients across Dubai.",
     image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6",
@@ -214,7 +214,7 @@ export const spaModels = [
     price: "420",
     currency: "AED",
     yearsOfExperience: 6,
-    tags: ["Hot Stone", "Balance"],
+    tags: ["Body", "Massage", "Facial"],
     languages: ["English", "French"],
     bio: "Natalie focuses on hot stone therapy and body balance techniques.\nHer sessions help improve circulation and ease chronic pain.\nClients love her attentive and friendly approach.",
     image:
@@ -237,7 +237,7 @@ export const spaModels = [
     price: "580",
     currency: "AED",
     yearsOfExperience: 5,
-    tags: ["Thai Massage", "Flexibility"],
+    tags: ["Thai Massage" , "Massage", "Therapy"], 
     languages: ["English", "Arabic", "Thai"],
     bio: "Layla specializes in traditional Thai massage techniques.\nHer treatments improve flexibility and energy flow.\nIdeal for active clients and athletes.",
     image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
@@ -259,7 +259,7 @@ export const spaModels = [
     price: "480",
     currency: "AED",
     yearsOfExperience: 8,
-    tags: ["Reflexology", "Wellness"],
+    tags: ["Wellness", "Therapy", "Luxury"],
     languages: ["English", "Italian"],
     bio: "Isabella is an expert in reflexology and holistic wellness therapy.\nShe focuses on pressure-point healing techniques.\nHer sessions leave clients refreshed and re-energized.",
     image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
@@ -271,6 +271,7 @@ export const spaModels = [
     verified: true,
   },
 ];
+
 
 
 export const spaCategories = [
@@ -594,5 +595,38 @@ export const statusColors = {
       "Same luxury experience",
     ],
   },
+];
+
+
+export const timeSlots = [
+  { time: "09:00", status: "available" },
+  { time: "09:30", status: "available" },
+  { time: "10:00", status: "available" },
+  { time: "10:30", status: "available" },
+
+  { time: "11:00", status: "available" },
+  { time: "11:30", status: "notAvailable" },
+  { time: "12:00", status: "available" },
+  { time: "12:30", status: "notAvailable" },
+
+  { time: "13:00", status: "available" },
+  { time: "13:30", status: "available" },
+  { time: "14:00", status: "available" },
+  { time: "14:30", status: "notAvailable" },
+
+  { time: "15:00", status: "notAvailable" },
+  { time: "15:30", status: "available" },
+  { time: "16:00", status: "available" },
+  { time: "16:30", status: "available" },
+
+  { time: "17:00", status: "available" },
+  { time: "17:30", status: "available" },
+  { time: "18:00", status: "available" },
+  { time: "18:30", status: "available" },
+
+  { time: "19:00", status: "available" },
+  { time: "19:30", status: "available" },
+  { time: "20:00", status: "available" },
+  { time: "20:30", status: "available" },
 ];
 

@@ -1,9 +1,7 @@
 "use client";
 
-import ModelCard from "@/components/shared/card/modelCard/ModelCard";
 import Container from "@/components/shared/other/Container";
 import { DatePicker } from "@/components/shared/other/DatePicker";
-import DateTimePicker from "@/components/shared/other/DateTimePicker";
 import FileUpload from "@/components/shared/other/FileUpload";
 import PageBanner from "@/components/shared/other/PageBanner";
 import { Button } from "@/components/ui/button";
@@ -28,24 +26,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { services, spaModels, location, serviceTypes } from "@/utilities/data";
+import {
+  services,
+  spaModels,
+  location,
+  serviceTypes,
+  timeSlots,
+} from "@/utilities/data";
 import {
   ArrowUpRight,
   Calendar,
   Check,
-  ChevronLeft,
-  ChevronRight,
+  Clock,
   CreditCard,
+  DollarSign,
   Eye,
   Layout,
   MapPin,
-  Search,
   Settings,
-  ShieldCheck,
   Star,
   User,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 
 const Page = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -53,24 +56,38 @@ const Page = () => {
   const defaultBookingData = {
     city: "",
     serviceType: "",
-    date:""
+    date: null,
+    time: "",
+    serviceName: "",
+    category: "",
+    duration: "",
+    amount: "",
+    model: "",
+    shopLocation: "",
+
+    area: "",
+    address: "",
+    buildingName: "",
+    residential: "",
+    whatsAppNumber: "",
+    buildingPhoto: "",
   };
 
   const [booking, setBooking] = useState(defaultBookingData);
 
-  console.log(booking.date);
-
-  const updateBooking = (key, value) => {
-    setBooking((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
+  const formatDate = (date) => {
+    if (!date) return "";
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // const selectedCity = location.find((c) => c.city === city);
-  // const selectedService = services.find((s) => s.category === service);
+  const selectedCity = location.find((c) => c.city === booking.city);
+  const selectedService = services.find((s) => s.title === booking.serviceName);
 
   const STEPS = [
     { id: 1, name: "City", icon: MapPin },
@@ -130,7 +147,7 @@ const Page = () => {
                       isCompleted
                         ? "bg-emerald-500 border-emerald-500"
                         : isActive
-                        ? "bg-primary border-stone-500 text-white shadow-[0_0_15px_rgba(236,72,153,0.4)]"
+                        ? "bg-primary border-stone-500 text-white"
                         : "bg-[#12121a] border-zinc-600 text-stone-400"
                     }
                   `}
@@ -157,7 +174,7 @@ const Page = () => {
 
           <div
             className={`grid items-start lg:grid-cols-3 gap-6  ${
-              currentStep > 7 && "hidden"
+              currentStep > 7 ? "hidden" : ""
             }`}
           >
             {/* steps  */}
@@ -185,6 +202,7 @@ const Page = () => {
                             setBooking((prev) => ({
                               ...prev,
                               city: c.city,
+                              area: "",
                             }));
                             setCurrentStep(currentStep + 1);
                           }}
@@ -293,10 +311,69 @@ const Page = () => {
                       );
                     })}
                   </div>
-                  {booking.serviceType === "Home Service" && (
-                    <div className="mt-4 md:mt-6 rounded-md border md:text-sm border-primary/40 bg-primary/10 p-3 text-xs text-stone-300">
-                      <span className="font-bold">Note:</span> Transportation
-                      charge for the model has been included (Home service).
+                </div>
+              )}
+
+              {/* date */}
+              {currentStep === 3 && (
+                <div>
+                  <div className="">
+                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                      Select Date and Time
+                    </h2>
+                    <p className="text-xs sm:text-sm text-stone-400">
+                      Select your service time.
+                    </p>
+                  </div>
+                  <div className=" mt-4 md:mt-6">
+                    <DatePicker
+                      selectedDate={booking.date}
+                      onDateSelect={(date) => {
+                        setBooking((prev) => ({
+                          ...prev,
+                          date: date,
+                          time: "",
+                        }));
+                      }}
+                    />
+                  </div>
+                  {booking.date && (
+                    <div className="mt-6">
+                      <h2 className="lg:text-lg text-base font-semibold text-stone-200">
+                        Available Times
+                      </h2>
+
+                      <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2 mt-4">
+                        {timeSlots.map(({ time, status }) => {
+                          const isSelected = booking.time === time;
+                          const isDisabled = status === "notAvailable";
+
+                          return (
+                            <button
+                              key={time}
+                              disabled={isDisabled}
+                              onClick={() => {
+                                setCurrentStep(currentStep + 1);
+                                setBooking((prev) => ({
+                                  ...prev,
+                                  time,
+                                }));
+                              }}
+                              className={`px-3 py-2 rounded-md text-xs sm:text-sm font-medium transition-all
+              ${
+                isDisabled
+                  ? "bg-gray-800 text-gray-500 line-through cursor-not-allowed"
+                  : isSelected
+                  ? "bg-primary text-white text-black"
+                  : "bg-gray-800 text-white hover:bg-gray-700"
+              }
+            `}
+                            >
+                              {time}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -313,87 +390,107 @@ const Page = () => {
                       Choose your service category.
                     </p>
                   </div>
-                  <div className="flex flex-wrap mt-4 md:mt-6 gap-x-2 gap-y-3">
+                  <div className="grid md:grid-cols-2 gap-4 mt-4 md:mt-6">
                     {services.map((s, indx) => {
                       return (
                         <div
                           onClick={() => {
-                            setService(s.category);
-                            setDuration("");
-                            setAmount("");
+                            setBooking((prev) => ({
+                              ...prev,
+                              serviceName: s.title,
+                              category: s.category,
+                              duration: "",
+                              amount: "",
+                            }));
                           }}
-                          className={`border-gray-600 ${
-                            service === s.category &&
-                            "bg-primary text-white border-primary hover:bg-primary"
-                          } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
                           key={indx}
+                          className={`${
+                            s.title === booking.serviceName
+                              ? "border-2 border-primary relative bg-primary/10"
+                              : "border-white/10 bg-gray-800/50  hover:border-primary/50"
+                          } flex gap-4 p-4 rounded-md cursor-pointer border   transition`}
                         >
-                          {s.category}
+                          {/* Image */}
+                          <div className="relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden">
+                            <img
+                              src={s.image}
+                              alt="Swedish Massage"
+                              className="object-cover w-full h-full"
+                            />
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex flex-col justify-between flex-1">
+                            <div>
+                              {/* Rating & Category */}
+                              <div className="flex items-center gap-2 text-xs text-stone-400 mb-1">
+                                <span>•</span>
+                                <span>{s.category}</span>
+                              </div>
+
+                              {/* Title */}
+                              <h3 className=" font-medium text-sm text-stone-200">
+                                {s.title}
+                              </h3>
+
+                              {/* Description */}
+                              <p className="lg:text-sm text-xs text-stone-400 mt-1 line-clamp-2">
+                                {s.description}
+                              </p>
+                            </div>
+
+                            {/* Price */}
+                            <p className="text-sm font-medium text-[#d6b26a] mt-2">
+                              From {s.durations[0].price} AED
+                            </p>
+                          </div>
+                          {/* Selected check */}
+                          {booking.serviceName === s.title && (
+                            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-1">
+                              <Check size={14} />
+                            </div>
+                          )}
                         </div>
                       );
                     })}
                   </div>
 
-                  {service && (
+                  {booking.serviceName && (
                     <>
                       <h2 className="text-sm  font-semibold mt-4 md:mt-6 text-stone-400">
                         Select Duration
                       </h2>
 
-                      <div className="flex flex-wrap mt-4  gap-x-2 gap-y-3">
+                      <div className="grid md:grid-cols-4 grid-cols-3  mt-4  gap-x-2 gap-y-3">
                         {selectedService.durations.map((d, indx) => (
                           <>
                             <div
                               onClick={() => {
-                                setDuration(d.time);
-                                setAmount(d.price);
+                                setBooking((prev) => ({
+                                  ...prev,
+                                  duration: d.time,
+                                  amount: d.price,
+                                }));
+                                setCurrentStep(currentStep + 1);
                               }}
-                              className={`border-gray-600 ${
-                                duration === d.time &&
-                                "bg-primary text-white border-primary hover:bg-primary"
-                              } border hover:bg-gray-900 duration-400 py-2 px-4 cursor-pointer text-sm rounded-full text-stone-400`}
+                              className={`${
+                                booking.duration === d.time
+                                  ? "bg-primary   text-white border-primary hover:bg-primary"
+                                  : "border-gray-600  "
+                              }  hover:bg-gray-900 border hover:border-primary/80 duration-400 p-4 cursor-pointer text-sm rounded-md text-stone-400`}
                               key={indx}
                             >
-                              {d.time}
+                              <h2 className="md:text-lg text-center text-stone-300 lg:text-xl font-semibold">
+                                {" "}
+                                {d.time}
+                              </h2>
+                              <h4 className="text-center">{d.price} AED</h4>
                             </div>
                           </>
                         ))}
                       </div>
                     </>
                   )}
-
-                  {amount && (
-                    <p className="text-xs sm:text-sm mt-6 text-stone-400">
-                      Amount (AED) : {amount}{" "}
-                      {serviceType === "In House" &&
-                        "(without transportation charge)"}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* date */}
-              {currentStep === 3 && (
-                <div>
-                  <div className="">
-                    <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                      Select Date and Time
-                    </h2>
-                    <p className="text-xs sm:text-sm text-stone-400">
-                      Select your service time.
-                    </p>
-                  </div>
-                  <div className=" mt-4 md:mt-6 ">
-                    <DatePicker
-                      onDateSelect={(date) => {
-                        setBooking((prev) => ({
-                              ...prev,
-                              date: date,
-                            }));
-                            
-                      }}
-                    />
-                  </div>
                 </div>
               )}
 
@@ -429,90 +526,80 @@ const Page = () => {
                     </div>
                   </div>
 
-                  <div className=" mt-4 md:mt-6 overflow-y-scroll max-h-[500px] space-y-4">
+                  <div className=" mt-4 grid grid-cols-1 md:grid-cols-2 md:mt-6 overflow-y-scroll max-h-[500px] gap-4">
                     {spaModels.map((mod, indx) => {
-                      const nextImage = () => {
-                        setCurrentImageIndex(
-                          (prev) => (prev + 1) % mod.imageGallery.length
-                        );
-                      };
-
-                      const prevImage = () => {
-                        setCurrentImageIndex(
-                          (prev) =>
-                            (prev - 1 + mod.imageGallery.length) %
-                            mod.imageGallery.length
-                        );
-                      };
-
                       return (
                         <div
-                          onClick={() => setModel(mod.name)}
-                          className={`border-gray-600 ${
-                            model === mod.name &&
-                            "bg-primary/30 text-white border-primary hover:bg-primary/20"
-                          } border hover:bg-gray-900 duration-400 p-4 cursor-pointer text-sm rounded-md text-stone-400`}
+                          onClick={() => {
+                            setBooking((prev) => ({
+                              ...prev,
+                              model: mod.name,
+                            }));
+                            setCurrentStep(currentStep + 1);
+                          }}
+                          className={`
+                           border   p-4 relative  cursor-pointer text-sm rounded-md text-stone-400 ${
+                             mod.name === booking.model
+                               ? "bg-primary/10 border-primary border-2"
+                               : "border-gray-600 bg-gray-800/50 hover:border-primary/50 hover:bg-gray-800 duration-400"
+                           }`}
                           key={indx}
                         >
                           <div className="flex  gap-5">
-                            <div className="relative flex-shrink-0">
-                              <div className="w-18 h-18 rounded-2xl overflow-hidden border-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500">
+                            <div className=" flex-shrink-0">
+                              <div className="w-18 h-18 rounded-md overflow-hidden duration-500">
                                 <img
                                   src={mod.image}
                                   alt={mod.name}
-                                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                  loading="lazy"
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
-                              {mod.verified && (
-                                <div className="absolute -bottom-1 -right-1 bg-primary p-1 rounded-full border-4 border-[#141414] group-hover:border-[#1a1a1a] transition-colors shadow-lg">
-                                  <ShieldCheck className="w-3 h-3 text-white" />
-                                </div>
-                              )}
                             </div>
 
                             <div className="flex-1 min-w-0">
-                              <div className="flex justify-between items-start">
-                                <h3 className="md:text-base text-sm font-serif text-white group-hover:text-primary transition-colors truncate pr-2">
-                                  {mod.name}
-                                </h3>
-                                <div
-                                  className={`flex items-center gap-1 text-primary bg-primary/10 px-2 py-0.5 rounded-md text-[10px] font-black border border-primary/30 ${
-                                    mod.name === model &&
-                                    "text-white border-white"
-                                  }`}
-                                >
-                                  <Star
-                                    className={`w-2.5 h-2.5 ${
-                                      mod.name === model && "fill-white"
-                                    } fill-primary`}
-                                  />
-                                  {mod.rating}
-                                </div>
+                              <div className="flex items-center gap-1 text-xs">
+                                <Star className={`w-2.5 h-2.5 fill-primary`} />
+                                {mod.rating}
                               </div>
 
+                              <h3 className=" font-medium text-sm text-stone-200">
+                                {mod.name}
+                              </h3>
+
                               <div
-                                className={`flex items-center gap-1 text-stone-400 text-[10px] mt-1 font-bold uppercase ${
-                                  mod.name === model && "text-white"
-                                } tracking-widest`}
+                                className={`flex items-center gap-1 text-stone-400 text-[10px] mt-1 font-bold uppercase tracking-widest`}
                               >
-                                <MapPin
-                                  className={`w-3 text-primary ${
-                                    mod.name === model && "text-white"
-                                  }  h-3`}
-                                />
+                                <MapPin className={`w-3 text-primary   h-3`} />
                                 {mod.city}
                               </div>
 
-                              <div className="flex gap-2 justify-end">
+                              <div className="flex mt-1 mb-2 gap-1">
+                                {mod.tags.slice(0, 2).map((ser, indx) => {
+                                  return (
+                                    <span
+                                      className="text-xs border rounded-full px-1 py-0.5 border-gray-700 bg-gray-800"
+                                      key={indx}
+                                    >
+                                      {ser}
+                                    </span>
+                                  );
+                                })}
+                                {mod.tags.length > 2 && (
+                                  <span className="text-xs border rounded-full px-1 py-0.5 border-gray-700 bg-gray-800">
+                                    +{mod.tags.length - 2}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex gap-2  justify-end">
                                 <Dialog>
                                   <DialogTrigger asChild>
                                     <button
-                                      onClick={(e) => e.stopPropagation()}
-                                      className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-5 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold  hover:border-primary group/btn shadow-xl ${
-                                        mod.name === model
-                                          ? "border border-white"
-                                          : "border border-white/10"
-                                      }`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                      }}
+                                      className={`flex items-center gap-2 bg-white/5 hover:bg-primary cursor-pointer text-white px-4 py-2.5 rounded-xl transition-all duration-300 text-xs font-bold  hover:border-primary group/btn shadow-xl `}
                                     >
                                       Portfolio
                                       <ArrowUpRight className="w-3 h-3 opacity-50 group-hover/btn:opacity-100 transition-all" />
@@ -542,30 +629,30 @@ const Page = () => {
                                           </div>
                                         </div>
                                         <div className="col-span-2">
-                                          <div className="flex justify-between items-start">
-                                            <h2 className="text-stone-300 text-lg md:text-2xl font-semibold">
+                                          
+                                            <h2 className="text-stone-300 text-lg md:text-xl font-semibold">
                                               {mod.name}
                                             </h2>
-                                            <div className="bg-emerald-500 text-xs md:text-sm rounded-full px-2 py-1 text-white">
+                                            <span className="bg-emerald-500 text-[10px]  rounded-full px-2 py-1 text-white">
                                               Available
-                                            </div>
-                                          </div>
+                                            </span>
+                                          
                                           <div
-                                            className={`flex items-center gap-1 text-stone-400 text-xs mt-1 font-bold uppercase tracking-widest`}
+                                            className={`flex items-center gap-1 mt-2 text-stone-400 text-xs  font-bold uppercase tracking-widest`}
                                           >
                                             <MapPin
                                               className={`w-3 text-primary ${
-                                                mod.name === model &&
+                                                mod.name === booking.model &&
                                                 "text-stone-400"
                                               }  h-5 w-5`}
                                             />
                                             {mod.city}
                                           </div>
-                                          <div className="mt-4 flex gap-4 flex-wrap">
+                                          <div className="mt-4 flex gap-2 flex-wrap">
                                             {mod.tags.map((t, indx) => {
                                               return (
                                                 <span
-                                                  className="text-stone-300 text-sm rounded-full px-3 py-2 border border-gray-600"
+                                                  className="text-stone-300 text-xs rounded-full px-2 py-1 border border-gray-600"
                                                   key={indx}
                                                 >
                                                   {t}
@@ -582,25 +669,29 @@ const Page = () => {
                                                 Age
                                               </p>
                                             </div>
-                                            <div className="">
-                                              <div className="flex items-center gap-2">
-                                                <Star
-                                                  className={`w-5 h-5  fill-primary`}
-                                                />{" "}
-                                                <h2 className="font-semibold text-lg md:text-xl ">
-                                                  {mod.rating}
-                                                </h2>
-                                              </div>
-                                              <p className="md:text-sm text-xs text-stone-400 font-semibold">
-                                                Rating
-                                              </p>
-                                            </div>
+
                                             <div className="">
                                               <h2 className="font-semibold text-lg md:text-xl ">
                                                 {mod.yearsOfExperience} +
                                               </h2>
                                               <p className="md:text-sm text-xs text-stone-400 font-semibold">
                                                 Experience
+                                              </p>
+                                            </div>
+                                            <div className="">
+                                              <div className="flex items-center gap-2">
+                                                <Star
+                                                  className={`w-5 h-5  fill-primary`}
+                                                />{" "}
+                                                <h2 className="font-semibold text-lg md:text-xl ">
+                                                  {mod.rating}{" "}
+                                                  <span className="text-xs">
+                                                    (120 reviews)
+                                                  </span>
+                                                </h2>
+                                              </div>
+                                              <p className="md:text-sm text-xs text-stone-400 font-semibold">
+                                                Rating
                                               </p>
                                             </div>
                                           </div>
@@ -614,6 +705,19 @@ const Page = () => {
                                         <p className="text-stone-400 mt-3 text-sm lg:text-base">
                                           {mod.bio}
                                         </p>
+                                      </div>
+
+                                      <div className="mt-4 ">
+                                        <p className="text-stone-300 font-semibold text-sm  border-b pb-2 border-gray-600">
+                                          Languages
+                                        </p>
+                                        <div className="text-stone-400 mt-3 text-sm flex space-x-3 flex-wrap lg:text-base">
+                                          {mod.languages.map((lan, indx) => {
+                                            return (
+                                              <span key={indx}>{lan}</span>
+                                            );
+                                          })}
+                                        </div>
                                       </div>
                                     </div>
 
@@ -640,6 +744,12 @@ const Page = () => {
                               </div>
                             </div>
                           </div>
+                          {/* Selected check */}
+                          {booking.model === mod.name && (
+                            <div className="absolute top-3 right-3 bg-primary text-white rounded-full p-1">
+                              <Check size={14} />
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -650,7 +760,7 @@ const Page = () => {
               {/* address  */}
               {currentStep === 6 && (
                 <div>
-                  {serviceType === "In House" ? (
+                  {booking.serviceType === "Home Service" && (
                     <>
                       <div className="">
                         <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
@@ -665,10 +775,13 @@ const Page = () => {
                         <div className="flex flex-col gap-2">
                           <Label>Select City</Label>
                           <Select
-                            value={city}
+                            value={booking.city}
                             onValueChange={(value) => {
-                              setCity(value);
-                              setUserState("");
+                              setBooking((prev) => ({
+                                ...prev,
+                                city: value,
+                                area: "",
+                              }));
                             }}
                           >
                             <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
@@ -693,9 +806,14 @@ const Page = () => {
                         <div className="flex flex-col gap-2">
                           <Label>Select Area</Label>
                           <Select
-                            value={userState}
-                            onValueChange={setUserState}
-                            disabled={!city}
+                            value={booking.area}
+                            onValueChange={(value) => {
+                              setBooking((prev) => ({
+                                ...prev,
+                                area: value,
+                              }));
+                            }}
+                            disabled={!booking.city}
                           >
                             <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
                               <SelectValue
@@ -722,8 +840,13 @@ const Page = () => {
                           id="address"
                           placeholder="Your Address Details Street"
                           name="address"
-                          value={address}
-                          onChange={(e) => setAdress(e.target.value)}
+                          value={booking.address}
+                          onChange={(e) =>
+                            setBooking((prev) => ({
+                              ...prev,
+                              address: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                       <div className="flex flex-col lg:flex-row mt-4 lg:gap-4 lg:mt-6">
@@ -734,16 +857,26 @@ const Page = () => {
                             id="buldingName"
                             placeholder="Your Address Details Street"
                             name="building"
-                            value={buildingName}
-                            onChange={(e) => setBuildingName(e.target.value)}
+                            value={booking.buildingName}
+                            onChange={(e) =>
+                              setBooking((prev) => ({
+                                ...prev,
+                                buildingName: e.target.value,
+                              }))
+                            }
                           />
                         </div>
 
                         <div className="flex md:mt-6 w-full lg:w-1/2 lg:mt-0 mt-4 flex-col gap-2">
                           <Label>Residential Type</Label>
                           <Select
-                            value={residential}
-                            onValueChange={setResidential}
+                            value={booking.residential}
+                            onValueChange={(value) => {
+                              setBooking((prev) => ({
+                                ...prev,
+                                residential: value,
+                              }));
+                            }}
                           >
                             <SelectTrigger className="w-full py-5 border-stone-400  text-stone-300 text-sm">
                               <SelectValue
@@ -774,8 +907,13 @@ const Page = () => {
                           defaultCountry="AE"
                           international
                           countryCallingCodeEditable={false}
-                          value={whatsAppNumber}
-                          onChange={setwhatsAppNumber}
+                          value={booking.whatsAppNumber}
+                          onChange={(value) => {
+                            setBooking((prev) => ({
+                              ...prev,
+                              whatsAppNumber: value,
+                            }));
+                          }}
                         />
                       </div>
 
@@ -784,12 +922,19 @@ const Page = () => {
                         <FileUpload
                           title="Building Photo"
                           accept="image/*"
-                          file={buildingPhoto}
-                          onFileSelect={setBuildingPhoto}
+                          file={booking.buildingPhoto}
+                          onFileSelect={(value) => {
+                            setBooking((prev) => ({
+                              ...prev,
+                              buildingPhoto: value,
+                            }));
+                          }}
                         />
                       </div>
                     </>
-                  ) : (
+                  )}
+
+                  {booking.serviceType === "In-Shop Experience" && (
                     <>
                       <div className="">
                         <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
@@ -803,11 +948,12 @@ const Page = () => {
                       <div className="mt-4 md:mt-6 md:w-1/2 ">
                         <Label className={"mb-2"}>Select City</Label>
                         <Select
-                          value={city}
+                          value={booking.city}
                           onValueChange={(value) => {
-                            setCity(value);
-                            setUserState("");
-                            setShopLocation("");
+                            setBooking((prev) => ({
+                              ...prev,
+                              city: value,
+                            }));
                           }}
                         >
                           <SelectTrigger className="w-full  border-stone-400 py-5 outline-primary text-stone-300 text-sm ">
@@ -829,30 +975,62 @@ const Page = () => {
                       </div>
 
                       {selectedCity && (
-                        <div className="mt-4 md:mt-6 space-y-3 flex flex-wrap gap-2 text-sm text-stone-300">
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:mt-6 gap-4  text-sm text-stone-300">
                           {selectedCity.shopLocation.map((s, indx) => (
                             <div
                               key={indx}
-                              onClick={() => setShopLocation(s)}
+                              onClick={() => {
+                                setBooking((prev) => ({
+                                  ...prev,
+                                  shopLocation: s,
+                                }));
+                              }}
                               className={`border-gray-600 ${
-                                shopLoaction === s &&
+                                booking.shopLocation === s &&
                                 "bg-primary text-white border-primary hover:bg-primary"
-                              } border hover:bg-gray-900 duration-300 py-2 px-4 cursor-pointer 
-      inline-flex items-center gap-1 text-sm rounded-full text-stone-400 w-fit`}
+                              } border hover:bg-gray-900 w-full hover:border-primary/50 duration-300 py-2 px-4 cursor-pointer 
+      inline-flex items-center gap-1 text-sm rounded-md text-stone-400 w-fit`}
                             >
-                              <MapPin className="w-4 h-4" />
-                              <span>{s}</span>
+                              <div className="flex items-center gap-2 md:gap-3">
+                                <div>
+                                  <MapPin size={30} />
+                                </div>
+                                <div>
+                                  <h2 className="font-medium text-base md:text-lg">
+                                    Shop Name
+                                  </h2>
+
+                                  <span>{s}</span>
+                                </div>
+                              </div>
                             </div>
                           ))}
                         </div>
                       )}
                     </>
                   )}
+
+                  {booking.serviceType === "" && (
+                    <div className="py-8 flex items-center flex-col">
+                      <p className="text-stone-400 text-sm lg:text-base text-center">
+                        select service type first.
+                      </p>
+
+                      <div>
+                        <Button
+                          className={"mt-4"}
+                          onClick={() => setCurrentStep(2)}
+                          variant="outline"
+                        >
+                          service type
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
               {/* payment  */}
-
               <div className="mt-6 md:mt-12 justify-end flex gap-4">
                 <Button
                   disabled={currentStep === 1}
@@ -872,158 +1050,273 @@ const Page = () => {
             </div>
 
             {/* review  */}
-            <div className="lg:col-span-1 border border-gray-700 bg-gray-900/50 p-4 md:p-6  rounded-md">
-              <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
-                Booking Summary
-              </h2>
-              <div className="text-white">{booking.city}</div>
+            {currentStep !== 7 && (
+              <div className="lg:col-span-1 border border-gray-700 bg-gray-900/50 p-4 md:p-6 rounded-md">
+                <h2 className="text-sm sm:text-base md:text-lg font-semibold text-stone-300">
+                  Booking Summary
+                </h2>
 
-              {/* <div
-                className={`flex flex-col ${
-                  currentStep === 7 ? "lg:flex-row lg:gap-12" : ""
-                }`}
-              >
-                <div
-                  className={`space-y-2 mt-4 md:mt-6 ${
-                    currentStep === 7 && serviceType === "In House"
-                      ? "lg:w-1/2"
-                      : "lg:w-full"
-                  }`}
-                >
-                  <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
-                    Service Info
+                <div className="space-y-4 mt-4 md:mt-6">
+                  {/* City */}
+                  {booking.city && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <MapPin size={16} /> City
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.city}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Service Type */}
+                  {booking.serviceType && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Settings size={16} /> Service Type
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.serviceType}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* date */}
+                  {booking.date && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Calendar size={16} /> Date
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {formatDate(booking.date)}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Service Name */}
+                  {booking.serviceName && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Layout size={16} /> Service
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.serviceName}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Duration  */}
+                  {booking.duration && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Clock size={16} /> Duration
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.duration}
+                      </span>
+                    </div>
+                  )}
+
+                  {/*Amount */}
+                  {booking.amount && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <DollarSign size={16} /> Amout
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.amount} AED
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Model */}
+                  {booking.model && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <User size={16} /> Model
+                      </span>
+                      <span className="text-stone-300 font-medium">
+                        {booking.model}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="my-6 border-t flex items-center justify-between border-gray-600">
+                  <h2 className="text-sm   font-semibold text-stone-300">
+                    Estimated Total (AED)
                   </h2>
-                  <div
-                    className={`space-y-2 ${
-                      serviceType === "In Shop" &&
-                      currentStep === 7 &&
-                      "lg:grid lg:grid-cols-2"
-                    }`}
-                  >
-                    <h4 className="text-stone-400 text-sm">
-                      Service Type :{" "}
-                      <span className="text-stone-300">
-                        {serviceType ? serviceType : "_"}
+                  <span className="text-primary text-lg font-semibold">
+                    {booking.amount} AED
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {currentStep === 7 && (
+            <div className="">
+              <h2 className="lg:text-xl sm:text-lg text-base font-semibold text-stone-200 mb-6">
+                Review Your Booking
+              </h2>
+
+              <div className="grid lg:grid-cols-2 gap-6">
+                {/* LEFT CARD — SERVICE DETAILS */}
+                <div className="border border-gray-700 bg-gray-900/60 rounded-2xl p-4 md:p-6 space-y-4">
+                  <h3 className="text-sm sm:text-base font-semibold text-stone-300 mb-2">
+                    Service Details
+                  </h3>
+
+                  <div className="space-y-3 text-sm text-stone-300">
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <MapPin size={16} /> City
                       </span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Service :{" "}
-                      <span className="text-stone-300">
-                        {service ? service : "_"}
+                      {booking.city}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Settings size={16} /> Service Type
                       </span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Model :{" "}
-                      <span className="text-stone-300">
-                        {model ? model : "_"}
+                      {booking.serviceType}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Calendar size={16} /> Date
                       </span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Date :{" "}
-                      <span className="text-stone-300">
-                        {selectedDate ? selectedDate.toLocaleDateString() : "_"}
+                      {formatDate(booking.date)}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Clock size={16} /> Time
                       </span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Time :{" "}
-                      <span className="text-stone-300">
-                        {selectedTime || "_"}
+                      {booking.time}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Layout size={16} /> Service
                       </span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Duration :{" "}
-                      <span className="text-stone-300">{duration || "_"}</span>
-                    </h4>
-                    <h4 className="text-stone-400 text-sm">
-                      Amount (AED) :{" "}
-                      <span className="text-stone-300">{amount || "_"}</span>
-                    </h4>
-                    {serviceType === "In Shop" && (
-                      <>
-                        <h4 className="text-stone-400 text-sm">
-                          City :{" "}
-                          <span className="text-stone-300">{city || "_"}</span>
-                        </h4>
-                        <h4 className="text-stone-400 text-sm">
-                          Shop Location :{" "}
-                          <span className="text-stone-300">
-                            {city ? `${city}, ${shopLoaction}` : "_"}
-                          </span>
-                        </h4>
-                      </>
-                    )}
+                      {booking.serviceName}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <User size={16} /> Model
+                      </span>
+                      {booking.model}
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="flex items-center gap-2 text-stone-400">
+                        <Clock size={16} /> Duration
+                      </span>
+                      {booking.duration}
+                    </div>
+                  </div>
+
+                  {/* HIGHLIGHT AMOUNT */}
+                  <div className="border-t border-gray-700 pt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-stone-400 text-sm">
+                        Total Amount
+                      </span>
+
+                      <span className="lg:text-2xl sm:text-xl text-lg font-bold text-primary">
+                        {booking.amount} AED
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {serviceType === "In House" && (
-                  <>
-                    <div
-                      className={`space-y-2 mt-4 ${
-                        currentStep === 7 && "lg:w-1/2"
-                      } md:mt-6 
-                }`}
-                    >
-                      <h2 className="md:text-sm text-xs text-stone-200 font-medium border-b border-primary/60 pb-2">
-                        Personal Info
-                      </h2>
-                      <h4 className="text-stone-400 text-sm">
-                        City :{" "}
-                        <span className="text-stone-300">
-                          {city ? city : "_"}
-                        </span>
-                      </h4>
-                      <h4 className="text-stone-400  text-sm">
-                        Address :{" "}
-                        <span className="text-stone-300 break-words whitespace-normal">
-                          {city ? `${city}, ${userState}, ${address}` : "_"}
-                        </span>
-                      </h4>
+                {/* RIGHT CARD — HOME / SHOP CONDITIONAL */}
+                <div className="border border-gray-700 bg-gray-900/60 rounded-2xl p-6 space-y-4">
+                  {booking.serviceType === "Home Service" && (
+                    <>
+                      <h3 className="text-sm sm:text-base  font-semibold text-stone-300 mb-2">
+                        Address Details
+                      </h3>
 
-                      <h4 className="text-stone-400 text-sm">
-                        Building Name :{" "}
-                        <span className="text-stone-300">
-                          {buildingName ? buildingName : "_"}
-                        </span>
-                      </h4>
-                      <h4 className="text-stone-400 text-sm">
-                        Residential Type :{" "}
-                        <span className="text-stone-300">
-                          {residential ? residential : "_"}
-                        </span>
-                      </h4>
+                      <div className="space-y-3 text-sm text-stone-300">
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">Area</span>
+                          {booking.area}
+                        </div>
 
-                      <h4 className="text-stone-400 text-sm">
-                        WhatsApp Number :{" "}
-                        <span className="text-stone-300">
-                          {whatsAppNumber ? whatsAppNumber : "_"}
-                        </span>
-                      </h4>
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">Address</span>
+                          {booking.address}
+                        </div>
 
-                      <div className="flex items-center gap-3 text-sm text-stone-400">
-                        <span className="font-medium">Building Photo:</span>
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">Building</span>
+                          {booking.buildingName}
+                        </div>
 
-                        {photoPreview ? (
-                          <img
-                            src={photoPreview}
-                            className="h-14 w-14 rounded-md object-cover border border-primary/40"
-                          />
-                        ) : (
-                          <span className="text-stone-300">_</span>
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">
+                            Residential Type
+                          </span>
+                          {booking.residential}
+                        </div>
+
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">WhatsApp</span>
+                          {booking.whatsAppNumber}
+                        </div>
+
+                        {booking.buildingPhoto && (
+                          <div>
+                            <p className="text-stone-400 mb-2">
+                              Building Photo
+                            </p>
+                            <img
+                              src={URL.createObjectURL(booking.buildingPhoto)}
+                              className="rounded-md w-32 border border-gray-700"
+                            />
+                          </div>
                         )}
                       </div>
-                    </div>
-                  </>
-                )}
-              </div> */}
+                    </>
+                  )}
 
-              <div className="my-6 border-t flex items-center justify-between border-gray-600">
-                <h2 className="text-sm   font-semibold text-stone-300">
-                  Estimated Total (AED)
-                </h2>
-                <span className="text-primary text-lg font-semibold">0</span>
+                  {booking.serviceType === "In-Shop Experience" && (
+                    <>
+                      <h3 className="text-lg font-semibold text-stone-300 mb-2">
+                        Shop Location
+                      </h3>
+
+                      <div className="space-y-3 text-sm text-stone-300">
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">City</span>
+                          {booking.city}
+                        </div>
+
+                        <div className="flex justify-between">
+                          <span className="text-stone-400">Shop Address</span>
+                          {booking.shopLocation}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* BUTTONS */}
+              <div className="flex justify-between mt-8">
+                <Button variant="outline" onClick={() => setCurrentStep(6)}>
+                  Previous
+                </Button>
+
+                <Button variant="secondary" onClick={() => setCurrentStep(8)}>
+                  Proceed To Payment
+                </Button>
               </div>
             </div>
-          </div>
+          )}
 
           <div className={`${currentStep === 8 ? "flex" : "hidden"}`}>
             <h2 className="text-2xl text-stone-200">Payment </h2>
