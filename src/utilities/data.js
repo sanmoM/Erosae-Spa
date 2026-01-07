@@ -580,6 +580,7 @@ export const statusColors = {
       "Access to amenities",
       "Relaxation lounges",
     ],
+    image:"https://i.pinimg.com/originals/bf/16/47/bf16470c3c78887d5463b7200be11d27.jpg"
   },
   {
     id: 2,
@@ -594,6 +595,7 @@ export const statusColors = {
       "Professional setup",
       "Same luxury experience",
     ],
+    image:"https://images.squarespace-cdn.com/content/v1/60617a5daeb5a4342fe501a2/1617021919503-VBIB6PDXAAFXPSKU7UYS/Therapy+Bed.jpeg"
   },
 ];
 
