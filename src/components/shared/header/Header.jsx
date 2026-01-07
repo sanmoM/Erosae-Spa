@@ -42,6 +42,11 @@ const navLinks = [
   },
   {
     name: "Model Panel",
+    href: "/model-panel",
+    icon: <LuLayoutTemplate size={20} />,
+  },
+  {
+    name: "Dashboard",
     href: "/dashboard",
     icon: <LuLayoutTemplate size={20} />,
   },

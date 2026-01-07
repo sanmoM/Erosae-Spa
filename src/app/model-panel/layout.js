@@ -2,13 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  CalendarCheck,
+  Calendar,
+  CirclePoundSterling,
   ClipboardClock,
-  CreditCard,
-  Heart,
+  History,
+  Info,
   Layout,
+  MessageSquare,
   PanelLeft,
   User,
+  Users,
   Wallet,
   X,
 } from "lucide-react";
@@ -22,22 +25,28 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const links = [
-    { name: "Dashboard", href: "/dashboard", icon: Layout },
+    { name: "Dashboard", href: "/model-panel", icon: Layout },
 
     {
       name: "My Wallet",
-      href: "/dashboard/my-wallet",
+      href: "/model-panel/my-wallet",
       icon: Wallet,
     },
     {
-      name: "My Bookings",
-      href: "/dashboard/bookings",
-      icon: CalendarCheck,
+      name: "Appointments",
+      href: "/model-panel/appointment-schedule",
+      icon: ClipboardClock,
+    },
+    { name: "Profile", href: "/model-panel/profile", icon: User },
+    {
+      name: "Review",
+      href: "/model-panel/review",
+      icon: Info,
     },
     {
-      name: "Profile",
-      href: "/dashboard/profile",
-      icon: User,
+      name: "Message",
+      href: "/model-panel/message",
+      icon: MessageSquare,
     },
   ];
 
@@ -117,7 +126,7 @@ const DashboardLayout = ({ children }) => {
           )}
         </aside>
       </>
-      <nav
+<nav
         className="
   fixed bottom-4 mx-1 rounded-full overflow-hidden left-0 right-0 z-[60]
   bg-[#050718]/90 backdrop-blur-md
@@ -128,26 +137,23 @@ const DashboardLayout = ({ children }) => {
       >
         <ul className="grid grid-cols-4 p-1 ">
           {links.slice(0, 4).map((link) => {
-            const Icons = link.icon;
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`flex flex-col flex-1 rounded-full text-[10px] items-center py-1 gap-1 transition"
-                  ${
-                    pathname === link.href
-                      ? "bg-primary text-stone-200"
-                      : "text-stone-300 hover:text-white"
-                  }`}
-                >
-                  <span>
-                    <Icons size={20} />
-                  </span>
-                  <span>{link.name}</span>
-                </Link>
-              </li>
-            );
-          })}
+      const Icons = link.icon
+      return(
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className={
+                  `flex flex-col flex-1 rounded-full text-[10px] items-center py-1 gap-1 transition"
+                  ${pathname === link.href
+                    ? "bg-primary text-stone-200"
+                    : "text-stone-300 hover:text-white"}`
+                }
+              >
+                <span ><Icons size={20}/></span>
+                <span>{link.name}</span>
+              </Link>
+            </li>
+          )})}
         </ul>
       </nav>
 
@@ -178,9 +184,7 @@ const DashboardLayout = ({ children }) => {
           </Link>
         </div>
 
-        <div className="p-4 pb-30 md:pb-4 text-stone-200 lg:p-8">
-          {children}
-        </div>
+        <div className="p-4 pb-30 md:pb-4 text-stone-200 lg:p-8">{children}</div>
       </main>
     </div>
   );

@@ -1,3 +1,4 @@
+import City from "@/components/pageParts/homeParts/City";
 import FeaturedSection from "@/components/pageParts/homeParts/Featured";
 import Featured from "@/components/pageParts/homeParts/FeaturedServices";
 import Models from "@/components/pageParts/homeParts/Models";
@@ -11,6 +12,7 @@ export default function Home() {
       <Featured />
       {/* <FeaturedSection /> */}
       <Models />
+      <City/>
       <Testimonial />
     </div>
   );

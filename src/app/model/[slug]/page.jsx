@@ -139,15 +139,15 @@ const ModelProfile = () => {
 
           <div className="mt-4 ">
             <p className="text-stone-300 pb-2 font-semibold">Service Provide</p>
-            <div className="text-stone-400 text-sm flex space-x-3 flex-wrap lg:text-base">
+            <div className="text-stone-400 text-sm flex gap-2 flex-wrap lg:text-base">
               {data.tags.map((lan, indx) => {
                 return (
-                  <span
+                  <div
                     className="border bg-gray-800/50 border-gray-700 text-sm px-2 py-1 rounded"
                     key={indx}
                   >
                     {lan}
-                  </span>
+                  </div>
                 );
               })}
             </div>
