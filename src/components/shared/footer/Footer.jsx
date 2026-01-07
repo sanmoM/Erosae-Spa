@@ -20,22 +20,52 @@ const Footer = () => {
     {
       title: "Quick Links",
       links: [
-        "About Us",
-        "Our Treatments",
-        "Special Packages",
-        "Spa Etiquette",
-        "Gift Cards",
+        {
+          title: "About Us",
+          href: "/about-us",
+        },
+        {
+          title: "Our Treatments",
+          href: "/our-treatments",
+        },
+        {
+          title: "Special Packages",
+          href: "/special-packages",
+        },
+        {
+          title: "Spa Etiquette",
+          href: "/spa-etiquette",
+        },
+        {
+          title: "FAQ",
+          href: "/faq",
+        },
       ],
     },
     {
       title: "Services",
-      links: [
-        "Massage Therapy",
-        "Facial Treatments",
-        "Body Wraps",
-        "Nail Care",
-        "Aromatherapy",
-      ],
+      links:[
+        {
+    title: "Massage Therapy",
+    href: "/massage-therapy",
+  },
+  {
+    title: "Facial Treatments",
+    href: "/facial-treatments",
+  },
+  {
+    title: "Body Wraps",
+    href: "/body-wraps",
+  },
+  {
+    title: "Nail Care",
+    href: "/nail-care",
+  },
+  {
+    title: "Aromatherapy",
+    href: "/aromatherapy",
+  },
+      ]
     },
   ];
 
@@ -85,12 +115,12 @@ const Footer = () => {
                 <ul className="space-y-4">
                   {section.links.map((link, linkIdx) => (
                     <li key={linkIdx}>
-                      <a
-                        href="#"
+                      <Link
+                        href={link.href}
                         className="text-stone-400 hover:text-primary transition-colors duration-300 text-sm"
                       >
-                        {link}
-                      </a>
+                        {link.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>
